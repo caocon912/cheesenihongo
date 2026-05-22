@@ -128,6 +128,32 @@
     .shake { animation: shake 0.4s ease; }
     @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(68,85,224,0.4); } 70% { box-shadow: 0 0 0 12px rgba(68,85,224,0); } 100% { box-shadow: 0 0 0 0 rgba(68,85,224,0); } }
     .pulse-ring { animation: pulse-ring 1.5s infinite; }
+
+    /* ── SLOGAN WIDGET ── */
+    .slogan-card-bg {
+      background: linear-gradient(90deg, #fff8f8 0%, #f5f3ff 50%, #f0f4ff 100%);
+      border-bottom: 1.5px solid #fecaca;
+    }
+    /* highlighted JP word chip — đỏ nổi bật */
+    .slogan-word {
+      display: inline;
+      background: #fee2e2;
+      color: #b91c1c;
+      font-weight: 800;
+      font-style: normal;
+      border-radius: 4px;
+      padding: 0 5px;
+      margin: 0 1px;
+      font-size: 1em;
+      letter-spacing: 0.01em;
+      border-bottom: 2px solid #fca5a5;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .slogan-word:hover { background: #fecaca; }
+    /* icon spin for reload button */
+    @keyframes iconSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .slogan-spin { animation: iconSpin 0.55s ease; }
   </style>
 </head>
 <body class="bg-grid min-h-screen">
@@ -161,6 +187,40 @@
     </div>
   </header>
 
+  <!-- ═══ SLOGAN BAR — luôn hiển thị mọi tab ═══ -->
+  <div id="slogan-card" class="slogan-card-bg border-b border-ink-100 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex gap-3">
+
+      <!-- Icon cột trái -->
+      <div class="flex-shrink-0 pt-0.5">
+        <div class="w-6 h-6 rounded-md flex-center" style="background:linear-gradient(135deg,#4455e0,#818cf8);">
+          <i class="fa-solid fa-lightbulb text-white" style="font-size:0.6rem;"></i>
+        </div>
+      </div>
+
+      <!-- Nội dung 2 dòng -->
+      <div class="flex-1 min-w-0 flex flex-col gap-0.5">
+        <!-- Dòng 1: câu quote -->
+        <blockquote id="slogan-quote" class="text-ink-700 text-[0.82rem] font-medium italic leading-snug">
+          <span class="text-ink-300 not-italic">Đang tải...</span>
+        </blockquote>
+        <!-- Dòng 2: giải nghĩa -->
+        <div id="slogan-explain" class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[0.72rem] text-ink-400 leading-snug"></div>
+      </div>
+
+      <!-- Nút + timer — cột phải -->
+      <div class="flex-shrink-0 flex flex-col items-end justify-between gap-1 pt-0.5">
+        <button onclick="refreshSlogan()" id="slogan-refresh-btn" title="Đổi câu khác"
+          class="w-6 h-6 rounded-full bg-white/60 border border-ink-100 text-ink-300 hover:text-ink-500 hover:bg-white flex-center transition">
+          <i class="fa-solid fa-rotate-right" id="slogan-refresh-icon" style="font-size:0.6rem;"></i>
+        </button>
+        <span id="slogan-timer-badge" class="text-[0.62rem] text-ink-300 tabular-nums"></span>
+      </div>
+
+    </div>
+  </div>
+  <!-- ══════════════════════════════════════════ -->
+
   <!-- Thông báo lỗi CORS / Không tìm thấy file Excel tự động -->
   <div id="cors-alert" class="hidden max-w-6xl mx-auto px-4 mt-4">
       <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded shadow-sm flex items-start gap-3">
@@ -192,16 +252,7 @@
         <span class="kana-deco" style="top:40px;right:0px;font-size:5rem;">語</span>
       </div>
       
-      <!-- Nút điều khiển trạng thái tự động load excel -->
-      <div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-sm border border-ink-100 mb-6 flex-wrap gap-2">
-        <div class="flex items-center gap-2">
-            <span class="text-sm font-bold text-ink-700">Dữ liệu hệ thống:</span>
-            <span id="data-status-badge" class="badge bg-matcha-100 text-matcha-500">Tự động nạp Excel</span>
-        </div>
-        <button onclick="restoreDefaultData()" class="btn-secondary px-3 py-1.5 text-xs"><i class="fa-solid fa-rotate-left"></i> Khôi phục nạp file gốc</button>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
         <div class="lg:col-span-1 flex flex-col gap-5">
           <div class="card p-5" id="form-container">
             <div class="flex items-center gap-2 mb-4">
@@ -236,41 +287,69 @@
           </div>
           
           <div class="card p-5">
-            <div class="flex items-center gap-2 mb-4">
-              <div class="w-7 h-7 rounded-lg bg-matcha-100 flex-center"><i class="fa-solid fa-arrows-rotate text-matcha-500 text-xs"></i></div>
-              <h2 class="font-bold text-ink-800 text-base">Nhập / Xuất dữ liệu</h2>
-            </div>
-            <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4 text-xs text-amber-800">
-              <i class="fa-solid fa-circle-info mr-1 text-amber-500"></i> File Excel cần 3 cột (không tiêu đề): <strong>A=Từ cần học, B=Furigana(nếu có), C=Nghĩa</strong>
-            </div>
-            <div class="flex flex-col gap-2.5">
-              <div class="flex gap-2">
-                 <label class="btn-secondary flex-1 justify-center cursor-pointer text-sm px-2" title="Nhập danh sách từ vựng từ file Excel">
-                   <i class="fa-solid fa-file-import text-matcha-500"></i> Nhập Excel
-                   <input type="file" id="excel-upload" accept=".xlsx,.xls" onchange="importExcel(event)" class="hidden" />
-                 </label>
-                 <button onclick="exportExcel()" class="btn-secondary flex-1 justify-center text-sm px-2" title="Xuất toàn bộ danh sách ra file Excel">
-                   <i class="fa-solid fa-file-export text-matcha-500"></i> Xuất Excel
-                 </button>
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-matcha-100 flex-center"><i class="fa-solid fa-arrows-rotate text-matcha-500 text-xs"></i></div>
+                <h2 class="font-bold text-ink-800 text-base">Dữ liệu</h2>
               </div>
-              
-              <div class="flex gap-2">
-                 <label class="btn-secondary flex-1 justify-center cursor-pointer text-sm px-2" title="Khôi phục dữ liệu từ file JSON">
-                   <i class="fa-solid fa-file-import text-ink-500"></i> Nhập JSON
-                   <input type="file" id="json-upload" accept=".json" onchange="importJSON(event)" class="hidden" />
-                 </label>
-                 <button onclick="exportJSON()" class="btn-secondary flex-1 justify-center text-sm px-2" title="Sao lưu toàn bộ dữ liệu ra file JSON">
-                   <i class="fa-solid fa-file-export text-ink-500"></i> Xuất JSON
-                 </button>
+              <!-- Badge trạng thái nhỏ gọn -->
+              <div id="data-status-badge" class="badge bg-matcha-100 text-matcha-500 text-[0.65rem] px-2 py-0.5 rounded-md" title="Trạng thái tự động nạp Excel">
+                <i class="fa-solid fa-check mr-1"></i> Tự nạp
               </div>
-              
-              <button onclick="removeDuplicates()" class="btn-secondary justify-center w-full mt-1">
-                <i class="fa-solid fa-broom text-ink-500"></i> Xóa từ trùng lặp
-              </button>
+            </div>
 
-              <button onclick="confirmClearAll()" class="btn-danger w-full justify-center"><i class="fa-solid fa-trash"></i> Xóa toàn bộ dữ liệu</button>
+            <!-- Nút Khôi phục nạp file gốc đưa vào đây, nổi bật hơn khi đang tắt nạp -->
+            <button id="btn-restore-excel" onclick="restoreDefaultData()" class="hidden btn-secondary w-full justify-center text-xs py-2 mb-3 bg-matcha-50 border-matcha-200 text-matcha-700 hover:bg-matcha-100">
+              <i class="fa-solid fa-rotate-left"></i> Bật lại Tự động nạp Excel
+            </button>
+
+            <!-- Tái thiết kế phần nhập/xuất -->
+            <div class="flex flex-col gap-3">
+              <!-- Cụm Excel -->
+              <div class="border border-ink-100 rounded-xl overflow-hidden">
+                <div class="bg-ink-50 px-3 py-1.5 text-xs font-bold text-ink-500 flex items-center justify-between">
+                  <span><i class="fa-solid fa-file-excel mr-1 text-matcha-500"></i> Excel (.xlsx)</span>
+                  <i class="fa-solid fa-circle-info text-ink-300" title="Cần 3 cột: A=Kanji, B=Furigana, C=Nghĩa"></i>
+                </div>
+                <div class="flex divide-x divide-ink-100">
+                  <label class="flex-1 text-center py-2 text-sm font-semibold text-ink-600 hover:bg-ink-50 cursor-pointer transition" title="Nhập danh sách từ vựng từ file Excel">
+                    <i class="fa-solid fa-upload text-xs mb-0.5 block opacity-60"></i> Nhập
+                    <input type="file" id="excel-upload" accept=".xlsx,.xls" onchange="importExcel(event)" class="hidden" />
+                  </label>
+                  <button onclick="exportExcel()" class="flex-1 text-center py-2 text-sm font-semibold text-ink-600 hover:bg-ink-50 transition" title="Xuất danh sách ra file Excel">
+                    <i class="fa-solid fa-download text-xs mb-0.5 block opacity-60"></i> Xuất
+                  </button>
+                </div>
+              </div>
+
+              <!-- Cụm JSON -->
+              <div class="border border-ink-100 rounded-xl overflow-hidden">
+                <div class="bg-ink-50 px-3 py-1.5 text-xs font-bold text-ink-500">
+                  <i class="fa-solid fa-file-code mr-1 text-ink-400"></i> JSON Backup
+                </div>
+                <div class="flex divide-x divide-ink-100">
+                  <label class="flex-1 text-center py-2 text-sm font-semibold text-ink-600 hover:bg-ink-50 cursor-pointer transition" title="Khôi phục dữ liệu từ file JSON">
+                    <i class="fa-solid fa-upload text-xs mb-0.5 block opacity-60"></i> Nhập
+                    <input type="file" id="json-upload" accept=".json" onchange="importJSON(event)" class="hidden" />
+                  </label>
+                  <button onclick="exportJSON()" class="flex-1 text-center py-2 text-sm font-semibold text-ink-600 hover:bg-ink-50 transition" title="Sao lưu toàn bộ ra file JSON">
+                    <i class="fa-solid fa-download text-xs mb-0.5 block opacity-60"></i> Xuất
+                  </button>
+                </div>
+              </div>
+
+              <!-- Các thao tác dọn dẹp -->
+              <div class="grid grid-cols-2 gap-2 mt-1">
+                <button onclick="removeDuplicates()" class="btn-secondary justify-center text-[0.8rem] px-2 py-2">
+                  <i class="fa-solid fa-broom"></i> Dọn trùng
+                </button>
+                <button onclick="confirmClearAll()" class="btn-danger justify-center text-[0.8rem] px-2 py-2 bg-sakura-50 border-sakura-200">
+                  <i class="fa-solid fa-trash-can"></i> Xóa hết
+                </button>
+              </div>
             </div>
           </div>
+          
         </div>
         <div class="lg:col-span-2">
           <div class="card overflow-hidden">
@@ -304,6 +383,7 @@
               <p class="text-sm">Thêm từ mới hoặc nhập file để bắt đầu</p>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -512,12 +592,24 @@
   function updateDataStatusUI() {
       const isCleared = localStorage.getItem('is_data_cleared') === 'true';
       const badge = document.getElementById('data-status-badge');
-      if (isCleared) {
-          badge.className = "badge bg-sakura-100 text-sakura-500";
-          badge.innerHTML = '<i class="fa-solid fa-ban mr-1"></i> Đã tắt nạp Excel';
-      } else {
-          badge.className = "badge bg-matcha-100 text-matcha-500";
-          badge.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Tự động nạp Excel';
+      const btnRestore = document.getElementById('btn-restore-excel');
+      if (badge) {
+        if (isCleared) {
+            badge.className = "badge bg-sakura-100 text-sakura-500 text-[0.65rem] px-2 py-0.5 rounded-md";
+            badge.innerHTML = '<i class="fa-solid fa-ban mr-1"></i> Đã tắt tự nạp';
+        } else {
+            badge.className = "badge bg-matcha-100 text-matcha-500 text-[0.65rem] px-2 py-0.5 rounded-md";
+            badge.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Tự nạp Excel';
+        }
+      }
+      if (btnRestore) {
+        if (isCleared) {
+            btnRestore.classList.remove('hidden');
+            btnRestore.classList.add('flex');
+        } else {
+            btnRestore.classList.add('hidden');
+            btnRestore.classList.remove('flex');
+        }
       }
   }
 
@@ -1094,13 +1186,132 @@
 
   (function injectActiveConfigCSS() { const style = document.createElement('style'); style.textContent = `.active-config { border-color: #4455e0 !important; color: #4455e0 !important; background: #f0f4ff !important; }`; document.head.appendChild(style); })();
 
+  // ════════════════════════════════════════════════════
+  //  SLOGAN KHAI MỞ TƯ DUY WIDGET
+  // ════════════════════════════════════════════════════
+
+  const SLOGAN_KEY = 'nihongo_slogan_v1'; // localStorage key
+  const SLOGAN_TTL = 1800000;             // 30 phút (ms)
+
+  /** 15 template triết lý — {w1} và {w2} sẽ được thay bằng từ vựng ngẫu nhiên */
+  const SLOGAN_TEMPLATES = [
+    "Trong hành trình thấu hiểu bản thân, đôi khi một {w1} nhỏ bé lại giúp ta vượt qua {w2} lớn lao nhất.",
+    "Người thực sự trưởng thành không cần {w1} để chứng minh — họ chỉ cần giữ vững {w2} trong lòng.",
+    "Mỗi ngày ta học thêm điều gì đó về {w1}, ta cũng vô tình học thêm điều gì đó về {w2}.",
+    "Không phải {w1} định hình con người — chính cách ta đối diện với {w2} mới làm nên tất cả.",
+    "Triết học phương Đông nhắc ta rằng: {w1} là điểm khởi đầu, nhưng {w2} mới là nơi ta thực sự lớn lên.",
+    "Ta có thể sở hữu {w1} cả đời mà không bao giờ thật sự thấu hiểu {w2}.",
+    "Giữa {w1} và {w2} luôn tồn tại một khoảng trống — đó là nơi sự hiểu biết được gieo mầm.",
+    "Người khôn ngoan không chạy trốn {w1}; họ dùng {w2} để chuyển hoá nó.",
+    "Khi ngôn ngữ dạy ta về {w1}, cuộc sống lặng lẽ dạy ta về {w2}.",
+    "Có những lúc {w1} xuất hiện không phải để thử thách ta, mà để nhắc ta nhớ đến {w2}.",
+    "Hành trình học tiếng Nhật cũng như cuộc đời: {w1} là bước đầu, nhưng {w2} là điều ta mang theo mãi.",
+    "Đừng lo khi chưa hiểu hết {w1} — ngay cả {w2} cũng từng là điều xa lạ với ta một thời.",
+    "Sức mạnh thực sự không đến từ {w1} — nó lớn lên từ {w2} mà ta không ngờ mình có.",
+    "Mỗi chữ Nhật như {w1} hay {w2} không chỉ là từ ngữ — chúng là cửa sổ nhìn vào tâm hồn một nền văn hoá.",
+    "Chỉ khi ta dám đối mặt với {w1}, ta mới nhận ra rằng {w2} vẫn luôn ở đó chờ ta sẵn sàng."
+  ];
+
+  /** Render slogan từ data object {tpl, w1, w2, ts} lên DOM */
+  function renderSlogan(data) {
+    const { tpl, w1, w2 } = data;
+
+    // Chip highlight từ Nhật (đỏ)
+    const chip = (w) =>
+      `<span class="slogan-word font-jp" title="${escapeHtml(w.meaning)}">${escapeHtml(w.kanji || w.furigana)}</span>`;
+
+    // Dòng 1: câu quote với chip nổi bật
+    const quoteHtml = tpl
+      .replace('{w1}', chip(w1))
+      .replace('{w2}', chip(w2));
+
+    // Dòng 2: câu dịch tiếng Việt, kèm furigana mở ngoặc ngay sau nghĩa
+    const furi = (w) => {
+      const meaning = `<span class="font-semibold not-italic text-ink-600">${escapeHtml(w.meaning)}</span>`;
+      const ruby   = w.furigana ? `<span class="font-jp text-ink-400 not-italic">(${escapeHtml(w.furigana)})</span>` : '';
+      return meaning + (ruby ? '&thinsp;' + ruby : '');
+    };
+    const viSentence = tpl
+      .replace('{w1}', furi(w1))
+      .replace('{w2}', furi(w2));
+
+    document.getElementById('slogan-quote').innerHTML =
+      `<i class="fa-solid fa-quote-left text-ink-200 mr-1 not-italic" style="font-size:0.65rem;vertical-align:1px;"></i>${quoteHtml}`;
+
+    document.getElementById('slogan-explain').innerHTML =
+      `<span class="italic">${viSentence}</span>`;
+
+    updateSloganTimerBadge(data.ts);
+  }
+
+  /** Sinh slogan mới, lưu localStorage, render */
+  function generateSlogan() {
+    if (vocabulary.length < 2) {
+      document.getElementById('slogan-quote').innerHTML =
+        '<span class="text-ink-300 text-xs not-italic">Thêm ít nhất 2 từ vựng để kích hoạt Slogan ✨</span>';
+      document.getElementById('slogan-explain').innerHTML = '';
+      document.getElementById('slogan-timer-badge').textContent = '';
+      return;
+    }
+    const [w1, w2] = shuffle([...vocabulary]).slice(0, 2);
+    const tpl = SLOGAN_TEMPLATES[Math.floor(Math.random() * SLOGAN_TEMPLATES.length)];
+    const data = { tpl, w1, w2, ts: Date.now() };
+    localStorage.setItem(SLOGAN_KEY, JSON.stringify(data));
+    renderSlogan(data);
+  }
+
+  /** Kiểm tra cache; nếu còn hạn thì dùng lại, hết hạn thì sinh mới */
+  function loadOrRefreshSlogan() {
+    try {
+      const raw = localStorage.getItem(SLOGAN_KEY);
+      if (raw) {
+        const data = JSON.parse(raw);
+        // Còn trong TTL và vocab đủ dùng → render lại từ cache
+        if (Date.now() - data.ts < SLOGAN_TTL && vocabulary.length >= 2) {
+          renderSlogan(data);
+          return;
+        }
+      }
+    } catch (e) { /* cache hỏng → sinh mới */ }
+    generateSlogan();
+  }
+
+  /** Nút "Đổi câu" thủ công — kèm animation xoay icon */
+  function refreshSlogan() {
+    const icon = document.getElementById('slogan-refresh-icon');
+    icon.classList.remove('slogan-spin');
+    void icon.offsetWidth; // reflow để reset animation
+    icon.classList.add('slogan-spin');
+    generateSlogan();
+  }
+
+  /** Cập nhật badge đếm ngược và lên lịch tick mỗi phút */
+  function updateSloganTimerBadge(ts) {
+    const badge = document.getElementById('slogan-timer-badge');
+    if (!badge) return;
+    const fn = () => {
+      const rem = SLOGAN_TTL - (Date.now() - ts);
+      if (rem <= 0) { badge.textContent = ''; loadOrRefreshSlogan(); return; }
+      const mins = Math.ceil(rem / 60000);
+      badge.textContent = `⏱ ${mins}p`;
+    };
+    fn(); // gọi ngay
+    // Dùng 1 interval duy nhất — xoá interval cũ nếu có
+    clearInterval(window._sloganTimerInterval);
+    window._sloganTimerInterval = setInterval(fn, 60000);
+  }
+
   function seedSampleData() { if (vocabulary.length > 0) return; vocabulary = [{id:'s1',kanji:'先生',furigana:'せんせい',meaning:'Giáo viên'},{id:'s2',kanji:'学生',furigana:'がくせい',meaning:'Học sinh'},{id:'s3',kanji:'パン',furigana:'',meaning:'Bánh mì'}]; saveToStorage(); renderTable(); }
 
   window.addEventListener('DOMContentLoaded', () => {
     updateDataStatusUI();
-    loadFromStorage(); 
+    loadFromStorage();
+    // Slogan lần 1: dùng vocab đã có trong localStorage
+    loadOrRefreshSlogan();
     fetchAutoExcel().then(() => {
         if (vocabulary.length === 0) seedSampleData();
+        // Slogan lần 2: sau khi Excel/seed nạp xong (có thể có thêm từ mới)
+        loadOrRefreshSlogan();
     });
     ['inp-kanji','inp-furigana','inp-meaning'].forEach(id => document.getElementById(id).addEventListener('keydown', (e) => { if (e.key === 'Enter') saveWord(); }));
     window.speechSynthesis?.getVoices(); if (window.speechSynthesis) window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
