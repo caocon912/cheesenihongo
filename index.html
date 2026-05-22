@@ -12,6 +12,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+
   <script>
     tailwind.config = {
       theme: {
@@ -96,7 +100,7 @@
       .print-container, .print-container * { visibility: visible !important; }
       .print-container { 
         display: block !important; 
-        position: absolute !important; /* Fixed: chuyển từ fixed sang absolute */
+        position: absolute !important; 
         top: 0; left: 0; width: 100%; height: auto; 
         background: white !important; padding: 0 !important; margin: 0 !important; 
       }
@@ -134,7 +138,6 @@
       background: linear-gradient(90deg, #fff8f8 0%, #f5f3ff 50%, #f0f4ff 100%);
       border-bottom: 1.5px solid #fecaca;
     }
-    /* highlighted JP word chip — đỏ nổi bật */
     .slogan-word {
       display: inline;
       background: #fee2e2;
@@ -151,9 +154,16 @@
       white-space: nowrap;
     }
     .slogan-word:hover { background: #fecaca; }
-    /* icon spin for reload button */
     @keyframes iconSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     .slogan-spin { animation: iconSpin 0.55s ease; }
+
+    /* ===================== FLASHCARD 3D STYLES ===================== */
+    .flashcard-container { perspective: 1000px; width: 100%; height: 280px; margin: 0 auto; }
+    .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
+    .flashcard-inner.is-flipped { transform: rotateY(180deg); }
+    .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-shadow: 0 10px 30px rgba(68,85,224,0.12); }
+    .flashcard-front { background-color: #ffffff; border: 2px solid #e0e9ff; }
+    .flashcard-back { background: linear-gradient(135deg, #f0f4ff, #e0e9ff); transform: rotateY(180deg); border: 2px solid #c0d0ff; }
   </style>
 </head>
 <body class="bg-grid min-h-screen">
@@ -187,28 +197,19 @@
     </div>
   </header>
 
-  <!-- ═══ SLOGAN BAR — luôn hiển thị mọi tab ═══ -->
   <div id="slogan-card" class="slogan-card-bg border-b border-ink-100 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex gap-3">
-
-      <!-- Icon cột trái -->
       <div class="flex-shrink-0 pt-0.5">
         <div class="w-6 h-6 rounded-md flex-center" style="background:linear-gradient(135deg,#4455e0,#818cf8);">
           <i class="fa-solid fa-lightbulb text-white" style="font-size:0.6rem;"></i>
         </div>
       </div>
-
-      <!-- Nội dung 2 dòng -->
       <div class="flex-1 min-w-0 flex flex-col gap-0.5">
-        <!-- Dòng 1: câu quote -->
         <blockquote id="slogan-quote" class="text-ink-700 text-[0.82rem] font-medium italic leading-snug">
           <span class="text-ink-300 not-italic">Đang tải...</span>
         </blockquote>
-        <!-- Dòng 2: giải nghĩa -->
         <div id="slogan-explain" class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[0.72rem] text-ink-400 leading-snug"></div>
       </div>
-
-      <!-- Nút + timer — cột phải -->
       <div class="flex-shrink-0 flex flex-col items-end justify-between gap-1 pt-0.5">
         <button onclick="refreshSlogan()" id="slogan-refresh-btn" title="Đổi câu khác"
           class="w-6 h-6 rounded-full bg-white/60 border border-ink-100 text-ink-300 hover:text-ink-500 hover:bg-white flex-center transition">
@@ -216,12 +217,9 @@
         </button>
         <span id="slogan-timer-badge" class="text-[0.62rem] text-ink-300 tabular-nums"></span>
       </div>
-
     </div>
   </div>
-  <!-- ══════════════════════════════════════════ -->
 
-  <!-- Thông báo lỗi CORS / Không tìm thấy file Excel tự động -->
   <div id="cors-alert" class="hidden max-w-6xl mx-auto px-4 mt-4">
       <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded shadow-sm flex items-start gap-3">
           <i class="fa-solid fa-circle-exclamation text-amber-600 text-xl mt-0.5"></i>
@@ -244,8 +242,7 @@
       </div>
   </div>
 
-  <main class="max-w-6xl mx-auto px-4 py-6">
-
+  <main class="max-w-[1400px] mx-auto px-4 py-6">
     <div id="panel-vocab" class="tab-panel">
       <div style="position:relative;overflow:hidden;">
         <span class="kana-deco" style="top:-20px;right:60px;">あ</span>
@@ -292,20 +289,16 @@
                 <div class="w-7 h-7 rounded-lg bg-matcha-100 flex-center"><i class="fa-solid fa-arrows-rotate text-matcha-500 text-xs"></i></div>
                 <h2 class="font-bold text-ink-800 text-base">Dữ liệu</h2>
               </div>
-              <!-- Badge trạng thái nhỏ gọn -->
               <div id="data-status-badge" class="badge bg-matcha-100 text-matcha-500 text-[0.65rem] px-2 py-0.5 rounded-md" title="Trạng thái tự động nạp Excel">
                 <i class="fa-solid fa-check mr-1"></i> Tự nạp
               </div>
             </div>
 
-            <!-- Nút Khôi phục nạp file gốc đưa vào đây, nổi bật hơn khi đang tắt nạp -->
             <button id="btn-restore-excel" onclick="restoreDefaultData()" class="hidden btn-secondary w-full justify-center text-xs py-2 mb-3 bg-matcha-50 border-matcha-200 text-matcha-700 hover:bg-matcha-100">
               <i class="fa-solid fa-rotate-left"></i> Bật lại Tự động nạp Excel
             </button>
 
-            <!-- Tái thiết kế phần nhập/xuất -->
             <div class="flex flex-col gap-3">
-              <!-- Cụm Excel -->
               <div class="border border-ink-100 rounded-xl overflow-hidden">
                 <div class="bg-ink-50 px-3 py-1.5 text-xs font-bold text-ink-500 flex items-center justify-between">
                   <span><i class="fa-solid fa-file-excel mr-1 text-matcha-500"></i> Excel (.xlsx)</span>
@@ -322,23 +315,7 @@
                 </div>
               </div>
 
-              <!-- Cụm JSON -->
-              <div class="border border-ink-100 rounded-xl overflow-hidden">
-                <div class="bg-ink-50 px-3 py-1.5 text-xs font-bold text-ink-500">
-                  <i class="fa-solid fa-file-code mr-1 text-ink-400"></i> JSON Backup
-                </div>
-                <div class="flex divide-x divide-ink-100">
-                  <label class="flex-1 text-center py-2 text-sm font-semibold text-ink-600 hover:bg-ink-50 cursor-pointer transition" title="Khôi phục dữ liệu từ file JSON">
-                    <i class="fa-solid fa-upload text-xs mb-0.5 block opacity-60"></i> Nhập
-                    <input type="file" id="json-upload" accept=".json" onchange="importJSON(event)" class="hidden" />
-                  </label>
-                  <button onclick="exportJSON()" class="flex-1 text-center py-2 text-sm font-semibold text-ink-600 hover:bg-ink-50 transition" title="Sao lưu toàn bộ ra file JSON">
-                    <i class="fa-solid fa-download text-xs mb-0.5 block opacity-60"></i> Xuất
-                  </button>
-                </div>
-              </div>
 
-              <!-- Các thao tác dọn dẹp -->
               <div class="grid grid-cols-2 gap-2 mt-1">
                 <button onclick="removeDuplicates()" class="btn-secondary justify-center text-[0.8rem] px-2 py-2">
                   <i class="fa-solid fa-broom"></i> Dọn trùng
@@ -353,17 +330,22 @@
         </div>
         <div class="lg:col-span-2">
           <div class="card overflow-hidden">
-            <div class="flex items-center justify-between gap-3 p-4 border-b border-ink-50">
+            <div class="flex flex-wrap items-center justify-between gap-3 p-4 border-b border-ink-50">
               <div class="flex items-center gap-2">
                 <i class="fa-solid fa-list text-ink-400"></i><span class="font-bold text-ink-800">Danh sách từ vựng</span>
                 <span class="badge bg-ink-100 text-ink-600 ml-1" id="list-count">0 từ</span>
               </div>
-              <div class="relative flex-1 max-w-xs">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-300 text-sm"></i>
-                <input id="search-input" type="text" class="field pl-9 py-2 text-sm" placeholder="Tìm kiếm..." oninput="renderTable()" />
+              <div class="flex items-center gap-2 flex-1 justify-end min-w-0">
+                <button onclick="openFlashcardModal()" data-tippy-content="Học 10 từ vựng ngẫu nhiên mỗi ngày bằng Flashcard" class="btn-primary py-1.5 px-3 sm:px-4 text-[0.8rem] sm:text-sm pulse-ring rounded-full shadow-md flex-shrink-0 outline-none">
+                  <i class="fa-solid fa-bolt text-yellow-300"></i> <span class="hidden sm:inline">Flashcard mỗi ngày</span><span class="sm:hidden">Flashcard</span>
+                </button>
+                <div class="relative flex-1 max-w-xs min-w-[120px]">
+                  <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-300 text-sm"></i>
+                  <input id="search-input" type="text" class="field pl-9 py-2 text-sm w-full" placeholder="Tìm kiếm..." oninput="renderTable()" />
+                </div>
               </div>
             </div>
-            <div class="overflow-x-auto" style="max-height:520px;overflow-y:auto;">
+            <div class="overflow-x-auto" style="max-height:600px;overflow-y:auto;">
               <table class="vocab-table w-full">
                 <thead class="sticky top-0">
                   <tr>
@@ -383,7 +365,6 @@
               <p class="text-sm">Thêm từ mới hoặc nhập file để bắt đầu</p>
             </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
@@ -503,9 +484,14 @@
             <div class="text-5xl font-black text-ink-200">=</div>
             <div class="text-center"><div class="score-ring mb-2 mx-auto" id="result-pct-ring"><span class="text-3xl font-black" id="result-pct">0%</span><span class="text-xs text-ink-400 mt-0.5">Điểm</span></div></div>
           </div>
-          <div class="flex gap-3 justify-center">
+
+          <div id="regular-post-actions" class="flex gap-3 justify-center">
             <button onclick="restartQuiz()" class="btn-primary"><i class="fa-solid fa-rotate-right"></i> Làm lại</button>
             <button onclick="showQuizSetup()" class="btn-secondary"><i class="fa-solid fa-gear"></i> Cài đặt mới</button>
+          </div>
+          <div id="fc-post-actions" class="hidden flex flex-col gap-3 items-center">
+            <button onclick="continueFlashcard()" class="btn-primary w-full max-w-xs justify-center shadow-lg"><i class="fa-solid fa-forward-step"></i> Học tiếp 10 từ ngày mai</button>
+            <button onclick="backToFlashcard()" class="btn-secondary w-full max-w-xs justify-center"><i class="fa-solid fa-rotate-left"></i> Quay lại Flashcard hôm nay</button>
           </div>
         </div>
         <div id="wrong-answers-section" class="card p-5 hidden">
@@ -562,6 +548,52 @@
   </main>
 
   <div class="print-container" id="print-area"></div>
+
+  <div id="flashcard-modal" class="hidden fixed inset-0 bg-ink-900/60 backdrop-blur-sm z-[60] flex-center">
+    <div class="card p-6 max-w-sm w-full mx-4 pop-in relative flex flex-col outline-none" tabindex="0">
+      <button onclick="closeFlashcardModal()" class="absolute top-3 right-3 w-8 h-8 bg-ink-50 text-ink-500 rounded-full hover:bg-sakura-100 hover:text-sakura-500 flex-center transition z-10"><i class="fa-solid fa-xmark"></i></button>
+
+      <div class="text-center mb-4 mt-2">
+        <h3 class="font-black text-ink-800 text-lg flex items-center justify-center gap-2">
+          <i class="fa-solid fa-bolt text-yellow-400"></i> Luyện 10 từ mỗi ngày
+        </h3>
+        <div class="text-ink-500 text-sm mt-1.5 font-bold"><span id="fc-progress">1 / 10</span></div>
+        <div class="w-full bg-ink-100 rounded-full h-1.5 mt-2"><div id="fc-progress-bar" class="progress-bar-inner" style="width:10%"></div></div>
+      </div>
+
+      <div class="flashcard-container my-3">
+        <div id="fc-inner" class="flashcard-inner" onclick="toggleFlashcard()">
+          <div class="flashcard-front">
+            <button onclick="event.stopPropagation(); playCurrentFlashcardAudio()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors text-lg outline-none" title="Nghe phát âm">
+              <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div id="fc-kanji" class="font-jp font-bold text-ink-800 text-5xl mt-2"></div>
+          </div>
+          <div class="flashcard-back">
+            <div id="fc-furigana" class="font-jp text-ink-500 text-xl mb-3 font-medium"></div>
+            <div id="fc-meaning" class="text-2xl font-black text-ink-800"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between gap-3 mt-4">
+        <button id="btn-fc-prev" onclick="prevFlashcard()" class="btn-secondary flex-1 justify-center py-2.5 outline-none">
+          <i class="fa-solid fa-arrow-left"></i> Trước <span class="text-[0.65rem] opacity-60 ml-1 border border-ink-200 rounded px-1 hidden sm:inline-block">[←]</span>
+        </button>
+        <button onclick="toggleFlashcard()" class="w-12 h-12 flex-shrink-0 rounded-full bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition shadow-sm border border-ink-100 outline-none" title="Lật thẻ [Space]">
+          <i class="fa-solid fa-rotate"></i>
+        </button>
+        <button id="btn-fc-next" onclick="nextFlashcard()" class="btn-primary flex-1 justify-center py-2.5 outline-none">
+          Tiếp <span class="text-[0.65rem] opacity-70 ml-1 border border-white/40 rounded px-1 hidden sm:inline-block">[→]</span> <i class="fa-solid fa-arrow-right ml-1"></i>
+        </button>
+      </div>
+
+      <div id="fc-quiz-action" class="hidden mt-4 pt-4 border-t border-ink-100 pop-in">
+        <button onclick="startFlashcardQuiz()" class="btn-success w-full justify-center py-3 text-base shadow-lg outline-none"><i class="fa-solid fa-gamepad"></i> Làm bài trắc nghiệm 10 từ này</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast-container"></div>
   <div id="modal-overlay" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex-center">
     <div class="card p-6 max-w-sm w-full mx-4 pop-in">
@@ -574,10 +606,13 @@
   <script>
   let vocabulary = [];
   let editingId = null; 
-  let quizState = { count: 10, timer: 30, tts: false, autoNext: true, questions: [], current: 0, correct: 0, wrong: 0, wrongList: [], timerInterval: null, timerLeft: 30, answered: false, currentWord: null, type: 'jp2vi' };
+  let quizState = { count: 10, timer: 30, tts: false, autoNext: false, questions: [], current: 0, correct: 0, wrong: 0, wrongList: [], timerInterval: null, timerLeft: 30, answered: false, currentWord: null, type: 'jp2vi' };
   let printState = { count: 10, mode: 'mix', generated: [] };
   let lastWrongWords = [];
   let modalCallback = null;
+
+  let isFlashcardQuiz = false;
+  let fcState = { startIndex: 0, currentIndex: 0, pool: [], isFlipped: false };
 
   function loadFromStorage() {
     try { const raw = localStorage.getItem('nihongo_vocab'); if (raw) vocabulary = JSON.parse(raw); } catch(e) { vocabulary = []; }
@@ -765,6 +800,9 @@
         <td class="text-ink-600 text-sm">${escapeHtml(v.meaning)}</td>
         <td class="text-center">
           <div class="flex items-center justify-center gap-1.5">
+            <button onclick="playAudio('${v.id}')" class="w-7 h-7 rounded bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors" title="Nghe phát âm">
+              <i class="fa-solid fa-volume-high text-[11px]"></i>
+            </button>
             <button onclick="editWord('${v.id}')" class="w-7 h-7 rounded bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition-colors" title="Sửa">
               <i class="fa-solid fa-pen text-[11px]"></i>
             </button>
@@ -779,20 +817,16 @@
 
   function updateHeaderCount() { const el = document.getElementById('header-count'); if (el) el.textContent = vocabulary.length; }
 
-  // HÀM MỚI: XUẤT FILE EXCEL (.XLSX)
   function exportExcel() {
     if (vocabulary.length === 0) { showToast('Danh sách trống!', 'error'); return; }
     try {
-      // Khởi tạo mảng dữ liệu có header chuẩn
       const data = [['Kanji', 'Furigana', 'Nghĩa']];
       vocabulary.forEach(v => {
         data.push([v.kanji || '', v.furigana || '', v.meaning || '']);
       });
-      // Tạo sheet và workbook từ mảng 2D
       const ws = XLSX.utils.aoa_to_sheet(data);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Tu_Vung");
-      // Xuất file
       XLSX.writeFile(wb, "jp_vocabulary.xlsx");
       showToast(`Đã xuất ${vocabulary.length} từ ra file Excel!`, 'success');
     } catch(err) {
@@ -871,42 +905,39 @@
     else { btn.classList.replace('bg-ink-500','bg-ink-200'); knob.style.transform = 'translateX(0)'; }
   }
 
-  function startQuiz() {
+  function startQuiz(customPool = null) {
     if (vocabulary.length < 4) { showToast('Cần ít nhất 4 từ vựng để trắc nghiệm!', 'error'); return; }
     
-    let targetCount = quizState.count === 0 ? vocabulary.length : Math.min(quizState.count, vocabulary.length);
     let pool = [];
+    isFlashcardQuiz = false;
+    let targetCount = quizState.count === 0 ? vocabulary.length : Math.min(quizState.count, vocabulary.length);
     
-    // Đảm bảo lọc sạch từ trùng lặp trong lastWrongWords dựa vào id
-    let uniqueWrongWords = [];
-    if (lastWrongWords && lastWrongWords.length > 0) {
-        const seenIds = new Set();
-        for (const w of lastWrongWords) {
-            if (!seenIds.has(w.id)) {
-                seenIds.add(w.id);
-                uniqueWrongWords.push(w);
+    if (customPool && Array.isArray(customPool)) {
+        pool = shuffle([...customPool]);
+        isFlashcardQuiz = true;
+    } else {
+        let uniqueWrongWords = [];
+        if (lastWrongWords && lastWrongWords.length > 0) {
+            const seenIds = new Set();
+            for (const w of lastWrongWords) {
+                if (!seenIds.has(w.id)) { seenIds.add(w.id); uniqueWrongWords.push(w); }
             }
         }
-    }
-    
-    if (uniqueWrongWords.length > 0) {
-        // Ưu tiên những từ làm sai
-        let remaining = vocabulary.filter(v => !uniqueWrongWords.some(lw => lw.id === v.id));
-        remaining = shuffle(remaining);
         
-        // Nếu số từ sai lớn hơn hoặc bằng targetCount, chỉ lấy đúng targetCount
-        if (uniqueWrongWords.length >= targetCount) {
-            pool = shuffle(uniqueWrongWords).slice(0, targetCount);
+        if (uniqueWrongWords.length > 0) {
+            let remaining = vocabulary.filter(v => !uniqueWrongWords.some(lw => lw.id === v.id));
+            remaining = shuffle(remaining);
+            if (uniqueWrongWords.length >= targetCount) { pool = shuffle(uniqueWrongWords).slice(0, targetCount); } 
+            else {
+                pool = [...uniqueWrongWords];
+                let needed = targetCount - pool.length;
+                pool = pool.concat(remaining.slice(0, needed));
+            }
         } else {
-            // Lấy toàn bộ từ sai, cộng thêm từ kho cho đủ targetCount
-            pool = [...uniqueWrongWords];
-            let needed = targetCount - pool.length;
-            pool = pool.concat(remaining.slice(0, needed));
+            pool = shuffle([...vocabulary]).slice(0, targetCount);
         }
-    } else {
-        pool = shuffle([...vocabulary]).slice(0, targetCount);
+        pool = shuffle(pool);
     }
-    pool = shuffle(pool);
     
     quizState.questions = pool.map(word => {
         let types = ['jp2vi', 'vi2jp'];
@@ -997,7 +1028,6 @@
     });
     document.getElementById('q-correct').textContent = quizState.correct; document.getElementById('q-wrong').textContent = quizState.wrong;
     
-    // Hiển thị phần giải thích
     const explBox = document.getElementById('q-explanation');
     document.getElementById('expl-kanji').textContent = quizState.currentWord.kanji || '';
     document.getElementById('expl-furigana').textContent = quizState.currentWord.furigana ? `(${quizState.currentWord.furigana})` : '';
@@ -1063,6 +1093,17 @@
         </div>
       `).join('');
     } else wrongSection.classList.add('hidden');
+
+    if (isFlashcardQuiz) {
+        document.getElementById('regular-post-actions').classList.add('hidden');
+        document.getElementById('fc-post-actions').classList.remove('hidden');
+        let nextIndex = fcState.startIndex + fcState.pool.length;
+        if (nextIndex >= vocabulary.length) nextIndex = 0; 
+        localStorage.setItem('daily_flashcard_index', nextIndex);
+    } else {
+        document.getElementById('regular-post-actions').classList.remove('hidden');
+        document.getElementById('fc-post-actions').classList.add('hidden');
+    }
   }
 
   function restartQuiz() { startQuiz(); }
@@ -1126,9 +1167,7 @@
     
     printState.generated = pool.map((w, i) => {
       const isVi = mode === 'vi' || (mode === 'mix' && i % 2 === 0);
-      // Đề bài: Không có furigana
       const jpQuestionStr = w.kanji || w.furigana; 
-      // Đáp án: Có furigana
       const jpAnswerStr = w.kanji && w.furigana ? `${w.kanji} (${w.furigana})` : (w.kanji || w.furigana);
       const viAnswerStr = w.furigana ? `${w.meaning} (${w.furigana})` : w.meaning; 
       
@@ -1186,14 +1225,9 @@
 
   (function injectActiveConfigCSS() { const style = document.createElement('style'); style.textContent = `.active-config { border-color: #4455e0 !important; color: #4455e0 !important; background: #f0f4ff !important; }`; document.head.appendChild(style); })();
 
-  // ════════════════════════════════════════════════════
-  //  SLOGAN KHAI MỞ TƯ DUY WIDGET
-  // ════════════════════════════════════════════════════
+  const SLOGAN_KEY = 'nihongo_slogan_v1';
+  const SLOGAN_TTL = 1800000;             
 
-  const SLOGAN_KEY = 'nihongo_slogan_v1'; // localStorage key
-  const SLOGAN_TTL = 1800000;             // 30 phút (ms)
-
-  /** 15 template triết lý — {w1} và {w2} sẽ được thay bằng từ vựng ngẫu nhiên */
   const SLOGAN_TEMPLATES = [
     "Trong hành trình thấu hiểu bản thân, đôi khi một {w1} nhỏ bé lại giúp ta vượt qua {w2} lớn lao nhất.",
     "Người thực sự trưởng thành không cần {w1} để chứng minh — họ chỉ cần giữ vững {w2} trong lòng.",
@@ -1212,43 +1246,24 @@
     "Chỉ khi ta dám đối mặt với {w1}, ta mới nhận ra rằng {w2} vẫn luôn ở đó chờ ta sẵn sàng."
   ];
 
-  /** Render slogan từ data object {tpl, w1, w2, ts} lên DOM */
   function renderSlogan(data) {
     const { tpl, w1, w2 } = data;
-
-    // Chip highlight từ Nhật (đỏ)
-    const chip = (w) =>
-      `<span class="slogan-word font-jp" title="${escapeHtml(w.meaning)}">${escapeHtml(w.kanji || w.furigana)}</span>`;
-
-    // Dòng 1: câu quote với chip nổi bật
-    const quoteHtml = tpl
-      .replace('{w1}', chip(w1))
-      .replace('{w2}', chip(w2));
-
-    // Dòng 2: câu dịch tiếng Việt, kèm furigana mở ngoặc ngay sau nghĩa
+    const chip = (w) => `<span class="slogan-word font-jp" title="${escapeHtml(w.meaning)}">${escapeHtml(w.kanji || w.furigana)}</span>`;
+    const quoteHtml = tpl.replace('{w1}', chip(w1)).replace('{w2}', chip(w2));
     const furi = (w) => {
       const meaning = `<span class="font-semibold not-italic text-ink-600">${escapeHtml(w.meaning)}</span>`;
       const ruby   = w.furigana ? `<span class="font-jp text-ink-400 not-italic">(${escapeHtml(w.furigana)})</span>` : '';
       return meaning + (ruby ? '&thinsp;' + ruby : '');
     };
-    const viSentence = tpl
-      .replace('{w1}', furi(w1))
-      .replace('{w2}', furi(w2));
-
-    document.getElementById('slogan-quote').innerHTML =
-      `<i class="fa-solid fa-quote-left text-ink-200 mr-1 not-italic" style="font-size:0.65rem;vertical-align:1px;"></i>${quoteHtml}`;
-
-    document.getElementById('slogan-explain').innerHTML =
-      `<span class="italic">${viSentence}</span>`;
-
+    const viSentence = tpl.replace('{w1}', furi(w1)).replace('{w2}', furi(w2));
+    document.getElementById('slogan-quote').innerHTML = `<i class="fa-solid fa-quote-left text-ink-200 mr-1 not-italic" style="font-size:0.65rem;vertical-align:1px;"></i>${quoteHtml}`;
+    document.getElementById('slogan-explain').innerHTML = `<span class="italic">${viSentence}</span>`;
     updateSloganTimerBadge(data.ts);
   }
 
-  /** Sinh slogan mới, lưu localStorage, render */
   function generateSlogan() {
     if (vocabulary.length < 2) {
-      document.getElementById('slogan-quote').innerHTML =
-        '<span class="text-ink-300 text-xs not-italic">Thêm ít nhất 2 từ vựng để kích hoạt Slogan ✨</span>';
+      document.getElementById('slogan-quote').innerHTML = '<span class="text-ink-300 text-xs not-italic">Thêm ít nhất 2 từ vựng để kích hoạt Slogan ✨</span>';
       document.getElementById('slogan-explain').innerHTML = '';
       document.getElementById('slogan-timer-badge').textContent = '';
       return;
@@ -1260,32 +1275,28 @@
     renderSlogan(data);
   }
 
-  /** Kiểm tra cache; nếu còn hạn thì dùng lại, hết hạn thì sinh mới */
   function loadOrRefreshSlogan() {
     try {
       const raw = localStorage.getItem(SLOGAN_KEY);
       if (raw) {
         const data = JSON.parse(raw);
-        // Còn trong TTL và vocab đủ dùng → render lại từ cache
         if (Date.now() - data.ts < SLOGAN_TTL && vocabulary.length >= 2) {
           renderSlogan(data);
           return;
         }
       }
-    } catch (e) { /* cache hỏng → sinh mới */ }
+    } catch (e) { }
     generateSlogan();
   }
 
-  /** Nút "Đổi câu" thủ công — kèm animation xoay icon */
   function refreshSlogan() {
     const icon = document.getElementById('slogan-refresh-icon');
     icon.classList.remove('slogan-spin');
-    void icon.offsetWidth; // reflow để reset animation
+    void icon.offsetWidth; 
     icon.classList.add('slogan-spin');
     generateSlogan();
   }
 
-  /** Cập nhật badge đếm ngược và lên lịch tick mỗi phút */
   function updateSloganTimerBadge(ts) {
     const badge = document.getElementById('slogan-timer-badge');
     if (!badge) return;
@@ -1295,22 +1306,155 @@
       const mins = Math.ceil(rem / 60000);
       badge.textContent = `⏱ ${mins}p`;
     };
-    fn(); // gọi ngay
-    // Dùng 1 interval duy nhất — xoá interval cũ nếu có
+    fn(); 
     clearInterval(window._sloganTimerInterval);
     window._sloganTimerInterval = setInterval(fn, 60000);
   }
 
   function seedSampleData() { if (vocabulary.length > 0) return; vocabulary = [{id:'s1',kanji:'先生',furigana:'せんせい',meaning:'Giáo viên'},{id:'s2',kanji:'学生',furigana:'がくせい',meaning:'Học sinh'},{id:'s3',kanji:'パン',furigana:'',meaning:'Bánh mì'}]; saveToStorage(); renderTable(); }
 
+  function playAudio(id) {
+    const word = vocabulary.find(v => v.id === id);
+    if (word) {
+      speakWord(word.kanji || word.furigana); 
+    }
+  }
+
+  // ==================== LOGIC FLASHCARD ====================
+  function getFlashcardStartIndex() {
+      let idx = parseInt(localStorage.getItem('daily_flashcard_index')) || 0;
+      if (idx >= vocabulary.length) idx = 0; 
+      return idx;
+  }
+
+  function openFlashcardModal() {
+      if (vocabulary.length === 0) { showToast("Cần ít nhất 1 từ vựng để tạo Flashcard!", "error"); return; }
+      
+      fcState.startIndex = getFlashcardStartIndex();
+      fcState.pool = vocabulary.slice(fcState.startIndex, fcState.startIndex + 10);
+      
+      if (fcState.pool.length === 0) {
+          fcState.startIndex = 0;
+          localStorage.setItem('daily_flashcard_index', 0);
+          fcState.pool = vocabulary.slice(0, 10);
+      }
+      
+      fcState.currentIndex = 0;
+      fcState.isFlipped = false;
+      document.getElementById('flashcard-modal').classList.remove('hidden');
+      renderFlashcard();
+      
+      // Auto focus vào modal để nhận diện phím tắt mượt hơn
+      document.getElementById('flashcard-modal').querySelector('.card').focus();
+  }
+
+  function closeFlashcardModal() { document.getElementById('flashcard-modal').classList.add('hidden'); }
+
+  function toggleFlashcard() {
+      fcState.isFlipped = !fcState.isFlipped;
+      const inner = document.getElementById('fc-inner');
+      if (fcState.isFlipped) inner.classList.add('is-flipped');
+      else inner.classList.remove('is-flipped');
+  }
+
+  function renderFlashcard() {
+      if (fcState.pool.length === 0) return;
+      const word = fcState.pool[fcState.currentIndex];
+      
+      document.getElementById('fc-kanji').textContent = word.kanji || word.furigana;
+      document.getElementById('fc-furigana').textContent = word.furigana || '';
+      document.getElementById('fc-meaning').textContent = word.meaning || '';
+      
+      fcState.isFlipped = false;
+      document.getElementById('fc-inner').classList.remove('is-flipped');
+
+      document.getElementById('fc-progress').textContent = `${fcState.currentIndex + 1} / ${fcState.pool.length}`;
+      document.getElementById('fc-progress-bar').style.width = `${((fcState.currentIndex + 1) / fcState.pool.length) * 100}%`;
+
+      document.getElementById('btn-fc-prev').disabled = (fcState.currentIndex === 0);
+      document.getElementById('btn-fc-prev').style.opacity = (fcState.currentIndex === 0) ? '0.5' : '1';
+
+      if (fcState.currentIndex === fcState.pool.length - 1) {
+          document.getElementById('btn-fc-next').classList.add('hidden');
+          document.getElementById('fc-quiz-action').classList.remove('hidden');
+      } else {
+          document.getElementById('btn-fc-next').classList.remove('hidden');
+          document.getElementById('fc-quiz-action').classList.add('hidden');
+      }
+  }
+
+  function prevFlashcard() { 
+      if (fcState.currentIndex > 0) { 
+          fcState.currentIndex--; 
+          renderFlashcard(); 
+          playCurrentFlashcardAudio(); 
+      } 
+  }
+  
+  function nextFlashcard() { 
+      if (fcState.currentIndex < fcState.pool.length - 1) { 
+          fcState.currentIndex++; 
+          renderFlashcard(); 
+          playCurrentFlashcardAudio(); 
+      } 
+  }
+
+  function playCurrentFlashcardAudio() {
+      const word = fcState.pool[fcState.currentIndex];
+      if (word) speakWord(word.kanji || word.furigana);
+  }
+
+  function startFlashcardQuiz() {
+      closeFlashcardModal();
+      switchTab('quiz');
+      startQuiz(fcState.pool);
+  }
+
+  function continueFlashcard() {
+      switchTab('vocab');
+      openFlashcardModal();
+  }
+
+  function backToFlashcard() {
+      switchTab('vocab');
+      document.getElementById('flashcard-modal').classList.remove('hidden');
+      fcState.currentIndex = 0;
+      renderFlashcard();
+  }
+  
+  // XỬ LÝ PHÍM TẮT CHO FLASHCARD
+  document.addEventListener('keydown', function(e) {
+      const modal = document.getElementById('flashcard-modal');
+      // Chỉ kích hoạt khi modal đang mở
+      if (!modal.classList.contains('hidden')) {
+          if (e.key === ' ' || e.key === 'Enter') {
+              e.preventDefault(); // Ngăn trình duyệt cuộn trang
+              toggleFlashcard();
+          } else if (e.key === 'ArrowRight') {
+              e.preventDefault();
+              nextFlashcard();
+          } else if (e.key === 'ArrowLeft') {
+              e.preventDefault();
+              prevFlashcard();
+          }
+      }
+  });
+
   window.addEventListener('DOMContentLoaded', () => {
+    // Kích hoạt Tooltip Tippy.js
+    if (typeof tippy !== 'undefined') {
+        tippy('[data-tippy-content]', {
+            animation: 'scale',
+            theme: 'light',
+            placement: 'bottom'
+        });
+    }
+
     updateDataStatusUI();
     loadFromStorage();
-    // Slogan lần 1: dùng vocab đã có trong localStorage
     loadOrRefreshSlogan();
     fetchAutoExcel().then(() => {
         if (vocabulary.length === 0) seedSampleData();
-        // Slogan lần 2: sau khi Excel/seed nạp xong (có thể có thêm từ mới)
         loadOrRefreshSlogan();
     });
     ['inp-kanji','inp-furigana','inp-meaning'].forEach(id => document.getElementById(id).addEventListener('keydown', (e) => { if (e.key === 'Enter') saveWord(); }));

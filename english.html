@@ -12,13 +12,17 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
             sans: ['Outfit', 'Noto Sans JP', 'sans-serif'],
-            jp: ['Outfit', 'sans-serif'], /* Swapped internal font logic to primarily use Outfit for English text */
+            jp: ['Noto Sans JP', 'sans-serif'],
           },
           colors: {
             ink: {
@@ -43,7 +47,7 @@
       background-size: 32px 32px;
     }
     .kana-deco {
-      font-family: 'Outfit', sans-serif; font-size: 7rem; font-weight: 800; color: rgba(68,85,224,0.04); position: absolute; user-select: none; pointer-events: none; line-height: 1;
+      font-family: 'Noto Sans JP', sans-serif; font-size: 7rem; font-weight: 700; color: rgba(68,85,224,0.04); position: absolute; user-select: none; pointer-events: none; line-height: 1;
     }
     .tab-btn { transition: all 0.2s ease; position: relative; }
     .tab-btn.active { background: white; color: #4455e0; box-shadow: 0 2px 16px rgba(68,85,224,0.15); }
@@ -79,8 +83,8 @@
     .timer-bar.ok { background: linear-gradient(90deg, #4caf7d, #6de09a); }
     .timer-bar.warn { background: linear-gradient(90deg, #f0a020, #f7c860); }
     .timer-bar.danger { background: linear-gradient(90deg, #e03060, #f77bb4); }
-    .kanji-display { font-family: 'Outfit', sans-serif; font-size: 3rem; font-weight: 700; color: #1e2278; line-height: 1.2; }
-    .furigana-display { font-family: 'Outfit', sans-serif; font-size: 1.1rem; color: #6478f0; font-weight: 500; }
+    .kanji-display { font-family: 'Noto Sans JP', sans-serif; font-size: 3rem; font-weight: 700; color: #1e2278; line-height: 1.2; }
+    .furigana-display { font-family: 'Noto Sans JP', sans-serif; font-size: 1.1rem; color: #6478f0; font-weight: 500; }
     .toast { position: fixed; top: 20px; right: 20px; z-index: 9999; padding: 12px 20px; border-radius: 12px; font-weight: 600; font-size: 0.9rem; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s ease, fadeOut 0.4s ease 2.5s forwards; min-width: 260px; }
     .toast.success { background: linear-gradient(135deg, #2e9e5e, #4caf7d); }
     .toast.error { background: linear-gradient(135deg, #c0392b, #e03060); }
@@ -102,16 +106,16 @@
       }
       @page { size: A4 portrait; margin: 18mm 18mm 20mm 18mm; }
       .print-header { border-bottom: 2.5px solid #1e2278; padding-bottom: 10px; margin-bottom: 18px; }
-      .print-title { font-size: 22pt; font-weight: 900; color: #1e2278; font-family: 'Outfit', sans-serif; }
+      .print-title { font-size: 22pt; font-weight: 900; color: #1e2278; font-family: 'Noto Sans JP', sans-serif; }
       .print-meta { font-size: 11pt; color: #444; margin-top: 6px; display: flex; gap: 24px; }
       .print-meta-field { border-bottom: 1.5px solid #aaa; min-width: 160px; display: inline-block; margin-left: 8px; padding-bottom: 2px; }
       .print-question { margin-bottom: 14pt; page-break-inside: avoid; }
       .print-question-num { font-weight: 700; color: #1e2278; font-size: 11pt; }
       .print-blank { border-bottom: 1.5px dotted #555; min-width: 180px; display: inline-block; margin-left: 8px; }
-      .print-jp { font-family: 'Outfit', sans-serif; font-size: 14pt; font-weight: 700; color: #1e2278; }
-      .print-furigana { font-family: 'Outfit', sans-serif; font-size: 9pt; color: #555; }
+      .print-jp { font-family: 'Noto Sans JP', sans-serif; font-size: 14pt; font-weight: 700; color: #1e2278; }
+      .print-furigana { font-family: 'Noto Sans JP', sans-serif; font-size: 9pt; color: #555; }
       .page-break { page-break-before: always; break-before: page; margin-top: 20px; }
-      .print-answer-header { font-size: 16pt; font-weight: 800; color: #1e2278; border-bottom: 2px solid #1e2278; padding-bottom: 8px; margin-bottom: 14px; font-family: 'Outfit', sans-serif; }
+      .print-answer-header { font-size: 16pt; font-weight: 800; color: #1e2278; border-bottom: 2px solid #1e2278; padding-bottom: 8px; margin-bottom: 14px; font-family: 'Noto Sans JP', sans-serif; }
       .answer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
       .answer-item { font-size: 9.5pt; padding: 4px 0; border-bottom: 1px solid #eee; }
     }
@@ -152,6 +156,14 @@
     .slogan-word:hover { background: #fecaca; }
     @keyframes iconSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     .slogan-spin { animation: iconSpin 0.55s ease; }
+
+    /* ===================== FLASHCARD 3D STYLES ===================== */
+    .flashcard-container { perspective: 1000px; width: 100%; height: 280px; margin: 0 auto; }
+    .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
+    .flashcard-inner.is-flipped { transform: rotateY(180deg); }
+    .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-shadow: 0 10px 30px rgba(68,85,224,0.12); }
+    .flashcard-front { background-color: #ffffff; border: 2px solid #e0e9ff; }
+    .flashcard-back { background: linear-gradient(135deg, #f0f4ff, #e0e9ff); transform: rotateY(180deg); border: 2px solid #c0d0ff; }
   </style>
 </head>
 <body class="bg-grid min-h-screen">
@@ -230,7 +242,7 @@
       </div>
   </div>
 
-  <main class="max-w-6xl mx-auto px-4 py-6">
+  <main class="max-w-[1400px] mx-auto px-4 py-6">
     <div id="panel-vocab" class="tab-panel">
       <div style="position:relative;overflow:hidden;">
         <span class="kana-deco" style="top:-20px;right:60px;">E</span>
@@ -303,20 +315,6 @@
                 </div>
               </div>
 
-              <div class="border border-ink-100 rounded-xl overflow-hidden">
-                <div class="bg-ink-50 px-3 py-1.5 text-xs font-bold text-ink-500">
-                  <i class="fa-solid fa-file-code mr-1 text-ink-400"></i> JSON Backup
-                </div>
-                <div class="flex divide-x divide-ink-100">
-                  <label class="flex-1 text-center py-2 text-sm font-semibold text-ink-600 hover:bg-ink-50 cursor-pointer transition" title="Khôi phục dữ liệu từ file JSON">
-                    <i class="fa-solid fa-upload text-xs mb-0.5 block opacity-60"></i> Nhập
-                    <input type="file" id="json-upload" accept=".json" onchange="importJSON(event)" class="hidden" />
-                  </label>
-                  <button onclick="exportJSON()" class="flex-1 text-center py-2 text-sm font-semibold text-ink-600 hover:bg-ink-50 transition" title="Sao lưu toàn bộ ra file JSON">
-                    <i class="fa-solid fa-download text-xs mb-0.5 block opacity-60"></i> Xuất
-                  </button>
-                </div>
-              </div>
 
               <div class="grid grid-cols-2 gap-2 mt-1">
                 <button onclick="removeDuplicates()" class="btn-secondary justify-center text-[0.8rem] px-2 py-2">
@@ -332,17 +330,22 @@
         </div>
         <div class="lg:col-span-2">
           <div class="card overflow-hidden">
-            <div class="flex items-center justify-between gap-3 p-4 border-b border-ink-50">
+            <div class="flex flex-wrap items-center justify-between gap-3 p-4 border-b border-ink-50">
               <div class="flex items-center gap-2">
                 <i class="fa-solid fa-list text-ink-400"></i><span class="font-bold text-ink-800">Danh sách từ vựng</span>
                 <span class="badge bg-ink-100 text-ink-600 ml-1" id="list-count">0 từ</span>
               </div>
-              <div class="relative flex-1 max-w-xs">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-300 text-sm"></i>
-                <input id="search-input" type="text" class="field pl-9 py-2 text-sm" placeholder="Tìm kiếm..." oninput="renderTable()" />
+              <div class="flex items-center gap-2 flex-1 justify-end min-w-0">
+                <button onclick="openFlashcardModal()" data-tippy-content="Học 10 từ vựng ngẫu nhiên mỗi ngày bằng Flashcard" class="btn-primary py-1.5 px-3 sm:px-4 text-[0.8rem] sm:text-sm pulse-ring rounded-full shadow-md flex-shrink-0 outline-none">
+                  <i class="fa-solid fa-bolt text-yellow-300"></i> <span class="hidden sm:inline">Flashcard mỗi ngày</span><span class="sm:hidden">Flashcard</span>
+                </button>
+                <div class="relative flex-1 max-w-xs min-w-[120px]">
+                  <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-300 text-sm"></i>
+                  <input id="search-input" type="text" class="field pl-9 py-2 text-sm w-full" placeholder="Tìm kiếm..." oninput="renderTable()" />
+                </div>
               </div>
             </div>
-            <div class="overflow-x-auto" style="max-height:520px;overflow-y:auto;">
+            <div class="overflow-x-auto" style="max-height:600px;overflow-y:auto;">
               <table class="vocab-table w-full">
                 <thead class="sticky top-0">
                   <tr>
@@ -481,9 +484,14 @@
             <div class="text-5xl font-black text-ink-200">=</div>
             <div class="text-center"><div class="score-ring mb-2 mx-auto" id="result-pct-ring"><span class="text-3xl font-black" id="result-pct">0%</span><span class="text-xs text-ink-400 mt-0.5">Điểm</span></div></div>
           </div>
-          <div class="flex gap-3 justify-center">
+
+          <div id="regular-post-actions" class="flex gap-3 justify-center">
             <button onclick="restartQuiz()" class="btn-primary"><i class="fa-solid fa-rotate-right"></i> Làm lại</button>
             <button onclick="showQuizSetup()" class="btn-secondary"><i class="fa-solid fa-gear"></i> Cài đặt mới</button>
+          </div>
+          <div id="fc-post-actions" class="hidden flex flex-col gap-3 items-center">
+            <button onclick="continueFlashcard()" class="btn-primary w-full max-w-xs justify-center shadow-lg"><i class="fa-solid fa-forward-step"></i> Học tiếp 10 từ ngày mai</button>
+            <button onclick="backToFlashcard()" class="btn-secondary w-full max-w-xs justify-center"><i class="fa-solid fa-rotate-left"></i> Quay lại Flashcard hôm nay</button>
           </div>
         </div>
         <div id="wrong-answers-section" class="card p-5 hidden">
@@ -540,6 +548,52 @@
   </main>
 
   <div class="print-container" id="print-area"></div>
+
+  <div id="flashcard-modal" class="hidden fixed inset-0 bg-ink-900/60 backdrop-blur-sm z-[60] flex-center">
+    <div class="card p-6 max-w-sm w-full mx-4 pop-in relative flex flex-col outline-none" tabindex="0">
+      <button onclick="closeFlashcardModal()" class="absolute top-3 right-3 w-8 h-8 bg-ink-50 text-ink-500 rounded-full hover:bg-sakura-100 hover:text-sakura-500 flex-center transition z-10"><i class="fa-solid fa-xmark"></i></button>
+
+      <div class="text-center mb-4 mt-2">
+        <h3 class="font-black text-ink-800 text-lg flex items-center justify-center gap-2">
+          <i class="fa-solid fa-bolt text-yellow-400"></i> Luyện 10 từ mỗi ngày
+        </h3>
+        <div class="text-ink-500 text-sm mt-1.5 font-bold"><span id="fc-progress">1 / 10</span></div>
+        <div class="w-full bg-ink-100 rounded-full h-1.5 mt-2"><div id="fc-progress-bar" class="progress-bar-inner" style="width:10%"></div></div>
+      </div>
+
+      <div class="flashcard-container my-3">
+        <div id="fc-inner" class="flashcard-inner" onclick="toggleFlashcard()">
+          <div class="flashcard-front">
+            <button onclick="event.stopPropagation(); playCurrentFlashcardAudio()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors text-lg outline-none" title="Nghe phát âm">
+              <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div id="fc-kanji" class="font-jp font-bold text-ink-800 text-5xl mt-2"></div>
+          </div>
+          <div class="flashcard-back">
+            <div id="fc-furigana" class="font-jp text-ink-500 text-xl mb-3 font-medium"></div>
+            <div id="fc-meaning" class="text-2xl font-black text-ink-800"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between gap-3 mt-4">
+        <button id="btn-fc-prev" onclick="prevFlashcard()" class="btn-secondary flex-1 justify-center py-2.5 outline-none">
+          <i class="fa-solid fa-arrow-left"></i> Trước <span class="text-[0.65rem] opacity-60 ml-1 border border-ink-200 rounded px-1 hidden sm:inline-block">[←]</span>
+        </button>
+        <button onclick="toggleFlashcard()" class="w-12 h-12 flex-shrink-0 rounded-full bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition shadow-sm border border-ink-100 outline-none" title="Lật thẻ [Space]">
+          <i class="fa-solid fa-rotate"></i>
+        </button>
+        <button id="btn-fc-next" onclick="nextFlashcard()" class="btn-primary flex-1 justify-center py-2.5 outline-none">
+          Tiếp <span class="text-[0.65rem] opacity-70 ml-1 border border-white/40 rounded px-1 hidden sm:inline-block">[→]</span> <i class="fa-solid fa-arrow-right ml-1"></i>
+        </button>
+      </div>
+
+      <div id="fc-quiz-action" class="hidden mt-4 pt-4 border-t border-ink-100 pop-in">
+        <button onclick="startFlashcardQuiz()" class="btn-success w-full justify-center py-3 text-base shadow-lg outline-none"><i class="fa-solid fa-gamepad"></i> Làm bài trắc nghiệm 10 từ này</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast-container"></div>
   <div id="modal-overlay" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex-center">
     <div class="card p-6 max-w-sm w-full mx-4 pop-in">
@@ -552,10 +606,13 @@
   <script>
   let vocabulary = [];
   let editingId = null; 
-  let quizState = { count: 10, timer: 30, tts: false, autoNext: true, questions: [], current: 0, correct: 0, wrong: 0, wrongList: [], timerInterval: null, timerLeft: 30, answered: false, currentWord: null, type: 'jp2vi' };
+  let quizState = { count: 10, timer: 30, tts: false, autoNext: false, questions: [], current: 0, correct: 0, wrong: 0, wrongList: [], timerInterval: null, timerLeft: 30, answered: false, currentWord: null, type: 'jp2vi' };
   let printState = { count: 10, mode: 'mix', generated: [] };
   let lastWrongWords = [];
   let modalCallback = null;
+
+  let isFlashcardQuiz = false;
+  let fcState = { startIndex: 0, currentIndex: 0, pool: [], isFlipped: false };
 
   function loadFromStorage() {
     try { const raw = localStorage.getItem('english_vocab'); if (raw) vocabulary = JSON.parse(raw); } catch(e) { vocabulary = []; }
@@ -743,6 +800,9 @@
         <td class="text-ink-600 text-sm">${escapeHtml(v.meaning)}</td>
         <td class="text-center">
           <div class="flex items-center justify-center gap-1.5">
+            <button onclick="playAudio('${v.id}')" class="w-7 h-7 rounded bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors" title="Nghe phát âm">
+              <i class="fa-solid fa-volume-high text-[11px]"></i>
+            </button>
             <button onclick="editWord('${v.id}')" class="w-7 h-7 rounded bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition-colors" title="Sửa">
               <i class="fa-solid fa-pen text-[11px]"></i>
             </button>
@@ -845,38 +905,39 @@
     else { btn.classList.replace('bg-ink-500','bg-ink-200'); knob.style.transform = 'translateX(0)'; }
   }
 
-  function startQuiz() {
+  function startQuiz(customPool = null) {
     if (vocabulary.length < 4) { showToast('Cần ít nhất 4 từ vựng để trắc nghiệm!', 'error'); return; }
     
-    let targetCount = quizState.count === 0 ? vocabulary.length : Math.min(quizState.count, vocabulary.length);
     let pool = [];
+    isFlashcardQuiz = false;
+    let targetCount = quizState.count === 0 ? vocabulary.length : Math.min(quizState.count, vocabulary.length);
     
-    let uniqueWrongWords = [];
-    if (lastWrongWords && lastWrongWords.length > 0) {
-        const seenIds = new Set();
-        for (const w of lastWrongWords) {
-            if (!seenIds.has(w.id)) {
-                seenIds.add(w.id);
-                uniqueWrongWords.push(w);
+    if (customPool && Array.isArray(customPool)) {
+        pool = shuffle([...customPool]);
+        isFlashcardQuiz = true;
+    } else {
+        let uniqueWrongWords = [];
+        if (lastWrongWords && lastWrongWords.length > 0) {
+            const seenIds = new Set();
+            for (const w of lastWrongWords) {
+                if (!seenIds.has(w.id)) { seenIds.add(w.id); uniqueWrongWords.push(w); }
             }
         }
-    }
-    
-    if (uniqueWrongWords.length > 0) {
-        let remaining = vocabulary.filter(v => !uniqueWrongWords.some(lw => lw.id === v.id));
-        remaining = shuffle(remaining);
         
-        if (uniqueWrongWords.length >= targetCount) {
-            pool = shuffle(uniqueWrongWords).slice(0, targetCount);
+        if (uniqueWrongWords.length > 0) {
+            let remaining = vocabulary.filter(v => !uniqueWrongWords.some(lw => lw.id === v.id));
+            remaining = shuffle(remaining);
+            if (uniqueWrongWords.length >= targetCount) { pool = shuffle(uniqueWrongWords).slice(0, targetCount); } 
+            else {
+                pool = [...uniqueWrongWords];
+                let needed = targetCount - pool.length;
+                pool = pool.concat(remaining.slice(0, needed));
+            }
         } else {
-            pool = [...uniqueWrongWords];
-            let needed = targetCount - pool.length;
-            pool = pool.concat(remaining.slice(0, needed));
+            pool = shuffle([...vocabulary]).slice(0, targetCount);
         }
-    } else {
-        pool = shuffle([...vocabulary]).slice(0, targetCount);
+        pool = shuffle(pool);
     }
-    pool = shuffle(pool);
     
     quizState.questions = pool.map(word => {
         let types = ['jp2vi', 'vi2jp'];
@@ -1032,6 +1093,17 @@
         </div>
       `).join('');
     } else wrongSection.classList.add('hidden');
+
+    if (isFlashcardQuiz) {
+        document.getElementById('regular-post-actions').classList.add('hidden');
+        document.getElementById('fc-post-actions').classList.remove('hidden');
+        let nextIndex = fcState.startIndex + fcState.pool.length;
+        if (nextIndex >= vocabulary.length) nextIndex = 0; 
+        localStorage.setItem('daily_en_flashcard_index', nextIndex);
+    } else {
+        document.getElementById('regular-post-actions').classList.remove('hidden');
+        document.getElementById('fc-post-actions').classList.add('hidden');
+    }
   }
 
   function restartQuiz() { startQuiz(); }
@@ -1078,17 +1150,7 @@
 
   function speakCurrent() { if (quizState.currentWord) speakWord(quizState.currentWord.kanji || quizState.currentWord.furigana); }
   
-  function speakWord(text) { 
-    if (!window.speechSynthesis) return; 
-    window.speechSynthesis.cancel(); 
-    const utter = new SpeechSynthesisUtterance(text); 
-    utter.lang = 'en-US'; 
-    utter.rate = 0.9; 
-    utter.pitch = 1; 
-    const enVoice = window.speechSynthesis.getVoices().find(v => v.lang.startsWith('en')); 
-    if (enVoice) utter.voice = enVoice; 
-    window.speechSynthesis.speak(utter); 
-  }
+  function speakWord(text) { if (!window.speechSynthesis) return; window.speechSynthesis.cancel(); const utter = new SpeechSynthesisUtterance(text); utter.lang = 'ja-JP'; utter.rate = 0.9; utter.pitch = 1; const jpVoice = window.speechSynthesis.getVoices().find(v => v.lang.startsWith('ja')); if (jpVoice) utter.voice = jpVoice; window.speechSynthesis.speak(utter); }
 
   function setPrintOpt(key, val) {
     printState[key] = val; const groupMap = { count: ['pc-10','pc-20'], mode: ['pm-vi','pm-jp','pm-mix'] }, idMap = { count: { 10:'pc-10', 20:'pc-20' }, mode: { vi:'pm-vi', jp:'pm-jp', mix:'pm-mix' } };
@@ -1186,36 +1248,22 @@
 
   function renderSlogan(data) {
     const { tpl, w1, w2 } = data;
-
-    const chip = (w) =>
-      `<span class="slogan-word font-jp" title="${escapeHtml(w.meaning)}">${escapeHtml(w.kanji || w.furigana)}</span>`;
-
-    const quoteHtml = tpl
-      .replace('{w1}', chip(w1))
-      .replace('{w2}', chip(w2));
-
+    const chip = (w) => `<span class="slogan-word font-jp" title="${escapeHtml(w.meaning)}">${escapeHtml(w.kanji || w.furigana)}</span>`;
+    const quoteHtml = tpl.replace('{w1}', chip(w1)).replace('{w2}', chip(w2));
     const furi = (w) => {
       const meaning = `<span class="font-semibold not-italic text-ink-600">${escapeHtml(w.meaning)}</span>`;
       const ruby   = w.furigana ? `<span class="font-jp text-ink-400 not-italic">(${escapeHtml(w.furigana)})</span>` : '';
       return meaning + (ruby ? '&thinsp;' + ruby : '');
     };
-    const viSentence = tpl
-      .replace('{w1}', furi(w1))
-      .replace('{w2}', furi(w2));
-
-    document.getElementById('slogan-quote').innerHTML =
-      `<i class="fa-solid fa-quote-left text-ink-200 mr-1 not-italic" style="font-size:0.65rem;vertical-align:1px;"></i>${quoteHtml}`;
-
-    document.getElementById('slogan-explain').innerHTML =
-      `<span class="italic">${viSentence}</span>`;
-
+    const viSentence = tpl.replace('{w1}', furi(w1)).replace('{w2}', furi(w2));
+    document.getElementById('slogan-quote').innerHTML = `<i class="fa-solid fa-quote-left text-ink-200 mr-1 not-italic" style="font-size:0.65rem;vertical-align:1px;"></i>${quoteHtml}`;
+    document.getElementById('slogan-explain').innerHTML = `<span class="italic">${viSentence}</span>`;
     updateSloganTimerBadge(data.ts);
   }
 
   function generateSlogan() {
     if (vocabulary.length < 2) {
-      document.getElementById('slogan-quote').innerHTML =
-        '<span class="text-ink-300 text-xs not-italic">Thêm ít nhất 2 từ vựng để kích hoạt Slogan ✨</span>';
+      document.getElementById('slogan-quote').innerHTML = '<span class="text-ink-300 text-xs not-italic">Thêm ít nhất 2 từ vựng để kích hoạt Slogan ✨</span>';
       document.getElementById('slogan-explain').innerHTML = '';
       document.getElementById('slogan-timer-badge').textContent = '';
       return;
@@ -1265,7 +1313,143 @@
 
   function seedSampleData() { if (vocabulary.length > 0) return; vocabulary = [{id:'s1',kanji:'Teacher',furigana:'/ˈtiː.tʃər/',meaning:'Giáo viên'},{id:'s2',kanji:'Student',furigana:'/ˈstuː.dənt/',meaning:'Học sinh'},{id:'s3',kanji:'Bread',furigana:'/bred/',meaning:'Bánh mì'}]; saveToStorage(); renderTable(); }
 
+  function playAudio(id) {
+    const word = vocabulary.find(v => v.id === id);
+    if (word) {
+      speakWord(word.kanji || word.furigana); 
+    }
+  }
+
+  // ==================== LOGIC FLASHCARD ====================
+  function getFlashcardStartIndex() {
+      let idx = parseInt(localStorage.getItem('daily_en_flashcard_index')) || 0;
+      if (idx >= vocabulary.length) idx = 0; 
+      return idx;
+  }
+
+  function openFlashcardModal() {
+      if (vocabulary.length === 0) { showToast("Cần ít nhất 1 từ vựng để tạo Flashcard!", "error"); return; }
+      
+      fcState.startIndex = getFlashcardStartIndex();
+      fcState.pool = vocabulary.slice(fcState.startIndex, fcState.startIndex + 10);
+      
+      if (fcState.pool.length === 0) {
+          fcState.startIndex = 0;
+          localStorage.setItem('daily_en_flashcard_index', 0);
+          fcState.pool = vocabulary.slice(0, 10);
+      }
+      
+      fcState.currentIndex = 0;
+      fcState.isFlipped = false;
+      document.getElementById('flashcard-modal').classList.remove('hidden');
+      renderFlashcard();
+      
+      // Auto focus vào modal để nhận diện phím tắt mượt hơn
+      document.getElementById('flashcard-modal').querySelector('.card').focus();
+  }
+
+  function closeFlashcardModal() { document.getElementById('flashcard-modal').classList.add('hidden'); }
+
+  function toggleFlashcard() {
+      fcState.isFlipped = !fcState.isFlipped;
+      const inner = document.getElementById('fc-inner');
+      if (fcState.isFlipped) inner.classList.add('is-flipped');
+      else inner.classList.remove('is-flipped');
+  }
+
+  function renderFlashcard() {
+      if (fcState.pool.length === 0) return;
+      const word = fcState.pool[fcState.currentIndex];
+      
+      document.getElementById('fc-kanji').textContent = word.kanji || word.furigana;
+      document.getElementById('fc-furigana').textContent = word.furigana || '';
+      document.getElementById('fc-meaning').textContent = word.meaning || '';
+      
+      fcState.isFlipped = false;
+      document.getElementById('fc-inner').classList.remove('is-flipped');
+
+      document.getElementById('fc-progress').textContent = `${fcState.currentIndex + 1} / ${fcState.pool.length}`;
+      document.getElementById('fc-progress-bar').style.width = `${((fcState.currentIndex + 1) / fcState.pool.length) * 100}%`;
+
+      document.getElementById('btn-fc-prev').disabled = (fcState.currentIndex === 0);
+      document.getElementById('btn-fc-prev').style.opacity = (fcState.currentIndex === 0) ? '0.5' : '1';
+
+      if (fcState.currentIndex === fcState.pool.length - 1) {
+          document.getElementById('btn-fc-next').classList.add('hidden');
+          document.getElementById('fc-quiz-action').classList.remove('hidden');
+      } else {
+          document.getElementById('btn-fc-next').classList.remove('hidden');
+          document.getElementById('fc-quiz-action').classList.add('hidden');
+      }
+  }
+
+  function prevFlashcard() { 
+      if (fcState.currentIndex > 0) { 
+          fcState.currentIndex--; 
+          renderFlashcard(); 
+          playCurrentFlashcardAudio(); 
+      } 
+  }
+  
+  function nextFlashcard() { 
+      if (fcState.currentIndex < fcState.pool.length - 1) { 
+          fcState.currentIndex++; 
+          renderFlashcard(); 
+          playCurrentFlashcardAudio(); 
+      } 
+  }
+
+  function playCurrentFlashcardAudio() {
+      const word = fcState.pool[fcState.currentIndex];
+      if (word) speakWord(word.kanji || word.furigana);
+  }
+
+  function startFlashcardQuiz() {
+      closeFlashcardModal();
+      switchTab('quiz');
+      startQuiz(fcState.pool);
+  }
+
+  function continueFlashcard() {
+      switchTab('vocab');
+      openFlashcardModal();
+  }
+
+  function backToFlashcard() {
+      switchTab('vocab');
+      document.getElementById('flashcard-modal').classList.remove('hidden');
+      fcState.currentIndex = 0;
+      renderFlashcard();
+  }
+  
+  // XỬ LÝ PHÍM TẮT CHO FLASHCARD
+  document.addEventListener('keydown', function(e) {
+      const modal = document.getElementById('flashcard-modal');
+      // Chỉ kích hoạt khi modal đang mở
+      if (!modal.classList.contains('hidden')) {
+          if (e.key === ' ' || e.key === 'Enter') {
+              e.preventDefault(); // Ngăn trình duyệt cuộn trang
+              toggleFlashcard();
+          } else if (e.key === 'ArrowRight') {
+              e.preventDefault();
+              nextFlashcard();
+          } else if (e.key === 'ArrowLeft') {
+              e.preventDefault();
+              prevFlashcard();
+          }
+      }
+  });
+
   window.addEventListener('DOMContentLoaded', () => {
+    // Kích hoạt Tooltip Tippy.js
+    if (typeof tippy !== 'undefined') {
+        tippy('[data-tippy-content]', {
+            animation: 'scale',
+            theme: 'light',
+            placement: 'bottom'
+        });
+    }
+
     updateDataStatusUI();
     loadFromStorage();
     loadOrRefreshSlogan();
