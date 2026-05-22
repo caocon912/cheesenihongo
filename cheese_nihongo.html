@@ -161,6 +161,29 @@
     </div>
   </header>
 
+  <!-- Thông báo lỗi CORS / Không tìm thấy file Excel tự động -->
+  <div id="cors-alert" class="hidden max-w-6xl mx-auto px-4 mt-4">
+      <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded shadow-sm flex items-start gap-3">
+          <i class="fa-solid fa-circle-exclamation text-amber-600 text-xl mt-0.5"></i>
+          <div class="flex-1">
+              <h3 class="font-semibold text-amber-800 text-sm sm:text-base">Không thể tự động tải file <code class="bg-amber-100 px-1 rounded text-amber-900">vocabulary.xlsx</code></h3>
+              <p class="text-xs sm:text-sm text-amber-700 mt-1">
+                  Trình duyệt chặn việc đọc file do mở trực tiếp (<code class="bg-amber-100 px-1 rounded text-amber-900">file:///</code>) hoặc file không tồn tại.
+                  Bạn có thể chọn file Excel thủ công bên dưới.
+              </p>
+              <div class="mt-3">
+                  <label for="excelFallbackInput" class="inline-flex items-center px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium rounded cursor-pointer transition shadow-sm">
+                      <i class="fa-solid fa-file-excel mr-1.5"></i> Chọn file vocabulary.xlsx thủ công
+                  </label>
+                  <input type="file" id="excelFallbackInput" accept=".xlsx, .xls" class="hidden" onchange="importExcel(event); document.getElementById('cors-alert').classList.add('hidden');">
+              </div>
+          </div>
+          <button onclick="document.getElementById('cors-alert').classList.add('hidden')" class="text-amber-400 hover:text-amber-600">
+              <i class="fa-solid fa-xmark"></i>
+          </button>
+      </div>
+  </div>
+
   <main class="max-w-6xl mx-auto px-4 py-6">
 
     <div id="panel-vocab" class="tab-panel">
@@ -168,6 +191,16 @@
         <span class="kana-deco" style="top:-20px;right:60px;">あ</span>
         <span class="kana-deco" style="top:40px;right:0px;font-size:5rem;">語</span>
       </div>
+      
+      <!-- Nút điều khiển trạng thái tự động load excel -->
+      <div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-sm border border-ink-100 mb-6 flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-ink-700">Dữ liệu hệ thống:</span>
+            <span id="data-status-badge" class="badge bg-matcha-100 text-matcha-500">Tự động nạp Excel</span>
+        </div>
+        <button onclick="restoreDefaultData()" class="btn-secondary px-3 py-1.5 text-xs"><i class="fa-solid fa-rotate-left"></i> Khôi phục nạp file gốc</button>
+      </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-1 flex flex-col gap-5">
           <div class="card p-5" id="form-container">
@@ -450,6 +483,65 @@
     updateHeaderCount();
   }
 
+  function updateDataStatusUI() {
+      const isCleared = localStorage.getItem('is_data_cleared') === 'true';
+      const badge = document.getElementById('data-status-badge');
+      if (isCleared) {
+          badge.className = "badge bg-sakura-100 text-sakura-500";
+          badge.innerHTML = '<i class="fa-solid fa-ban mr-1"></i> Đã tắt nạp Excel';
+      } else {
+          badge.className = "badge bg-matcha-100 text-matcha-500";
+          badge.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Tự động nạp Excel';
+      }
+  }
+
+  async function fetchAutoExcel() {
+      const isCleared = localStorage.getItem('is_data_cleared') === 'true';
+      if (isCleared) return;
+
+      try {
+          const res = await fetch('vocabulary.xlsx', { cache: 'no-store' });
+          if (!res.ok) throw new Error('Không có file');
+          const buffer = await res.arrayBuffer();
+          const workbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
+          const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: '' });
+          
+          let added = 0;
+          rows.forEach((row, idx) => {
+              const kanji = (row[0] || '').toString().trim();
+              const furigana = (row[1] || '').toString().trim();
+              const meaning = (row[2] || '').toString().trim();
+              if ((!kanji && !furigana) || !meaning || (idx === 0 && (kanji.toLowerCase().includes('kanji') || kanji === 'A'))) return;
+              if (!vocabulary.find(v => v.kanji === kanji && v.furigana === furigana && v.meaning === meaning)) {
+                  vocabulary.push({ id: Date.now().toString() + Math.random(), kanji, furigana, meaning });
+                  added++;
+              }
+          });
+          if (added > 0) {
+              saveToStorage();
+              renderTable();
+              showToast(`Đã nạp tự động ${added} từ mới từ vocabulary.xlsx!`, 'success');
+          }
+      } catch (e) {
+          console.warn('Lỗi auto load excel:', e);
+          if (vocabulary.length === 0) {
+              document.getElementById('cors-alert').classList.remove('hidden');
+          }
+      }
+  }
+
+  function restoreDefaultData() {
+      localStorage.removeItem('is_data_cleared');
+      localStorage.removeItem('nihongo_vocab');
+      vocabulary = [];
+      updateDataStatusUI();
+      fetchAutoExcel().then(() => {
+          renderTable();
+          if (vocabulary.length === 0) seedSampleData();
+      });
+      showToast('Đã khôi phục chế độ nạp file tự động!', 'info');
+  }
+
   function editWord(id) {
     const word = vocabulary.find(v => v.id === id);
     if (!word) return;
@@ -512,7 +604,17 @@
 
   function deleteWord(id) { vocabulary = vocabulary.filter(v => v.id !== id); saveToStorage(); renderTable(); showToast('Đã xóa từ vựng.', 'info'); }
   function clearForm() { ['inp-kanji','inp-furigana','inp-meaning'].forEach(id => document.getElementById(id).value = ''); }
-  function confirmClearAll() { openModal('Xóa toàn bộ dữ liệu?', 'Hành động này sẽ xóa hết tất cả từ vựng và không thể hoàn tác.', () => { vocabulary = []; saveToStorage(); renderTable(); showToast('Đã xóa toàn bộ dữ liệu.', 'info'); }); }
+  
+  function confirmClearAll() { 
+      openModal('Xóa toàn bộ dữ liệu?', 'Hành động này sẽ xóa hết tất cả từ vựng và dừng nạp file tự động.', () => { 
+          vocabulary = []; 
+          localStorage.setItem('is_data_cleared', 'true');
+          saveToStorage(); 
+          updateDataStatusUI();
+          renderTable(); 
+          showToast('Đã xóa toàn bộ dữ liệu.', 'info'); 
+      }); 
+  }
 
   function removeDuplicates() {
     if (vocabulary.length === 0) { showToast('Danh sách trống, không có gì để xóa!', 'error'); return; }
@@ -774,11 +876,21 @@
     if (vocabulary.length < count) { showToast(`Cần ít nhất ${count} từ! (Hiện có ${vocabulary.length})`, 'error'); return; }
     const pool = shuffle([...vocabulary]).slice(0, count);
     
-    const getJpText = (w) => w.kanji && w.furigana ? `${w.kanji} (${w.furigana})` : (w.kanji || w.furigana);
-    
     printState.generated = pool.map((w, i) => {
       const isVi = mode === 'vi' || (mode === 'mix' && i % 2 === 0);
-      return { num: i + 1, type: isVi ? 'vi' : 'jp', word: w, question: isVi ? getJpText(w) : w.meaning, answer: isVi ? w.meaning : getJpText(w) };
+      // Đề bài: Không có furigana
+      const jpQuestionStr = w.kanji || w.furigana; 
+      // Đáp án: Có furigana
+      const jpAnswerStr = w.kanji && w.furigana ? `${w.kanji} (${w.furigana})` : (w.kanji || w.furigana);
+      const viAnswerStr = w.furigana ? `${w.meaning} (${w.furigana})` : w.meaning; 
+      
+      return { 
+        num: i + 1, 
+        type: isVi ? 'vi' : 'jp', 
+        word: w, 
+        question: isVi ? jpQuestionStr : w.meaning, 
+        answer: isVi ? viAnswerStr : jpAnswerStr 
+      };
     });
     document.getElementById('test-preview').innerHTML = buildTestHTML(printState.generated, document.getElementById('test-title').value || 'KIỂM TRA TỪ VỰNG TIẾNG NHẬT', false);
     document.getElementById('btn-print').classList.remove('hidden'); showToast(`Đã tạo bài kiểm tra ${count} từ!`, 'success');
@@ -802,8 +914,7 @@
             <span class="${forPrint ? 'print-question-num' : 'w-7 h-7 rounded-full bg-ink-100 flex-center text-ink-600 font-bold text-sm flex-shrink-0'}">${q.num}.</span>
             <span class="text-xs text-ink-400 ${forPrint ? '' : 'hidden sm:inline'}">[${q.type === 'vi' ? '🇯🇵→🇻🇳 Viết nghĩa tiếng Việt' : '🇻🇳→🇯🇵 Viết từ tiếng Nhật'}]</span>
             ${q.type === 'vi' 
-              ? `<span class="${forPrint ? 'print-jp' : 'font-jp font-bold text-ink-800 text-lg'}">${escapeHtml(q.word.kanji || q.word.furigana)}</span>
-                 ${q.word.kanji && q.word.furigana ? `<span class="${forPrint ? 'print-furigana' : 'font-jp text-ink-400 text-xs ml-1'}"> (${escapeHtml(q.word.furigana)})</span>` : ''}`
+              ? `<span class="${forPrint ? 'print-jp' : 'font-jp font-bold text-ink-800 text-lg'}">${escapeHtml(q.word.kanji || q.word.furigana)}</span>`
               : `<span class="${forPrint ? '' : 'text-ink-700 font-medium'}">${escapeHtml(q.word.meaning)}</span>`}
             <span class="${forPrint ? 'print-blank' : 'flex-1 border-b border-dotted border-ink-200 ml-2 min-w-0'}"></span>
           </div>`).join('')}
@@ -830,7 +941,11 @@
   function seedSampleData() { if (vocabulary.length > 0) return; vocabulary = [{id:'s1',kanji:'先生',furigana:'せんせい',meaning:'Giáo viên'},{id:'s2',kanji:'学生',furigana:'がくせい',meaning:'Học sinh'},{id:'s3',kanji:'パン',furigana:'',meaning:'Bánh mì'}]; saveToStorage(); renderTable(); }
 
   window.addEventListener('DOMContentLoaded', () => {
-    loadFromStorage(); seedSampleData();
+    updateDataStatusUI();
+    loadFromStorage(); 
+    fetchAutoExcel().then(() => {
+        if (vocabulary.length === 0) seedSampleData();
+    });
     ['inp-kanji','inp-furigana','inp-meaning'].forEach(id => document.getElementById(id).addEventListener('keydown', (e) => { if (e.key === 'Enter') saveWord(); }));
     window.speechSynthesis?.getVoices(); if (window.speechSynthesis) window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
     document.getElementById('modal-overlay').addEventListener('click', (e) => { if (e.target === document.getElementById('modal-overlay')) closeModal(); });
