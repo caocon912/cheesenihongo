@@ -1,1518 +1,1705 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HappyCheese Nihongo</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HappyCheese Nihongo</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <script src="https://unpkg.com/@popperjs/core@2"></script>
-  <script src="https://unpkg.com/tippy.js@6"></script>
-  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Outfit', 'Noto Sans JP', 'sans-serif'],
-            jp: ['Noto Sans JP', 'sans-serif'],
-          },
-          colors: {
-            ink: {
-              50: '#f0f4ff', 100: '#e0e9ff', 200: '#c0d0ff', 300: '#8fa4f8', 400: '#6478f0',
-              500: '#4455e0', 600: '#3340c8', 700: '#2730a0', 800: '#1e2278', 900: '#141650',
-            },
-            sakura: { 100: '#ffe4ef', 200: '#ffc0d8', 400: '#f77bb4', 500: '#f050a0', },
-            matcha: { 100: '#e6f5ec', 400: '#4caf7d', 500: '#2e9e5e', }
-          }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Noto Sans JP', 'sans-serif'],
+                        jp: ['Noto Sans JP', 'sans-serif'],
+                    },
+                    colors: {
+                        ink: {
+                            50: '#f0f4ff', 100: '#e0e9ff', 200: '#c0d0ff', 300: '#8fa4f8', 400: '#6478f0',
+                            500: '#4455e0', 600: '#3340c8', 700: '#2730a0', 800: '#1e2278', 900: '#141650',
+                        },
+                        sakura: { 100: '#ffe4ef', 200: '#ffc0d8', 400: '#f77bb4', 500: '#f050a0', },
+                        matcha: { 100: '#e6f5ec', 400: '#4caf7d', 500: '#2e9e5e', }
+                    }
+                }
+            }
         }
-      }
-    }
-  </script>
+    </script>
 
-  <style>
-    /* ===================== GLOBAL STYLES ===================== */
-    * { box-sizing: border-box; }
-    body { font-family: 'Outfit', 'Noto Sans JP', sans-serif; background: #f0f4ff; min-height: 100vh; }
-    .bg-grid {
-      background-color: #f0f4ff;
-      background-image: linear-gradient(rgba(68,85,224,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(68,85,224,0.04) 1px, transparent 1px);
-      background-size: 32px 32px;
-    }
-    .kana-deco {
-      font-family: 'Noto Sans JP', sans-serif; font-size: 7rem; font-weight: 700; color: rgba(68,85,224,0.04); position: absolute; user-select: none; pointer-events: none; line-height: 1;
-    }
-    .tab-btn { transition: all 0.2s ease; position: relative; }
-    .tab-btn.active { background: white; color: #4455e0; box-shadow: 0 2px 16px rgba(68,85,224,0.15); }
-    .tab-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); width: 40%; height: 3px; background: #4455e0; border-radius: 2px; }
-    .card { background: white; border-radius: 16px; box-shadow: 0 2px 20px rgba(68,85,224,0.08); border: 1px solid rgba(68,85,224,0.08); }
-    .field { width: 100%; padding: 10px 14px; border: 1.5px solid #e0e9ff; border-radius: 10px; font-family: inherit; font-size: 0.95rem; transition: border-color 0.2s, box-shadow 0.2s; outline: none; background: #fafbff; }
-    .field:focus { border-color: #4455e0; box-shadow: 0 0 0 3px rgba(68,85,224,0.12); background: white; }
-    .btn-primary { background: linear-gradient(135deg, #4455e0, #6478f0); color: white; border: none; padding: 10px 22px; border-radius: 10px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
-    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(68,85,224,0.35); }
-    .btn-primary:active { transform: translateY(0); }
-    .btn-secondary { background: white; color: #4455e0; border: 1.5px solid #c0d0ff; padding: 10px 22px; border-radius: 10px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
-    .btn-secondary:hover { background: #f0f4ff; border-color: #4455e0; }
-    .btn-danger { background: #fff0f5; color: #e03060; border: 1.5px solid #ffc0d8; padding: 6px 12px; border-radius: 8px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.82rem; }
-    .btn-danger:hover { background: #ffe4ef; border-color: #f050a0; }
-    .btn-success { background: linear-gradient(135deg, #2e9e5e, #4caf7d); color: white; border: none; padding: 10px 22px; border-radius: 10px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
-    .btn-success:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(46,158,94,0.35); }
-    .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.03em; }
-    .vocab-table th { background: #f0f4ff; color: #2730a0; font-weight: 700; font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 16px; }
-    .vocab-table td { padding: 11px 16px; border-bottom: 1px solid #f0f4ff; font-size: 0.9rem; }
-    .vocab-table tr:last-child td { border-bottom: none; }
-    .vocab-table tr:hover td { background: #fafbff; }
-    .quiz-option { background: white; border: 2px solid #e0e9ff; border-radius: 12px; padding: 14px 20px; cursor: pointer; transition: all 0.18s; text-align: left; width: 100%; font-family: inherit; font-size: 0.95rem; display: flex; align-items: center; gap: 14px; }
-    .quiz-option:hover:not(:disabled) { border-color: #4455e0; background: #f0f4ff; transform: translateX(4px); }
-    .quiz-option.correct { background: #e6f5ec; border-color: #2e9e5e; color: #1a7040; }
-    .quiz-option.wrong { background: #fff0f5; border-color: #e03060; color: #b02040; }
-    .quiz-option.with-border { border: 1.5px solid #e0e9ff; }
-    .quiz-option:disabled { cursor: default; }
-    .quiz-option .opt-label { width: 32px; height: 32px; border-radius: 8px; background: #e0e9ff; color: #4455e0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; flex-shrink: 0; transition: all 0.18s; }
-    .quiz-option.correct .opt-label { background: #2e9e5e; color: white; }
-    .quiz-option.wrong .opt-label { background: #e03060; color: white; }
-    .quiz-option:hover:not(:disabled) .opt-label { background: #4455e0; color: white; }
-    .progress-bar-inner { height: 100%; border-radius: 8px; transition: width 0.4s ease; background: linear-gradient(90deg, #4455e0, #6478f0); }
-    .timer-bar { height: 6px; border-radius: 3px; transition: width 1s linear, background-color 0.5s; }
-    .timer-bar.ok { background: linear-gradient(90deg, #4caf7d, #6de09a); }
-    .timer-bar.warn { background: linear-gradient(90deg, #f0a020, #f7c860); }
-    .timer-bar.danger { background: linear-gradient(90deg, #e03060, #f77bb4); }
-    .kanji-display { font-family: 'Noto Sans JP', sans-serif; font-size: 3rem; font-weight: 700; color: #1e2278; line-height: 1.2; }
-    .furigana-display { font-family: 'Noto Sans JP', sans-serif; font-size: 1.1rem; color: #6478f0; font-weight: 500; }
-    .toast { position: fixed; top: 20px; right: 20px; z-index: 9999; padding: 12px 20px; border-radius: 12px; font-weight: 600; font-size: 0.9rem; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s ease, fadeOut 0.4s ease 2.5s forwards; min-width: 260px; }
-    .toast.success { background: linear-gradient(135deg, #2e9e5e, #4caf7d); }
-    .toast.error { background: linear-gradient(135deg, #c0392b, #e03060); }
-    .toast.info { background: linear-gradient(135deg, #4455e0, #6478f0); }
-    @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; pointer-events: none; } }
-    .score-ring { width: 120px; height: 120px; border-radius: 50%; border: 8px solid #e0e9ff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .print-container { display: none; }
+    <style>
+        /* ===================== GLOBAL STYLES ===================== */
+        * { box-sizing: border-box; }
+        body { font-family: 'Outfit', 'Noto Sans JP', sans-serif; background: #f0f4ff; min-height: 100vh; }
+        .bg-grid { background-color: #f0f4ff; background-image: linear-gradient(rgba(68,85,224,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(68,85,224,0.04) 1px, transparent 1px); background-size: 32px 32px; }
+        .kana-deco { font-family: 'Noto Sans JP', sans-serif; font-size: 7rem; font-weight: 700; color: rgba(68,85,224,0.04); position: absolute; user-select: none; pointer-events: none; line-height: 1; }
+        .tab-btn { transition: all 0.2s ease; position: relative; }
+        .tab-btn.active { background: white; color: #4455e0; box-shadow: 0 2px 16px rgba(68,85,224,0.15); }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); width: 40%; height: 3px; background: #4455e0; border-radius: 2px; }
+        .card { background: white; border-radius: 16px; box-shadow: 0 2px 20px rgba(68,85,224,0.08); border: 1px solid rgba(68,85,224,0.08); }
+        .field { width: 100%; padding: 10px 14px; border: 1.5px solid #e0e9ff; border-radius: 10px; font-family: inherit; font-size: 0.95rem; transition: border-color 0.2s, box-shadow 0.2s; outline: none; background: #fafbff; }
+        .field:focus { border-color: #4455e0; box-shadow: 0 0 0 3px rgba(68,85,224,0.12); background: white; }
+        .btn-primary { background: linear-gradient(135deg, #4455e0, #6478f0); color: white; border: none; padding: 10px 22px; border-radius: 10px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(68,85,224,0.35); }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-secondary { background: white; color: #4455e0; border: 1.5px solid #c0d0ff; padding: 10px 22px; border-radius: 10px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .btn-secondary:hover { background: #f0f4ff; border-color: #4455e0; }
+        .btn-danger { background: #fff0f5; color: #e03060; border: 1.5px solid #ffc0d8; padding: 6px 12px; border-radius: 8px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.82rem; }
+        .btn-danger:hover { background: #ffe4ef; border-color: #f050a0; }
+        .btn-success { background: linear-gradient(135deg, #2e9e5e, #4caf7d); color: white; border: none; padding: 10px 22px; border-radius: 10px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .btn-success:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(46,158,94,0.35); }
+        .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.03em; }
+        .vocab-table th { background: #f0f4ff; color: #2730a0; font-weight: 700; font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 16px; }
+        .vocab-table td { padding: 11px 16px; border-bottom: 1px solid #f0f4ff; font-size: 0.9rem; }
+        .vocab-table tr:last-child td { border-bottom: none; }
+        .vocab-table tr:hover td { background: #fafbff; }
+        .quiz-option { background: white; border: 2px solid #e0e9ff; border-radius: 12px; padding: 14px 20px; cursor: pointer; transition: all 0.18s; text-align: left; width: 100%; font-family: inherit; font-size: 0.95rem; display: flex; align-items: center; gap: 14px; }
+        .quiz-option:hover:not(:disabled) { border-color: #4455e0; background: #f0f4ff; transform: translateX(4px); }
+        .quiz-option.correct { background: #e6f5ec; border-color: #2e9e5e; color: #1a7040; }
+        .quiz-option.wrong { background: #fff0f5; border-color: #e03060; color: #b02040; }
+        .quiz-option.with-border { border: 1.5px solid #e0e9ff; }
+        .quiz-option:disabled { cursor: default; }
+        .quiz-option .opt-label { width: 32px; height: 32px; border-radius: 8px; background: #e0e9ff; color: #4455e0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; flex-shrink: 0; transition: all 0.18s; }
+        .quiz-option.correct .opt-label { background: #2e9e5e; color: white; }
+        .quiz-option.wrong .opt-label { background: #e03060; color: white; }
+        .quiz-option:hover:not(:disabled) .opt-label { background: #4455e0; color: white; }
+        .progress-bar-inner { height: 100%; border-radius: 8px; transition: width 0.4s ease; background: linear-gradient(90deg, #4455e0, #6478f0); }
+        .timer-bar { height: 6px; border-radius: 3px; transition: width 1s linear, background-color 0.5s; }
+        .timer-bar.ok { background: linear-gradient(90deg, #4caf7d, #6de09a); }
+        .timer-bar.warn { background: linear-gradient(90deg, #f0a020, #f7c860); }
+        .timer-bar.danger { background: linear-gradient(90deg, #e03060, #f77bb4); }
+        .kanji-display { font-family: 'Noto Sans JP', sans-serif; font-size: 3rem; font-weight: 700; color: #1e2278; line-height: 1.2; }
+        .furigana-display { font-family: 'Noto Sans JP', sans-serif; font-size: 1.1rem; color: #6478f0; font-weight: 500; }
+        .toast { position: fixed; top: 20px; right: 20px; z-index: 9999; padding: 12px 20px; border-radius: 12px; font-weight: 600; font-size: 0.9rem; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s ease, fadeOut 0.4s ease 2.5s forwards; min-width: 260px; }
+        .toast.success { background: linear-gradient(135deg, #2e9e5e, #4caf7d); }
+        .toast.error { background: linear-gradient(135deg, #c0392b, #e03060); }
+        .toast.info { background: linear-gradient(135deg, #4455e0, #6478f0); }
+        @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; pointer-events: none; } }
+        .score-ring { width: 120px; height: 120px; border-radius: 50%; border: 8px solid #e0e9ff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .print-container { display: none; }
 
-    /* PRINT MEDIA STYLES */
-    @media print {
-      body * { visibility: hidden !important; }
-      .print-container, .print-container * { visibility: visible !important; }
-      .print-container { 
-        display: block !important; 
-        position: absolute !important; 
-        top: 0; left: 0; width: 100%; height: auto; 
-        background: white !important; padding: 0 !important; margin: 0 !important; 
-      }
-      @page { size: A4 portrait; margin: 18mm 18mm 20mm 18mm; }
-      .print-header { border-bottom: 2.5px solid #1e2278; padding-bottom: 10px; margin-bottom: 18px; }
-      .print-title { font-size: 22pt; font-weight: 900; color: #1e2278; font-family: 'Noto Sans JP', sans-serif; }
-      .print-meta { font-size: 11pt; color: #444; margin-top: 6px; display: flex; gap: 24px; }
-      .print-meta-field { border-bottom: 1.5px solid #aaa; min-width: 160px; display: inline-block; margin-left: 8px; padding-bottom: 2px; }
-      .print-question { margin-bottom: 14pt; page-break-inside: avoid; }
-      .print-question-num { font-weight: 700; color: #1e2278; font-size: 11pt; }
-      .print-blank { border-bottom: 1.5px dotted #555; min-width: 180px; display: inline-block; margin-left: 8px; }
-      .print-jp { font-family: 'Noto Sans JP', sans-serif; font-size: 14pt; font-weight: 700; color: #1e2278; }
-      .print-furigana { font-family: 'Noto Sans JP', sans-serif; font-size: 9pt; color: #555; }
-      .page-break { page-break-before: always; break-before: page; margin-top: 20px; }
-      .print-answer-header { font-size: 16pt; font-weight: 800; color: #1e2278; border-bottom: 2px solid #1e2278; padding-bottom: 8px; margin-bottom: 14px; font-family: 'Noto Sans JP', sans-serif; }
-      .answer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-      .answer-item { font-size: 9.5pt; padding: 4px 0; border-bottom: 1px solid #eee; }
-    }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #f0f4ff; }
-    ::-webkit-scrollbar-thumb { background: #c0d0ff; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #8fa4f8; }
-    .hidden { display: none !important; }
-    .flex-center { display: flex; align-items: center; justify-content: center; }
-    .truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    @keyframes popIn { 0% { transform: scale(0.85); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-    .pop-in { animation: popIn 0.25s ease forwards; }
-    @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
-    .shake { animation: shake 0.4s ease; }
-    @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(68,85,224,0.4); } 70% { box-shadow: 0 0 0 12px rgba(68,85,224,0); } 100% { box-shadow: 0 0 0 0 rgba(68,85,224,0); } }
-    .pulse-ring { animation: pulse-ring 1.5s infinite; }
+        /* PRINT MEDIA STYLES */
+        @media print {
+            body * { visibility: hidden !important; }
+            .print-container, .print-container * { visibility: visible !important; }
+            .print-container { display: block !important; position: absolute !important; top: 0; left: 0; width: 100%; height: auto; background: white !important; padding: 0 !important; margin: 0 !important; }
+            @page { size: A4 portrait; margin: 18mm 18mm 20mm 18mm; }
+            .print-header { border-bottom: 2.5px solid #1e2278; padding-bottom: 10px; margin-bottom: 18px; }
+            .print-title { font-size: 22pt; font-weight: 900; color: #1e2278; font-family: 'Noto Sans JP', sans-serif; }
+            .print-meta { font-size: 11pt; color: #444; margin-top: 6px; display: flex; gap: 24px; }
+            .print-meta-field { border-bottom: 1.5px solid #aaa; min-width: 160px; display: inline-block; margin-left: 8px; padding-bottom: 2px; }
+            .print-question { margin-bottom: 14pt; page-break-inside: avoid; }
+            .print-question-num { font-weight: 700; color: #1e2278; font-size: 11pt; }
+            .print-blank { border-bottom: 1.5px dotted #555; min-width: 180px; display: inline-block; margin-left: 8px; }
+            .print-jp { font-family: 'Noto Sans JP', sans-serif; font-size: 14pt; font-weight: 700; color: #1e2278; }
+            .print-furigana { font-family: 'Noto Sans JP', sans-serif; font-size: 9pt; color: #555; }
+            .page-break { page-break-before: always; break-before: page; margin-top: 20px; }
+            .print-answer-header { font-size: 16pt; font-weight: 800; color: #1e2278; border-bottom: 2px solid #1e2278; padding-bottom: 8px; margin-bottom: 14px; font-family: 'Noto Sans JP', sans-serif; }
+            .answer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+            .answer-item { font-size: 9.5pt; padding: 4px 0; border-bottom: 1px solid #eee; }
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f0f4ff; }
+        ::-webkit-scrollbar-thumb { background: #c0d0ff; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8fa4f8; }
+        .hidden { display: none !important; }
+        .flex-center { display: flex; align-items: center; justify-content: center; }
+        .truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        @keyframes popIn { 0% { transform: scale(0.85); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .pop-in { animation: popIn 0.25s ease forwards; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+        .shake { animation: shake 0.4s ease; }
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(68,85,224,0.4); } 70% { box-shadow: 0 0 0 12px rgba(68,85,224,0); } 100% { box-shadow: 0 0 0 0 rgba(68,85,224,0); } }
+        .pulse-ring { animation: pulse-ring 1.5s infinite; }
 
-    /* ── SLOGAN WIDGET ── */
-    .slogan-card-bg {
-      background: linear-gradient(90deg, #fff8f8 0%, #f5f3ff 50%, #f0f4ff 100%);
-      border-bottom: 1.5px solid #fecaca;
-    }
-    .slogan-word {
-      display: inline;
-      background: #fee2e2;
-      color: #b91c1c;
-      font-weight: 800;
-      font-style: normal;
-      border-radius: 4px;
-      padding: 0 5px;
-      margin: 0 1px;
-      font-size: 1em;
-      letter-spacing: 0.01em;
-      border-bottom: 2px solid #fca5a5;
-      transition: background 0.2s;
-      white-space: nowrap;
-    }
-    .slogan-word:hover { background: #fecaca; }
-    @keyframes iconSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    .slogan-spin { animation: iconSpin 0.55s ease; }
+        /* ── SLOGAN WIDGET ── */
+        .slogan-card-bg { background: linear-gradient(90deg, #fff8f8 0%, #f5f3ff 50%, #f0f4ff 100%); border-bottom: 1.5px solid #fecaca; }
+        .slogan-word { display: inline; background: #fee2e2; color: #b91c1c; font-weight: 800; font-style: normal; border-radius: 4px; padding: 0 5px; margin: 0 1px; font-size: 1em; letter-spacing: 0.01em; border-bottom: 2px solid #fca5a5; transition: background 0.2s; white-space: nowrap; }
+        .slogan-word:hover { background: #fecaca; }
+        @keyframes iconSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .slogan-spin { animation: iconSpin 0.55s ease; }
 
-    /* ===================== FLASHCARD 3D STYLES ===================== */
-    .flashcard-container { perspective: 1000px; width: 100%; height: 280px; margin: 0 auto; }
-    .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
-    .flashcard-inner.is-flipped { transform: rotateY(180deg); }
-    .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-shadow: 0 10px 30px rgba(68,85,224,0.12); }
-    .flashcard-front { background-color: #ffffff; border: 2px solid #e0e9ff; }
-    .flashcard-back { background: linear-gradient(135deg, #f0f4ff, #e0e9ff); transform: rotateY(180deg); border: 2px solid #c0d0ff; }
-  </style>
+        /* ===================== FLASHCARD 3D STYLES ===================== */
+        .flashcard-container { perspective: 1000px; width: 100%; height: 280px; margin: 0 auto; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
+        .flashcard-inner.is-flipped { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-shadow: 0 10px 30px rgba(68,85,224,0.12); }
+        .flashcard-front { background-color: #ffffff; border: 2px solid #e0e9ff; }
+        .flashcard-back { background: linear-gradient(135deg, #f0f4ff, #e0e9ff); transform: rotateY(180deg); border: 2px solid #c0d0ff; }
+    </style>
 </head>
 <body class="bg-grid min-h-screen">
 
-  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-ink-100 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-ink-500 to-ink-700 flex-center text-white font-black text-lg shadow-md">日</div>
-        <div>
-          <span class="font-black text-ink-800 text-lg tracking-tight leading-none">Cheese</span>
-          <span class="font-light text-ink-400 text-lg tracking-tight leading-none"> học tiếng Nhật</span>
-          <div class="text-xs text-ink-400 font-medium -mt-0.5">日本語学習</div>
-        </div>
-      </div>
-      <nav class="flex items-center bg-ink-50 rounded-xl p-1 gap-1 flex-1 max-w-lg">
-        <button onclick="switchTab('vocab')" id="tab-vocab" class="tab-btn active flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-ink-600">
-          <i class="fa-solid fa-book-open text-xs"></i><span class="hidden sm:inline">Từ vựng</span>
-        </button>
-        <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-ink-600">
-          <i class="fa-solid fa-gamepad text-xs"></i><span class="hidden sm:inline">Trắc nghiệm</span>
-        </button>
-        <button onclick="switchTab('print')" id="tab-print" class="tab-btn flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-ink-600">
-          <i class="fa-solid fa-print text-xs"></i><span class="hidden sm:inline">Bài kiểm tra</span>
-        </button>
-      </nav>
-      <div class="flex items-center gap-2">
-        <div class="badge bg-ink-100 text-ink-700 text-xs hidden sm:flex">
-          <i class="fa-solid fa-layer-group mr-1 text-ink-400"></i><span id="header-count">0</span> từ
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div id="slogan-card" class="slogan-card-bg border-b border-ink-100 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 py-2.5 flex gap-3">
-      <div class="flex-shrink-0 pt-0.5">
-        <div class="w-6 h-6 rounded-md flex-center" style="background:linear-gradient(135deg,#4455e0,#818cf8);">
-          <i class="fa-solid fa-lightbulb text-white" style="font-size:0.6rem;"></i>
-        </div>
-      </div>
-      <div class="flex-1 min-w-0 flex flex-col gap-0.5">
-        <blockquote id="slogan-quote" class="text-ink-700 text-[0.82rem] font-medium italic leading-snug">
-          <span class="text-ink-300 not-italic">Đang tải...</span>
-        </blockquote>
-        <div id="slogan-explain" class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[0.72rem] text-ink-400 leading-snug"></div>
-      </div>
-      <div class="flex-shrink-0 flex flex-col items-end justify-between gap-1 pt-0.5">
-        <button onclick="refreshSlogan()" id="slogan-refresh-btn" title="Đổi câu khác"
-          class="w-6 h-6 rounded-full bg-white/60 border border-ink-100 text-ink-300 hover:text-ink-500 hover:bg-white flex-center transition">
-          <i class="fa-solid fa-rotate-right" id="slogan-refresh-icon" style="font-size:0.6rem;"></i>
-        </button>
-        <span id="slogan-timer-badge" class="text-[0.62rem] text-ink-300 tabular-nums"></span>
-      </div>
-    </div>
-  </div>
-
-  <div id="cors-alert" class="hidden max-w-6xl mx-auto px-4 mt-4">
-      <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded shadow-sm flex items-start gap-3">
-          <i class="fa-solid fa-circle-exclamation text-amber-600 text-xl mt-0.5"></i>
-          <div class="flex-1">
-              <h3 class="font-semibold text-amber-800 text-sm sm:text-base">Không thể tự động tải file <code class="bg-amber-100 px-1 rounded text-amber-900">jp_vocabulary.xlsx</code></h3>
-              <p class="text-xs sm:text-sm text-amber-700 mt-1">
-                  Trình duyệt chặn việc đọc file do mở trực tiếp (<code class="bg-amber-100 px-1 rounded text-amber-900">file:///</code>) hoặc file không tồn tại.
-                  Bạn có thể chọn file Excel thủ công bên dưới.
-              </p>
-              <div class="mt-3">
-                  <label for="excelFallbackInput" class="inline-flex items-center px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium rounded cursor-pointer transition shadow-sm">
-                      <i class="fa-solid fa-file-excel mr-1.5"></i> Chọn file jp_vocabulary.xlsx thủ công
-                  </label>
-                  <input type="file" id="excelFallbackInput" accept=".xlsx, .xls" class="hidden" onchange="importExcel(event); document.getElementById('cors-alert').classList.add('hidden');">
-              </div>
-          </div>
-          <button onclick="document.getElementById('cors-alert').classList.add('hidden')" class="text-amber-400 hover:text-amber-600">
-              <i class="fa-solid fa-xmark"></i>
-          </button>
-      </div>
-  </div>
-
-  <main class="max-w-[1400px] mx-auto px-4 py-6">
-    <div id="panel-vocab" class="tab-panel">
-      <div style="position:relative;overflow:hidden;">
-        <span class="kana-deco" style="top:-20px;right:60px;">あ</span>
-        <span class="kana-deco" style="top:40px;right:0px;font-size:5rem;">語</span>
-      </div>
-      
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-        <div class="lg:col-span-1 flex flex-col gap-5">
-          <div class="card p-5" id="form-container">
-            <div class="flex items-center gap-2 mb-4">
-              <div class="w-7 h-7 rounded-lg bg-ink-100 flex-center" id="form-icon">
-                <i class="fa-solid fa-plus text-ink-500 text-xs"></i>
-              </div>
-              <h2 id="form-title" class="font-bold text-ink-800 text-base">Thêm từ mới</h2>
-            </div>
-            <div class="flex flex-col gap-3">
-              <div>
-                <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block"><i class="fa-solid fa-torii-gate mr-1"></i>Từ cần học</label>
-                <input id="inp-kanji" type="text" class="field" placeholder="Ví dụ: 先生(* Bắt buộc)" />
-              </div>
-              <div>
-                <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block"><i class="fa-solid fa-language mr-1"></i>Furigana(nếu có)</label>
-                <input id="inp-furigana" type="text" class="field font-jp" placeholder="Ví dụ: せんせい (Có thể để trống)" />
-              </div>
-              <div>
-                <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block"><i class="fa-solid fa-flag mr-1"></i>Nghĩa tiếng Việt</label>
-                <input id="inp-meaning" type="text" class="field" placeholder="Ví dụ: Giáo viên (* Bắt buộc)" />
-              </div>
-              
-              <div class="flex gap-2 mt-1">
-                <button id="btn-save" onclick="saveWord()" class="btn-primary flex-1 justify-center">
-                  <i class="fa-solid fa-floppy-disk"></i> Lưu từ vựng
-                </button>
-                <button id="btn-cancel" onclick="cancelEdit()" class="btn-secondary hidden justify-center px-4">
-                  Hủy
-                </button>
-              </div>
-            </div>
-          </div>
-          
-          <div class="card p-5">
-            <div class="flex items-center justify-between gap-2 mb-4">
-              <div class="flex items-center gap-2">
-                <div class="w-7 h-7 rounded-lg bg-matcha-100 flex-center">
-                  <i class="fa-solid fa-arrows-rotate text-matcha-500 text-xs"></i>
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-ink-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-ink-500 to-ink-700 flex-center text-white font-black text-lg shadow-md">日</div>
+                <div>
+                    <span class="font-black text-ink-800 text-lg tracking-tight leading-none">Cheese</span>
+                    <span class="font-light text-ink-400 text-lg tracking-tight leading-none"> học tiếng Nhật</span>
+                    <div class="text-xs text-ink-400 font-medium -mt-0.5">日本語学習</div>
                 </div>
-                <h2 class="font-bold text-ink-800 text-base">Dữ liệu</h2>
-              </div>
-              
-              <button onclick="toggleAutoLoadExcel()" id="auto-excel-toggle" class="relative w-10 h-5 rounded-full transition-all duration-300 bg-matcha-500 focus:outline-none" title="Bật/tắt tự động nạp Excel">
-                <span id="auto-excel-knob" class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 transform translate-x-5"></span>
-              </button>
+            </div>
+            <nav class="flex items-center bg-ink-50 rounded-xl p-1 gap-1 flex-1 max-w-lg">
+                <button onclick="switchTab('vocab')" id="tab-vocab" class="tab-btn active flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-ink-600">
+                    <i class="fa-solid fa-book-open text-xs"></i><span class="hidden sm:inline">Từ vựng</span>
+                </button>
+                <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-ink-600">
+                    <i class="fa-solid fa-gamepad text-xs"></i><span class="hidden sm:inline">Trắc nghiệm</span>
+                </button>
+                <button onclick="switchTab('print')" id="tab-print" class="tab-btn flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-ink-600">
+                    <i class="fa-solid fa-print text-xs"></i><span class="hidden sm:inline">Bài kiểm tra</span>
+                </button>
+            </nav>
+            <div class="flex items-center gap-2">
+                <div class="badge bg-ink-100 text-ink-700 text-xs hidden sm:flex">
+                    <i class="fa-solid fa-layer-group mr-1 text-ink-400"></i><span id="header-count">0</span> từ
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="slogan-card" class="slogan-card-bg border-b border-ink-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-2.5 flex gap-3">
+            <div class="flex-shrink-0 pt-0.5">
+                <div class="w-6 h-6 rounded-md flex-center" style="background:linear-gradient(135deg,#4455e0,#818cf8);">
+                    <i class="fa-solid fa-lightbulb text-white" style="font-size:0.6rem;"></i>
+                </div>
+            </div>
+            <div class="flex-1 min-w-0 flex flex-col gap-0.5">
+                <blockquote id="slogan-quote" class="text-ink-700 text-[0.82rem] font-medium italic leading-snug">
+                    <span class="text-ink-300 not-italic">Đang tải...</span>
+                </blockquote>
+                <div id="slogan-explain" class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[0.72rem] text-ink-400 leading-snug"></div>
+            </div>
+            <div class="flex-shrink-0 flex flex-col items-end justify-between gap-1 pt-0.5">
+                <button onclick="refreshSlogan()" id="slogan-refresh-btn" title="Đổi câu khác" class="w-6 h-6 rounded-full bg-white/60 border border-ink-100 text-ink-300 hover:text-ink-500 hover:bg-white flex-center transition">
+                    <i class="fa-solid fa-rotate-right" id="slogan-refresh-icon" style="font-size:0.6rem;"></i>
+                </button>
+                <span id="slogan-timer-badge" class="text-[0.62rem] text-ink-300 tabular-nums"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="cors-alert" class="hidden max-w-6xl mx-auto px-4 mt-4">
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded shadow-sm flex items-start gap-3">
+            <i class="fa-solid fa-circle-exclamation text-amber-600 text-xl mt-0.5"></i>
+            <div class="flex-1">
+                <h3 class="font-semibold text-amber-800 text-sm sm:text-base">Không thể tự động tải file hệ thống (n1.xlsx - n5.xlsx)</h3>
+                <p class="text-xs sm:text-sm text-amber-700 mt-1">
+                    Trình duyệt chặn việc đọc file do mở trực tiếp trên máy tính. Bạn có thể sử dụng tính năng <b>Nhập file cá nhân</b> bên dưới.
+                </p>
+            </div>
+            <button onclick="$('#cors-alert').addClass('hidden')" class="text-amber-400 hover:text-amber-600">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <main class="max-w-[1400px] mx-auto px-4 py-6">
+        
+        <div id="panel-vocab" class="tab-panel">
+            <div style="position:relative;overflow:hidden;">
+                <span class="kana-deco" style="top:-20px;right:60px;">あ</span>
+                <span class="kana-deco" style="top:40px;right:0px;font-size:5rem;">語</span>
             </div>
             
-            <div id="auto-excel-status-text" class="text-xs text-matcha-600 mb-3 font-medium flex items-center gap-1">
-              <i class="fa-solid fa-check-circle"></i> Đang bật tự động nạp file Excel
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+                <div class="lg:col-span-1 flex flex-col gap-5">
+                    
+                    <div class="card p-5" id="form-container">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-7 h-7 rounded-lg bg-ink-100 flex-center" id="form-icon">
+                                <i class="fa-solid fa-plus text-ink-500 text-xs"></i>
+                            </div>
+                            <h2 id="form-title" class="font-bold text-ink-800 text-base">Thêm từ mới</h2>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block"><i class="fa-solid fa-torii-gate mr-1"></i>Từ cần học</label>
+                                <input id="inp-kanji" type="text" class="field" placeholder="Ví dụ: 先生(* Bắt buộc)" />
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block"><i class="fa-solid fa-language mr-1"></i>Furigana(nếu có)</label>
+                                <input id="inp-furigana" type="text" class="field font-jp" placeholder="Ví dụ: せんせい (Có thể để trống)" />
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block"><i class="fa-solid fa-flag mr-1"></i>Nghĩa tiếng Việt</label>
+                                <input id="inp-meaning" type="text" class="field" placeholder="Ví dụ: Giáo viên (* Bắt buộc)" />
+                            </div>
+                            
+                            <div class="flex gap-2 mt-1">
+                                <button id="btn-save" onclick="saveWord()" class="btn-primary flex-1 justify-center">
+                                    <i class="fa-solid fa-floppy-disk"></i> Lưu từ vựng
+                                </button>
+                                <button id="btn-cancel" onclick="cancelEdit()" class="btn-secondary hidden justify-center px-4">
+                                    Hủy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <h2 class="font-bold text-ink-800 flex items-center gap-1.5">
+                                <i class="fa-solid fa-database text-matcha-500"></i> Quản lý Dữ liệu
+                            </h2>
+                        </div>
+                        
+                        <div class="flex gap-1.5 mb-4">
+                            <label data-tippy-content="Bật/Tắt từ vựng cấp độ N5" class="flex-1 text-center py-1.5 border border-ink-200 rounded cursor-pointer hover:bg-ink-50 has-[:checked]:bg-matcha-50 has-[:checked]:border-matcha-400 has-[:checked]:text-matcha-700 font-bold text-sm text-ink-400 transition">
+                                <input type="checkbox" value="n5" class="level-cb hidden" onchange="toggleLevel(this)"> N5
+                            </label>
+                            <label data-tippy-content="Bật/Tắt từ vựng cấp độ N4" class="flex-1 text-center py-1.5 border border-ink-200 rounded cursor-pointer hover:bg-ink-50 has-[:checked]:bg-matcha-50 has-[:checked]:border-matcha-400 has-[:checked]:text-matcha-700 font-bold text-sm text-ink-400 transition">
+                                <input type="checkbox" value="n4" class="level-cb hidden" onchange="toggleLevel(this)"> N4
+                            </label>
+                            <label data-tippy-content="Bật/Tắt từ vựng cấp độ N3" class="flex-1 text-center py-1.5 border border-ink-200 rounded cursor-pointer hover:bg-ink-50 has-[:checked]:bg-matcha-50 has-[:checked]:border-matcha-400 has-[:checked]:text-matcha-700 font-bold text-sm text-ink-400 transition">
+                                <input type="checkbox" value="n3" class="level-cb hidden" onchange="toggleLevel(this)"> N3
+                            </label>
+                            <label data-tippy-content="Bật/Tắt từ vựng cấp độ N2" class="flex-1 text-center py-1.5 border border-ink-200 rounded cursor-pointer hover:bg-ink-50 has-[:checked]:bg-matcha-50 has-[:checked]:border-matcha-400 has-[:checked]:text-matcha-700 font-bold text-sm text-ink-400 transition">
+                                <input type="checkbox" value="n2" class="level-cb hidden" onchange="toggleLevel(this)"> N2
+                            </label>
+                            <label data-tippy-content="Bật/Tắt từ vựng cấp độ N1" class="flex-1 text-center py-1.5 border border-ink-200 rounded cursor-pointer hover:bg-ink-50 has-[:checked]:bg-matcha-50 has-[:checked]:border-matcha-400 has-[:checked]:text-matcha-700 font-bold text-sm text-ink-400 transition">
+                                <input type="checkbox" value="n1" class="level-cb hidden" onchange="toggleLevel(this)"> N1
+                            </label>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-2">
+                            <label data-tippy-content="Nhập thêm từ vựng từ file Excel của riêng bạn" class="btn-secondary justify-center text-xs py-2 cursor-pointer shadow-sm">
+                                <i class="fa-solid fa-file-import opacity-70"></i> Nhập file
+                                <input type="file" accept=".xlsx,.xls" onchange="importExcel(event)" class="hidden" />
+                            </label>
+                            
+                            <button data-tippy-content="Tải xuống toàn bộ từ vựng hiện tại thành file Excel" onclick="exportExcel()" class="btn-secondary justify-center text-xs py-2 shadow-sm">
+                                <i class="fa-solid fa-file-export opacity-70"></i> Xuất file
+                            </button>
+                            
+                            <button data-tippy-content="Tự động quét và xóa các từ vựng bị trùng lặp" onclick="removeDuplicates()" class="bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 rounded font-semibold text-xs py-2 flex-center gap-1.5 transition">
+                                <i class="fa-solid fa-broom opacity-80"></i> Dọn trùng
+                            </button>
+                            
+                            <button data-tippy-content="Xóa sạch toàn bộ từ vựng & Gỡ chọn N1-N5" onclick="confirmClearAll()" class="bg-sakura-50 text-sakura-700 border border-sakura-200 hover:bg-sakura-100 rounded font-semibold text-xs py-2 flex-center gap-1.5 transition">
+                                <i class="fa-solid fa-trash-can opacity-80"></i> Xóa hết
+                            </button>
+                        </div>
+                    </div>
+                    </div>
+
+                <div class="lg:col-span-2">
+                    <div class="card overflow-hidden">
+                        <div class="flex flex-wrap items-center justify-between gap-3 p-4 border-b border-b border-ink-50">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-list text-ink-400"></i><span class="font-bold text-ink-800">Danh sách từ vựng</span>
+                                <span class="badge bg-ink-100 text-ink-600 ml-1" id="list-count">0 từ</span>
+                            </div>
+                            <div class="flex items-center gap-2 flex-1 justify-end min-w-0">
+                                <button onclick="openFlashcardModal()" data-tippy-content="Chọn từ vựng muốn ôn tập" class="btn-primary py-1.5 px-3 sm:px-4 text-[0.8rem] sm:text-sm pulse-ring rounded-full shadow-md flex-shrink-0 outline-none">
+                                    <i class="fa-solid fa-bolt text-yellow-300"></i> <span id="btn-fc-text">Tạo Flashcard (0)</span>
+                                </button>
+                                <div class="relative flex-1 max-w-xs min-w-[120px]">
+                                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-300 text-sm"></i>
+                                    <input id="search-input" type="text" class="field pl-9 py-2 text-sm w-full" placeholder="Tìm kiếm..." oninput="renderTable()" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto" style="max-height:600px;overflow-y:auto;">
+                            <table class="vocab-table w-full">
+                                <thead class="sticky top-0 z-10">
+                                    <tr>
+                                        <th class="text-center w-12"><input type="checkbox" id="chk-select-all" onclick="toggleSelectAll(this)" class="w-4 h-4 rounded border-ink-300 text-ink-600 focus:ring-ink-500 cursor-pointer"></th>
+                                        <th class="text-left">#</th>
+                                        <th class="text-left">Từ cần học</th>
+                                        <th class="text-left">Furigana</th>
+                                        <th class="text-left">Nghĩa</th>
+                                        <th class="text-center">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vocab-table-body"></tbody>
+                            </table>
+                        </div>
+                        <div id="empty-state" class="flex-center flex-col gap-3 py-16 text-ink-300 hidden">
+                            <i class="fa-solid fa-inbox text-5xl"></i>
+                            <p class="font-semibold text-base">Chưa có từ vựng nào</p>
+                            <p class="text-sm">Thêm từ mới hoặc bật nút N1-N5 để học ngay</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="panel-quiz" class="tab-panel hidden">
+            <div id="quiz-setup">
+                <div class="max-w-lg mx-auto">
+                    <div class="text-center mb-8">
+                        <div class="text-5xl mb-3">🎮</div>
+                        <h2 class="text-2xl font-black text-ink-800">Chế độ Trắc nghiệm</h2>
+                        <p class="text-ink-400 mt-1">Cấu hình trước khi bắt đầu luyện tập</p>
+                    </div>
+                    <div class="card p-6 flex flex-col gap-5">
+                        <div>
+                            <label class="text-sm font-bold text-ink-700 mb-2.5 block"><i class="fa-solid fa-list-ol mr-1 text-ink-400"></i>Số lượng câu hỏi</label>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button onclick="setQuizOpt('count',10)" id="qc-10" class="quiz-config-btn active-config py-2.5 rounded-xl border-2 text-sm font-bold transition-all">10</button>
+                                <button onclick="setQuizOpt('count',20)" id="qc-20" class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">20</button>
+                                <button onclick="setQuizOpt('count',50)" id="qc-50" class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">50</button>
+                                <button onclick="setQuizOpt('count',0)" id="qc-0"  class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">Tất cả</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-sm font-bold text-ink-700 mb-2.5 block"><i class="fa-solid fa-clock mr-1 text-ink-400"></i>Chế độ thời gian</label>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button onclick="setQuizOpt('timer',0)"  id="qt-0"  class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">∞ Tự do</button>
+                                <button onclick="setQuizOpt('timer',10)" id="qt-10" class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">10s</button>
+                                <button onclick="setQuizOpt('timer',15)" id="qt-15" class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">15s</button>
+                                <button onclick="setQuizOpt('timer',30)" id="qt-30" class="quiz-config-btn active-config py-2.5 rounded-xl border-2 text-sm font-bold transition-all">30s</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between bg-ink-50 rounded-xl px-4 py-3">
+                            <div>
+                                <div class="font-bold text-ink-800 text-sm">🔊 Tự động phát âm</div>
+                                <div class="text-xs text-ink-400 mt-0.5">Đọc từ tiếng Nhật khi chuyển câu (TTS)</div>
+                            </div>
+                            <button onclick="toggleTTS()" id="tts-toggle" class="relative w-12 h-6 rounded-full transition-all duration-300 bg-ink-200 focus:outline-none">
+                                <span id="tts-knob" class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300"></span>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center justify-between bg-ink-50 rounded-xl px-4 py-3">
+                            <div>
+                                <div class="font-bold text-ink-800 text-sm">⏩ Tự động chuyển câu</div>
+                                <div class="text-xs text-ink-400 mt-0.5">Tự động sang câu mới sau 2 giây</div>
+                            </div>
+                            <button onclick="toggleAutoNext()" id="auto-next-toggle" class="relative w-12 h-6 rounded-full transition-all duration-300 bg-ink-200 focus:outline-none">
+                                <span id="auto-next-knob" class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 transform translate-x-0"></span>
+                            </button>
+                        </div>
+
+                        <button onclick="startQuiz()" class="btn-primary w-full justify-center py-3 text-base mt-1 pulse-ring">
+                            <i class="fa-solid fa-play"></i> Bắt đầu luyện tập
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="quiz-play" class="hidden max-w-2xl mx-auto">
+                <div class="card p-4 mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <button onclick="exitQuiz()" title="Thoát trắc nghiệm" class="w-7 h-7 rounded-full bg-ink-50 text-ink-400 hover:bg-sakura-100 hover:text-sakura-500 flex items-center justify-center transition"><i class="fa-solid fa-xmark"></i></button>
+                            <span class="text-sm font-bold text-ink-600">Câu <span id="q-current">1</span> / <span id="q-total">10</span></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="badge bg-matcha-100 text-matcha-500"><i class="fa-solid fa-check mr-1"></i><span id="q-correct">0</span></span>
+                            <span class="badge bg-sakura-100 text-sakura-500"><i class="fa-solid fa-xmark mr-1"></i><span id="q-wrong">0</span></span>
+                            <span id="timer-display" class="badge bg-ink-100 text-ink-600 font-mono hidden"><i class="fa-regular fa-clock mr-1"></i><span id="timer-val">30</span>s</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-ink-100 rounded-full h-2 mb-2"><div id="q-progress-bar" class="progress-bar-inner" style="width:0%"></div></div>
+                    <div id="timer-bar-wrap" class="w-full bg-ink-100 rounded-full h-1.5 hidden"><div id="timer-bar" class="timer-bar ok" style="width:100%"></div></div>
+                </div>
+                
+                <div class="card p-6 mb-4 pop-in" id="question-card">
+                    <div class="text-xs font-bold uppercase tracking-widest text-ink-400 mb-3" id="q-type-label">Tìm nghĩa tiếng Việt</div>
+                    <div id="q-jp-block" class="text-center py-4">
+                        <div class="kanji-display" id="q-kanji">先生</div>
+                        <div class="furigana-display mt-1" id="q-furigana">せんせい</div>
+                    </div>
+                    <div id="q-vi-block" class="hidden text-center py-4">
+                        <div class="text-2xl font-bold text-ink-700" id="q-meaning-vi">Giáo viên</div>
+                        <div class="text-sm text-ink-400 mt-1">Chọn từ tiếng Nhật đúng</div>
+                    </div>
+                    <div class="flex justify-center mt-2">
+                        <button onclick="speakCurrent()" id="speak-btn" class="text-xs flex items-center gap-1.5 px-3 py-1.5 bg-ink-50 text-ink-500 rounded-full hover:bg-ink-100 transition">
+                            <i class="fa-solid fa-volume-high"></i> Nghe phát âm
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4" id="options-grid"></div>
+                
+                <div id="q-explanation" class="hidden card p-4 mb-4 border-2 flex-col items-center text-center pop-in" style="border-color:#4caf7d;background:linear-gradient(135deg,#e6f5ec,#f0fbf5);">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <span class="text-base">💡</span>
+                        <span class="text-xs font-bold uppercase tracking-widest text-matcha-500">Giải nghĩa đáp án</span>
+                    </div>
+                    <div class="font-jp font-bold text-ink-800 text-2xl" id="expl-kanji"></div>
+                    <div class="font-jp text-ink-500 text-sm mt-1 font-medium" id="expl-furigana"></div>
+                    <div class="text-ink-700 font-semibold mt-2 text-base" id="expl-meaning"></div>
+                    <div id="expl-auto-next" class="hidden mt-3 text-xs text-ink-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-forward-step text-ink-300"></i>
+                        <span>Tự động chuyển câu sau <span id="expl-countdown" class="font-bold text-ink-500">2</span>s...</span>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button onclick="nextQuestion()" id="btn-next" class="btn-primary hidden">Câu tiếp theo <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+            
+            <div id="quiz-result" class="hidden max-w-2xl mx-auto">
+                <div class="card p-6 mb-6">
+                    <div class="text-center mb-6">
+                        <div class="text-4xl mb-2" id="result-emoji">🎉</div>
+                        <h3 class="text-2xl font-black text-ink-800 mb-1">Kết quả luyện tập</h3>
+                        <p class="text-ink-400 text-sm">Xem lại kết quả và các câu trả lời sai bên dưới</p>
+                    </div>
+                    <div class="flex items-center justify-center gap-8 mb-6">
+                        <div class="text-center"><div class="score-ring border-matcha-400 mb-2 mx-auto" style="border-color:#4caf7d;"><span class="text-3xl font-black text-matcha-500" id="result-correct">0</span><span class="text-xs text-ink-400 mt-0.5">Đúng</span></div></div>
+                        <div class="text-5xl font-black text-ink-200">/</div>
+                        <div class="text-center"><div class="score-ring mb-2 mx-auto"><span class="text-3xl font-black text-ink-600" id="result-total">0</span><span class="text-xs text-ink-400 mt-0.5">Tổng</span></div></div>
+                        <div class="text-5xl font-black text-ink-200">=</div>
+                        <div class="text-center"><div class="score-ring mb-2 mx-auto" id="result-pct-ring"><span class="text-3xl font-black" id="result-pct">0%</span><span class="text-xs text-ink-400 mt-0.5">Điểm</span></div></div>
+                    </div>
+
+                    <div id="regular-post-actions" class="flex gap-3 justify-center">
+                        <button onclick="restartQuiz()" class="btn-primary"><i class="fa-solid fa-rotate-right"></i> Làm lại</button>
+                        <button onclick="showQuizSetup()" class="btn-secondary"><i class="fa-solid fa-gear"></i> Cài đặt mới</button>
+                    </div>
+                    <div id="fc-post-actions" class="hidden flex flex-col gap-3 items-center">
+                        <button onclick="continueFlashcard()" class="btn-primary w-full max-w-xs justify-center shadow-lg"><i class="fa-solid fa-forward-step"></i> Tiếp tục học Flashcard</button>
+                        <button onclick="backToFlashcard()" class="btn-secondary w-full max-w-xs justify-center"><i class="fa-solid fa-rotate-left"></i> Quay lại Flashcard vừa chọn</button>
+                    </div>
+                </div>
+                <div id="wrong-answers-section" class="card p-5 hidden">
+                    <div class="flex items-center gap-2 mb-4"><i class="fa-solid fa-triangle-exclamation text-sakura-400"></i><h4 class="font-bold text-ink-800">Các câu trả lời sai</h4><span class="badge bg-sakura-100 text-sakura-500 ml-1" id="wrong-count-badge"></span></div>
+                    <div class="flex flex-col gap-3" id="wrong-answers-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="panel-print" class="tab-panel hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-1">
+                        <div class="card p-5">
+                            <div class="flex items-center gap-2 mb-4"><div class="w-7 h-7 rounded-lg bg-sakura-100 flex-center"><i class="fa-solid fa-sliders text-sakura-500 text-xs"></i></div><h2 class="font-bold text-ink-800">Cấu hình bài kiểm tra</h2></div>
+                            <div class="flex flex-col gap-4">
+                                <div>
+                                    <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-2 block">Số lượng từ</label>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <button onclick="setPrintOpt('count',10)" id="pc-10" class="print-config-btn active-config py-2.5 rounded-xl border-2 text-sm font-bold transition-all">10 từ</button>
+                                        <button onclick="setPrintOpt('count',20)" id="pc-20" class="print-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">20 từ</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-2 block">Loại câu hỏi</label>
+                                    <div class="flex flex-col gap-2">
+                                        <button onclick="setPrintOpt('mode','vi')" id="pm-vi" class="print-config-btn py-2.5 rounded-xl border-2 text-xs font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300 text-left px-3">🇻🇳 Tìm nghĩa tiếng Việt</button>
+                                        <button onclick="setPrintOpt('mode','jp')" id="pm-jp" class="print-config-btn py-2.5 rounded-xl border-2 text-xs font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300 text-left px-3">🇯🇵 Tìm từ tiếng Nhật</button>
+                                        <button onclick="setPrintOpt('mode','mix')" id="pm-mix" class="print-config-btn active-config py-2.5 rounded-xl border-2 text-xs font-bold transition-all text-left px-3">🔀 Trộn lẫn cả hai</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block">Tiêu đề bài kiểm tra</label>
+                                    <input id="test-title" type="text" class="field text-sm" value="KIỂM TRA TỪ VỰNG TIẾNG NHẬT" />
+                                </div>
+                                <button onclick="generateTest()" class="btn-primary w-full justify-center"><i class="fa-solid fa-wand-magic-sparkles"></i> Tạo bài kiểm tra</button>
+                                <button onclick="printTest()" id="btn-print" class="btn-secondary w-full justify-center hidden"><i class="fa-solid fa-print"></i> In bài kiểm tra</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <div class="card overflow-hidden">
+                            <div class="flex items-center gap-2 p-4 border-b border-ink-50"><i class="fa-solid fa-eye text-ink-400"></i><span class="font-bold text-ink-800">Xem trước bài kiểm tra</span></div>
+                            <div id="test-preview" class="p-6 min-h-[400px]">
+                                <div class="flex-center flex-col gap-3 py-16 text-ink-300">
+                                    <i class="fa-solid fa-file-circle-question text-5xl"></i><p class="font-semibold">Chưa có bài kiểm tra</p><p class="text-sm">Cấu hình và bấm "Tạo bài kiểm tra"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="print-container" id="print-area"></div>
+
+    <div id="flashcard-modal" class="hidden fixed inset-0 bg-ink-900/60 backdrop-blur-sm z-[60] flex-center">
+        <div class="card p-6 max-w-sm w-full mx-4 pop-in relative flex flex-col outline-none" tabindex="0">
+            <button onclick="closeFlashcardModal()" class="absolute top-3 right-3 w-8 h-8 bg-ink-50 text-ink-500 rounded-full hover:bg-sakura-100 hover:text-sakura-500 flex-center transition z-10"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="text-center mb-4 mt-2">
+                <h3 class="font-black text-ink-800 text-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-bolt text-yellow-400"></i> Flashcard
+                </h3>
+                <div class="text-ink-500 text-sm mt-1.5 font-bold"><span id="fc-progress">1 / 10</span></div>
+                <div class="w-full bg-ink-100 rounded-full h-1.5 mt-2"><div id="fc-progress-bar" class="progress-bar-inner" style="width:10%"></div></div>
             </div>
 
-            <div class="flex flex-col gap-3">
-              <div class="border border-ink-100 rounded-xl overflow-hidden">
-                <div class="bg-ink-50 px-3 py-1.5 text-xs font-bold text-ink-500 flex items-center justify-between">
-                  <span><i class="fa-solid fa-file-excel mr-1 text-matcha-500"></i> Excel (.xlsx)</span>
-                  <i class="fa-solid fa-circle-info text-ink-300" title="Cần 3 cột: A=Kanji, B=Furigana, C=Nghĩa"></i>
+            <div class="flashcard-container my-3">
+                <div id="fc-inner" class="flashcard-inner" onclick="toggleFlashcard()">
+                    <div class="flashcard-front">
+                        <button onclick="event.stopPropagation(); playCurrentFlashcardAudio()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors text-lg outline-none" title="Nghe phát âm">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                        <div id="fc-kanji" class="font-jp font-bold text-ink-800 text-5xl mt-2"></div>
+                    </div>
+                    <div class="flashcard-back">
+                        <div id="fc-furigana" class="font-jp text-ink-500 text-xl mb-3 font-medium"></div>
+                        <div id="fc-meaning" class="text-2xl font-black text-ink-800"></div>
+                    </div>
                 </div>
-                <div class="flex divide-x divide-ink-100">
-                  <label class="flex-1 text-center py-2 text-sm font-semibold text-ink-600 hover:bg-ink-50 cursor-pointer transition" title="Nhập danh sách từ vựng từ file Excel">
-                    <i class="fa-solid fa-upload text-xs mb-0.5 block opacity-60"></i> Nhập
-                    <input type="file" id="excel-upload" accept=".xlsx,.xls" onchange="importExcel(event)" class="hidden" />
-                  </label>
-                  <button onclick="exportExcel()" class="flex-1 text-center py-2 text-sm font-semibold text-ink-600 hover:bg-ink-50 transition" title="Xuất danh sách ra file Excel">
-                    <i class="fa-solid fa-download text-xs mb-0.5 block opacity-60"></i> Xuất
-                  </button>
-                </div>
-              </div>
+            </div>
 
-              <div class="grid grid-cols-2 gap-2 mt-1">
-                <button onclick="removeDuplicates()" class="btn-secondary justify-center text-[0.8rem] px-2 py-2">
-                  <i class="fa-solid fa-broom"></i> Dọn trùng
+            <div class="flex items-center justify-between gap-3 mt-4">
+                <button id="btn-fc-prev" onclick="prevFlashcard()" class="btn-secondary flex-1 justify-center py-2.5 outline-none">
+                    <i class="fa-solid fa-arrow-left"></i> Trước
                 </button>
-                <button onclick="confirmClearAll()" class="btn-danger justify-center text-[0.8rem] px-2 py-2 bg-sakura-50 border-sakura-200">
-                  <i class="fa-solid fa-trash-can"></i> Xóa hết
+                <button onclick="toggleFlashcard()" class="w-12 h-12 flex-shrink-0 rounded-full bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition shadow-sm border border-ink-100 outline-none">
+                    <i class="fa-solid fa-rotate"></i>
                 </button>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <div class="lg:col-span-2">
-          <div class="card overflow-hidden">
-            <div class="flex flex-wrap items-center justify-between gap-3 p-4 border-b border-b border-ink-50">
-              <div class="flex items-center gap-2">
-                <i class="fa-solid fa-list text-ink-400"></i><span class="font-bold text-ink-800">Danh sách từ vựng</span>
-                <span class="badge bg-ink-100 text-ink-600 ml-1" id="list-count">0 từ</span>
-              </div>
-              <div class="flex items-center gap-2 flex-1 justify-end min-w-0">
-                <button onclick="openFlashcardModal()" data-tippy-content="Chọn từ vựng muốn ôn tập" class="btn-primary py-1.5 px-3 sm:px-4 text-[0.8rem] sm:text-sm pulse-ring rounded-full shadow-md flex-shrink-0 outline-none">
-                  <i class="fa-solid fa-bolt text-yellow-300"></i> <span id="btn-fc-text">Tạo Flashcard (0)</span>
+                <button id="btn-fc-next" onclick="nextFlashcard()" class="btn-primary flex-1 justify-center py-2.5 outline-none">
+                    Tiếp <i class="fa-solid fa-arrow-right ml-1"></i>
                 </button>
-                <div class="relative flex-1 max-w-xs min-w-[120px]">
-                  <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-300 text-sm"></i>
-                  <input id="search-input" type="text" class="field pl-9 py-2 text-sm w-full" placeholder="Tìm kiếm..." oninput="renderTable()" />
-                </div>
-              </div>
             </div>
-            <div class="overflow-x-auto" style="max-height:600px;overflow-y:auto;">
-              <table class="vocab-table w-full">
-                <thead class="sticky top-0 z-10">
-                  <tr>
-                    <th class="text-center w-12"><input type="checkbox" id="chk-select-all" onclick="toggleSelectAll(this)" class="w-4 h-4 rounded border-ink-300 text-ink-600 focus:ring-ink-500 cursor-pointer"></th>
-                    <th class="text-left">#</th>
-                    <th class="text-left">Từ cần học</th>
-                    <th class="text-left">Furigana</th>
-                    <th class="text-left">Nghĩa</th>
-                    <th class="text-center">Hành động</th>
-                  </tr>
-                </thead>
-                <tbody id="vocab-table-body"></tbody>
-              </table>
+
+            <div id="fc-quiz-action" class="hidden mt-4 pt-4 border-t border-ink-100 pop-in">
+                <button onclick="startFlashcardQuiz()" class="btn-success w-full justify-center py-3 text-base shadow-lg outline-none"><i class="fa-solid fa-gamepad"></i> Làm bài trắc nghiệm</button>
             </div>
-            <div id="empty-state" class="flex-center flex-col gap-3 py-16 text-ink-300 hidden">
-              <i class="fa-solid fa-inbox text-5xl"></i>
-              <p class="font-semibold text-base">Chưa có từ vựng nào</p>
-              <p class="text-sm">Thêm từ mới hoặc nhập file để bắt đầu</p>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
 
-    <div id="panel-quiz" class="tab-panel hidden">
-      <div id="quiz-setup">
-        <div class="max-w-lg mx-auto">
-          <div class="text-center mb-8">
-            <div class="text-5xl mb-3">🎮</div>
-            <h2 class="text-2xl font-black text-ink-800">Chế độ Trắc nghiệm</h2>
-            <p class="text-ink-400 mt-1">Cấu hình trước khi bắt đầu luyện tập</p>
-          </div>
-          <div class="card p-6 flex flex-col gap-5">
-            <div>
-              <label class="text-sm font-bold text-ink-700 mb-2.5 block"><i class="fa-solid fa-list-ol mr-1 text-ink-400"></i>Số lượng câu hỏi</label>
-              <div class="grid grid-cols-4 gap-2">
-                <button onclick="setQuizOpt('count',10)" id="qc-10" class="quiz-config-btn active-config py-2.5 rounded-xl border-2 text-sm font-bold transition-all">10</button>
-                <button onclick="setQuizOpt('count',20)" id="qc-20" class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">20</button>
-                <button onclick="setQuizOpt('count',50)" id="qc-50" class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">50</button>
-                <button onclick="setQuizOpt('count',0)" id="qc-0"  class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">Tất cả</button>
-              </div>
-            </div>
-            <div>
-              <label class="text-sm font-bold text-ink-700 mb-2.5 block"><i class="fa-solid fa-clock mr-1 text-ink-400"></i>Chế độ thời gian</label>
-              <div class="grid grid-cols-4 gap-2">
-                <button onclick="setQuizOpt('timer',0)"  id="qt-0"  class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">∞ Tự do</button>
-                <button onclick="setQuizOpt('timer',10)" id="qt-10" class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">10s</button>
-                <button onclick="setQuizOpt('timer',15)" id="qt-15" class="quiz-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">15s</button>
-                <button onclick="setQuizOpt('timer',30)" id="qt-30" class="quiz-config-btn active-config py-2.5 rounded-xl border-2 text-sm font-bold transition-all">30s</button>
-              </div>
-            </div>
-            <div class="flex items-center justify-between bg-ink-50 rounded-xl px-4 py-3">
-              <div>
-                <div class="font-bold text-ink-800 text-sm">🔊 Tự động phát âm</div>
-                <div class="text-xs text-ink-400 mt-0.5">Đọc từ tiếng Nhật khi chuyển câu (TTS)</div>
-              </div>
-              <button onclick="toggleTTS()" id="tts-toggle" class="relative w-12 h-6 rounded-full transition-all duration-300 bg-ink-200 focus:outline-none">
-                <span id="tts-knob" class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300"></span>
-              </button>
-            </div>
-            <div class="flex items-center justify-between bg-ink-50 rounded-xl px-4 py-3">
-              <div>
-                <div class="font-bold text-ink-800 text-sm">⏩ Tự động chuyển câu</div>
-                <div class="text-xs text-ink-400 mt-0.5">Tự động sang câu mới sau 2 giây</div>
-              </div>
-              <button onclick="toggleAutoNext()" id="auto-next-toggle" class="relative w-12 h-6 rounded-full transition-all duration-300 bg-ink-500 focus:outline-none">
-                <span id="auto-next-knob" class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 transform translate-x-6"></span>
-              </button>
-            </div>
-            <button onclick="startQuiz()" class="btn-primary w-full justify-center py-3 text-base mt-1 pulse-ring">
-              <i class="fa-solid fa-play"></i> Bắt đầu luyện tập
-            </button>
-          </div>
+    <div id="toast-container"></div>
+    <div id="modal-overlay" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex-center">
+        <div class="card p-6 max-w-sm w-full mx-4 pop-in">
+            <h3 class="font-black text-ink-800 text-lg mb-2" id="modal-title">Xác nhận</h3>
+            <p class="text-ink-500 text-sm mb-5" id="modal-body"></p>
+            <div class="flex gap-3 justify-end"><button onclick="closeModal()" class="btn-secondary">Hủy</button><button onclick="confirmModal()" class="btn-danger">Xác nhận</button></div>
         </div>
-      </div>
-      <div id="quiz-play" class="hidden max-w-2xl mx-auto">
-        <div class="card p-4 mb-4">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <button onclick="exitQuiz()" title="Thoát trắc nghiệm" class="w-7 h-7 rounded-full bg-ink-50 text-ink-400 hover:bg-sakura-100 hover:text-sakura-500 flex items-center justify-center transition"><i class="fa-solid fa-xmark"></i></button>
-              <span class="text-sm font-bold text-ink-600">Câu <span id="q-current">1</span> / <span id="q-total">10</span></span>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="badge bg-matcha-100 text-matcha-500"><i class="fa-solid fa-check mr-1"></i><span id="q-correct">0</span></span>
-              <span class="badge bg-sakura-100 text-sakura-500"><i class="fa-solid fa-xmark mr-1"></i><span id="q-wrong">0</span></span>
-              <span id="timer-display" class="badge bg-ink-100 text-ink-600 font-mono hidden"><i class="fa-regular fa-clock mr-1"></i><span id="timer-val">30</span>s</span>
-            </div>
-          </div>
-          <div class="w-full bg-ink-100 rounded-full h-2 mb-2"><div id="q-progress-bar" class="progress-bar-inner" style="width:0%"></div></div>
-          <div id="timer-bar-wrap" class="w-full bg-ink-100 rounded-full h-1.5 hidden"><div id="timer-bar" class="timer-bar ok" style="width:100%"></div></div>
-        </div>
-        <div class="card p-6 mb-4 pop-in" id="question-card">
-          <div class="text-xs font-bold uppercase tracking-widest text-ink-400 mb-3" id="q-type-label">Tìm nghĩa tiếng Việt</div>
-          <div id="q-jp-block" class="text-center py-4">
-            <div class="kanji-display" id="q-kanji">先生</div>
-            <div class="furigana-display mt-1" id="q-furigana">せんせい</div>
-          </div>
-          <div id="q-vi-block" class="hidden text-center py-4">
-            <div class="text-2xl font-bold text-ink-700" id="q-meaning-vi">Giáo viên</div>
-            <div class="text-sm text-ink-400 mt-1">Chọn từ tiếng Nhật đúng</div>
-          </div>
-          <div class="flex justify-center mt-2">
-            <button onclick="speakCurrent()" id="speak-btn" class="text-xs flex items-center gap-1.5 px-3 py-1.5 bg-ink-50 text-ink-500 rounded-full hover:bg-ink-100 transition">
-              <i class="fa-solid fa-volume-high"></i> Nghe phát âm
-            </button>
-          </div>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4" id="options-grid"></div>
-        <div id="q-explanation" class="hidden card p-4 mb-4 border-2 flex-col items-center text-center pop-in" style="border-color:#4caf7d;background:linear-gradient(135deg,#e6f5ec,#f0fbf5);">
-            <div class="flex items-center justify-center gap-2 mb-2">
-              <span class="text-base">💡</span>
-              <span class="text-xs font-bold uppercase tracking-widest text-matcha-500">Giải nghĩa đáp án</span>
-            </div>
-            <div class="font-jp font-bold text-ink-800 text-2xl" id="expl-kanji"></div>
-            <div class="font-jp text-ink-500 text-sm mt-1 font-medium" id="expl-furigana"></div>
-            <div class="text-ink-700 font-semibold mt-2 text-base" id="expl-meaning"></div>
-            <div id="expl-auto-next" class="hidden mt-3 text-xs text-ink-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-forward-step text-ink-300"></i>
-              <span>Tự động chuyển câu sau <span id="expl-countdown" class="font-bold text-ink-500">2</span>s...</span>
-            </div>
-        </div>
-        <div class="flex justify-end">
-          <button onclick="nextQuestion()" id="btn-next" class="btn-primary hidden">Câu tiếp theo <i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-      </div>
-      <div id="quiz-result" class="hidden max-w-2xl mx-auto">
-        <div class="card p-6 mb-6">
-          <div class="text-center mb-6">
-            <div class="text-4xl mb-2" id="result-emoji">🎉</div>
-            <h3 class="text-2xl font-black text-ink-800 mb-1">Kết quả luyện tập</h3>
-            <p class="text-ink-400 text-sm">Xem lại kết quả và các câu trả lời sai bên dưới</p>
-          </div>
-          <div class="flex items-center justify-center gap-8 mb-6">
-            <div class="text-center"><div class="score-ring border-matcha-400 mb-2 mx-auto" style="border-color:#4caf7d;"><span class="text-3xl font-black text-matcha-500" id="result-correct">0</span><span class="text-xs text-ink-400 mt-0.5">Đúng</span></div></div>
-            <div class="text-5xl font-black text-ink-200">/</div>
-            <div class="text-center"><div class="score-ring mb-2 mx-auto"><span class="text-3xl font-black text-ink-600" id="result-total">0</span><span class="text-xs text-ink-400 mt-0.5">Tổng</span></div></div>
-            <div class="text-5xl font-black text-ink-200">=</div>
-            <div class="text-center"><div class="score-ring mb-2 mx-auto" id="result-pct-ring"><span class="text-3xl font-black" id="result-pct">0%</span><span class="text-xs text-ink-400 mt-0.5">Điểm</span></div></div>
-          </div>
-
-          <div id="regular-post-actions" class="flex gap-3 justify-center">
-            <button onclick="restartQuiz()" class="btn-primary"><i class="fa-solid fa-rotate-right"></i> Làm lại</button>
-            <button onclick="showQuizSetup()" class="btn-secondary"><i class="fa-solid fa-gear"></i> Cài đặt mới</button>
-          </div>
-          <div id="fc-post-actions" class="hidden flex flex-col gap-3 items-center">
-            <button onclick="continueFlashcard()" class="btn-primary w-full max-w-xs justify-center shadow-lg"><i class="fa-solid fa-forward-step"></i> Tiếp tục học Flashcard</button>
-            <button onclick="backToFlashcard()" class="btn-secondary w-full max-w-xs justify-center"><i class="fa-solid fa-rotate-left"></i> Quay lại Flashcard vừa chọn</button>
-          </div>
-        </div>
-        <div id="wrong-answers-section" class="card p-5 hidden">
-          <div class="flex items-center gap-2 mb-4"><i class="fa-solid fa-triangle-exclamation text-sakura-400"></i><h4 class="font-bold text-ink-800">Các câu trả lời sai</h4><span class="badge bg-sakura-100 text-sakura-500 ml-1" id="wrong-count-badge"></span></div>
-          <div class="flex flex-col gap-3" id="wrong-answers-list"></div>
-        </div>
-      </div>
     </div>
 
-    <div id="panel-print" class="tab-panel hidden">
-      <div class="max-w-4xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="md:col-span-1">
-            <div class="card p-5">
-              <div class="flex items-center gap-2 mb-4"><div class="w-7 h-7 rounded-lg bg-sakura-100 flex-center"><i class="fa-solid fa-sliders text-sakura-500 text-xs"></i></div><h2 class="font-bold text-ink-800">Cấu hình bài kiểm tra</h2></div>
-              <div class="flex flex-col gap-4">
-                <div>
-                  <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-2 block">Số lượng từ</label>
-                  <div class="grid grid-cols-2 gap-2">
-                    <button onclick="setPrintOpt('count',10)" id="pc-10" class="print-config-btn active-config py-2.5 rounded-xl border-2 text-sm font-bold transition-all">10 từ</button>
-                    <button onclick="setPrintOpt('count',20)" id="pc-20" class="print-config-btn py-2.5 rounded-xl border-2 text-sm font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300">20 từ</button>
-                  </div>
-                </div>
-                <div>
-                  <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-2 block">Loại câu hỏi</label>
-                  <div class="flex flex-col gap-2">
-                    <button onclick="setPrintOpt('mode','vi')" id="pm-vi" class="print-config-btn py-2.5 rounded-xl border-2 text-xs font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300 text-left px-3">🇻🇳 Tìm nghĩa tiếng Việt</button>
-                    <button onclick="setPrintOpt('mode','jp')" id="pm-jp" class="print-config-btn py-2.5 rounded-xl border-2 text-xs font-bold transition-all border-ink-100 text-ink-500 hover:border-ink-300 text-left px-3">🇯🇵 Tìm từ tiếng Nhật</button>
-                    <button onclick="setPrintOpt('mode','mix')" id="pm-mix" class="print-config-btn active-config py-2.5 rounded-xl border-2 text-xs font-bold transition-all text-left px-3">🔀 Trộn lẫn cả hai</button>
-                  </div>
-                </div>
-                <div>
-                  <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block">Tiêu đề bài kiểm tra</label>
-                  <input id="test-title" type="text" class="field text-sm" value="KIỂM TRA TỪ VỰNG TIẾNG NHẬT" />
-                </div>
-                <button onclick="generateTest()" class="btn-primary w-full justify-center"><i class="fa-solid fa-wand-magic-sparkles"></i> Tạo bài kiểm tra</button>
-                <button onclick="printTest()" id="btn-print" class="btn-secondary w-full justify-center hidden"><i class="fa-solid fa-print"></i> In bài kiểm tra</button>
-              </div>
-            </div>
-          </div>
-          <div class="md:col-span-2">
-            <div class="card overflow-hidden">
-              <div class="flex items-center gap-2 p-4 border-b border-ink-50"><i class="fa-solid fa-eye text-ink-400"></i><span class="font-bold text-ink-800">Xem trước bài kiểm tra</span></div>
-              <div id="test-preview" class="p-6 min-h-[400px]">
-                <div class="flex-center flex-col gap-3 py-16 text-ink-300">
-                  <i class="fa-solid fa-file-circle-question text-5xl"></i><p class="font-semibold">Chưa có bài kiểm tra</p><p class="text-sm">Cấu hình và bấm "Tạo bài kiểm tra"</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+    <script>
+        // --- State Variables ---
+        let vocabulary = [];
+        let selectedWordIds = new Set();
+        let editingId = null; 
+        
+        let quizState = { 
+            count: 10, timer: 30, tts: false, autoNext: false, 
+            questions: [], current: 0, correct: 0, wrong: 0, 
+            wrongList: [], timerInterval: null, timerLeft: 30, 
+            answered: false, currentWord: null, type: 'jp2vi' 
+        };
+        let printState = { count: 10, mode: 'mix', generated: [] };
+        let lastWrongWords = [];
+        let modalCallback = null;
 
-  <div class="print-container" id="print-area"></div>
-
-  <div id="flashcard-modal" class="hidden fixed inset-0 bg-ink-900/60 backdrop-blur-sm z-[60] flex-center">
-    <div class="card p-6 max-w-sm w-full mx-4 pop-in relative flex flex-col outline-none" tabindex="0">
-      <button onclick="closeFlashcardModal()" class="absolute top-3 right-3 w-8 h-8 bg-ink-50 text-ink-500 rounded-full hover:bg-sakura-100 hover:text-sakura-500 flex-center transition z-10"><i class="fa-solid fa-xmark"></i></button>
-
-      <div class="text-center mb-4 mt-2">
-        <h3 class="font-black text-ink-800 text-lg flex items-center justify-center gap-2">
-          <i class="fa-solid fa-bolt text-yellow-400"></i> Flashcard từ vựng đã chọn
-        </h3>
-        <div class="text-ink-500 text-sm mt-1.5 font-bold"><span id="fc-progress">1 / 10</span></div>
-        <div class="w-full bg-ink-100 rounded-full h-1.5 mt-2"><div id="fc-progress-bar" class="progress-bar-inner" style="width:10%"></div></div>
-      </div>
-
-      <div class="flashcard-container my-3">
-        <div id="fc-inner" class="flashcard-inner" onclick="toggleFlashcard()">
-          <div class="flashcard-front">
-            <button onclick="event.stopPropagation(); playCurrentFlashcardAudio()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors text-lg outline-none" title="Nghe phát âm">
-              <i class="fa-solid fa-volume-high"></i>
-            </button>
-            <div id="fc-kanji" class="font-jp font-bold text-ink-800 text-5xl mt-2"></div>
-          </div>
-          <div class="flashcard-back">
-            <div id="fc-furigana" class="font-jp text-ink-500 text-xl mb-3 font-medium"></div>
-            <div id="fc-meaning" class="text-2xl font-black text-ink-800"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex items-center justify-between gap-3 mt-4">
-        <button id="btn-fc-prev" onclick="prevFlashcard()" class="btn-secondary flex-1 justify-center py-2.5 outline-none">
-          <i class="fa-solid fa-arrow-left"></i> Trước <span class="text-[0.65rem] opacity-60 ml-1 border border-ink-200 rounded px-1 hidden sm:inline-block">[←]</span>
-        </button>
-        <button onclick="toggleFlashcard()" class="w-12 h-12 flex-shrink-0 rounded-full bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition shadow-sm border border-ink-100 outline-none" title="Lật thẻ [Space]">
-          <i class="fa-solid fa-rotate"></i>
-        </button>
-        <button id="btn-fc-next" onclick="nextFlashcard()" class="btn-primary flex-1 justify-center py-2.5 outline-none">
-          Tiếp <span class="text-[0.65rem] opacity-70 ml-1 border border-white/40 rounded px-1 hidden sm:inline-block">[→]</span> <i class="fa-solid fa-arrow-right ml-1"></i>
-        </button>
-      </div>
-
-      <div class="mt-3 text-[11px] text-zinc-400 text-center select-none opacity-80">
-        <span class="border border-zinc-200 bg-zinc-50 px-1 rounded text-[10px] font-mono">Space</span> lật • 
-        <span class="border border-zinc-200 bg-zinc-50 px-1 rounded text-[10px] font-mono">→</span> tiếp • 
-        <span class="border border-zinc-200 bg-zinc-50 px-1 rounded text-[10px] font-mono">←</span> lùi
-      </div>
-
-      <div id="fc-quiz-action" class="hidden mt-4 pt-4 border-t border-ink-100 pop-in">
-        <button onclick="startFlashcardQuiz()" class="btn-success w-full justify-center py-3 text-base shadow-lg outline-none"><i class="fa-solid fa-gamepad"></i> Làm bài trắc nghiệm các từ này</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="toast-container"></div>
-  <div id="modal-overlay" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex-center">
-    <div class="card p-6 max-w-sm w-full mx-4 pop-in">
-      <h3 class="font-black text-ink-800 text-lg mb-2" id="modal-title">Xác nhận</h3>
-      <p class="text-ink-500 text-sm mb-5" id="modal-body"></p>
-      <div class="flex gap-3 justify-end"><button onclick="closeModal()" class="btn-secondary">Hủy</button><button onclick="confirmModal()" class="btn-danger">Xác nhận</button></div>
-    </div>
-  </div>
-
-  <script>
-  let vocabulary = [];
-  let selectedWordIds = new Set(); // Lưu danh sách ID các từ được chọn bằng checkbox
-  let editingId = null; 
-  let quizState = { count: 10, timer: 30, tts: false, autoNext: false, questions: [], current: 0, correct: 0, wrong: 0, wrongList: [], timerInterval: null, timerLeft: 30, answered: false, currentWord: null, type: 'jp2vi' };
-  let printState = { count: 10, mode: 'mix', generated: [] };
-  let lastWrongWords = [];
-  let modalCallback = null;
-
-  let isFlashcardQuiz = false;
-  let fcState = { startIndex: 0, currentIndex: 0, pool: [], isFlipped: false };
-  let autoLoadExcel = localStorage.getItem('auto_load_excel') !== 'false';
-
-  function loadFromStorage() {
-    try { const raw = localStorage.getItem('nihongo_vocab'); if (raw) vocabulary = JSON.parse(raw); } catch(e) { vocabulary = []; }
-    renderTable(); updateHeaderCount();
-  }
-
-  function saveToStorage() {
-    localStorage.setItem('nihongo_vocab', JSON.stringify(vocabulary));
-    updateHeaderCount();
-  }
-
-  function updateDataStatusUI() {
-      autoLoadExcel = localStorage.getItem('auto_load_excel') !== 'false';
-      const btn = document.getElementById('auto-excel-toggle');
-      const knob = document.getElementById('auto-excel-knob');
-      const statusText = document.getElementById('auto-excel-status-text');
-      
-      if (!btn || !knob || !statusText) return;
-
-      if (autoLoadExcel) {
-          btn.classList.remove('bg-ink-200');
-          btn.classList.add('bg-matcha-500');
-          knob.style.transform = 'translateX(20px)';
-          statusText.innerHTML = '<i class="fa-solid fa-check-circle"></i> Đang bật tự động nạp file Excel';
-          statusText.className = 'text-xs text-matcha-600 mb-3 font-medium flex items-center gap-1';
-      } else {
-          btn.classList.remove('bg-matcha-500');
-          btn.classList.add('bg-ink-200');
-          knob.style.transform = 'translateX(0)';
-          statusText.innerHTML = '<i class="fa-solid fa-ban"></i> Đã tắt tự động nạp file Excel';
-          statusText.className = 'text-xs text-ink-400 mb-3 font-medium flex items-center gap-1';
-      }
-  }
-
-  function toggleAutoLoadExcel() {
-      autoLoadExcel = !autoLoadExcel;
-      localStorage.setItem('auto_load_excel', autoLoadExcel);
-      updateDataStatusUI();
-      
-      if (autoLoadExcel) {
-          fetchAutoExcel().then(() => renderTable());
-          showToast('Đã bật tự động nạp Excel!', 'success');
-      } else {
-          showToast('Đã tắt tự động nạp Excel!', 'info');
-      }
-  }
-
-  async function fetchAutoExcel() {
-      if (!autoLoadExcel) return;
-
-      try {
-          const res = await fetch('jp_vocabulary.xlsx', { cache: 'no-store' });
-          if (!res.ok) throw new Error('Không có file');
-          const buffer = await res.arrayBuffer();
-          const workbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
-          const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: '' });
-          
-          let added = 0;
-          rows.forEach((row, idx) => {
-              const kanji = (row[0] || '').toString().trim();
-              const furigana = (row[1] || '').toString().trim();
-              const meaning = (row[2] || '').toString().trim();
-              if ((!kanji && !furigana) || !meaning || (idx === 0 && (kanji.toLowerCase().includes('kanji') || kanji === 'A'))) return;
-              if (!vocabulary.find(v => v.kanji === kanji && v.furigana === furigana && v.meaning === meaning)) {
-                  vocabulary.push({ id: Date.now().toString() + Math.random(), kanji, furigana, meaning });
-                  added++;
-              }
-          });
-          if (added > 0) {
-              saveToStorage();
-              renderTable();
-              showToast(`Đã nạp tự động ${added} từ mới từ jp_vocabulary.xlsx!`, 'success');
-          }
-      } catch (e) {
-          console.warn('Lỗi auto load excel:', e);
-          if (vocabulary.length === 0) {
-              document.getElementById('cors-alert').classList.remove('hidden');
-          }
-      }
-  }
-
-  function editWord(id) {
-    const word = vocabulary.find(v => v.id === id);
-    if (!word) return;
-    document.getElementById('inp-kanji').value = word.kanji || '';
-    document.getElementById('inp-furigana').value = word.furigana || '';
-    document.getElementById('inp-meaning').value = word.meaning || '';
-    editingId = id;
-    
-    document.getElementById('form-title').innerHTML = 'Sửa từ vựng';
-    document.getElementById('form-icon').classList.replace('bg-ink-100', 'bg-sakura-100');
-    document.getElementById('form-icon').innerHTML = '<i class="fa-solid fa-pen text-sakura-500 text-xs"></i>';
-    document.getElementById('btn-save').innerHTML = '<i class="fa-solid fa-check"></i> Cập nhật';
-    document.getElementById('btn-cancel').classList.remove('hidden');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function cancelEdit() {
-    editingId = null;
-    clearForm();
-    document.getElementById('form-title').innerHTML = 'Thêm từ mới';
-    document.getElementById('form-icon').classList.replace('bg-sakura-100', 'bg-ink-100');
-    document.getElementById('form-icon').innerHTML = '<i class="fa-solid fa-plus text-ink-500 text-xs"></i>';
-    document.getElementById('btn-save').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Lưu từ vựng';
-    document.getElementById('btn-cancel').classList.add('hidden');
-  }
-
-  function saveWord() {
-    const kanji    = document.getElementById('inp-kanji').value.trim();
-    const furigana = document.getElementById('inp-furigana').value.trim();
-    const meaning  = document.getElementById('inp-meaning').value.trim();
-
-    if ((!kanji && !furigana) || !meaning) {
-      showToast('Vui lòng nhập Nghĩa và ít nhất Kanji hoặc Furigana!', 'error');
-      return;
-    }
-
-    if (editingId) {
-      const index = vocabulary.findIndex(v => v.id === editingId);
-      if (index > -1) {
-        const dup = vocabulary.find(v => v.id !== editingId && v.kanji === kanji && v.furigana === furigana && v.meaning === meaning);
-        if (dup) { showToast('Từ này đã tồn tại trong danh sách!', 'error'); return; }
-
-        vocabulary[index] = { ...vocabulary[index], kanji, furigana, meaning };
-        showToast(`Đã cập nhật từ vựng!`, 'success');
-      }
-      cancelEdit(); 
-    } else {
-      const dup = vocabulary.find(v => v.kanji === kanji && v.furigana === furigana && v.meaning === meaning);
-      if (dup) { showToast('Từ này đã tồn tại trong danh sách!', 'error'); return; }
-
-      const newWord = { id: Date.now().toString(), kanji, furigana, meaning };
-      vocabulary.unshift(newWord); 
-      clearForm();
-      showToast(`Đã thêm từ thành công!`, 'success');
-    }
-
-    saveToStorage(); 
-    renderTable();
-  }
-
-  function deleteWord(id) { 
-    vocabulary = vocabulary.filter(v => v.id !== id); 
-    selectedWordIds.delete(id);
-    saveToStorage(); 
-    renderTable(); 
-    updateFlashcardButton();
-    showToast('Đã xóa từ vựng.', 'info'); 
-  }
-  
-  function clearForm() { ['inp-kanji','inp-furigana','inp-meaning'].forEach(id => document.getElementById(id).value = ''); }
-  
-  function confirmClearAll() { 
-      openModal('Xóa toàn bộ dữ liệu?', 'Hành động này sẽ xóa hết tất cả từ vựng.', () => { 
-          vocabulary = []; 
-          selectedWordIds.clear();
-          saveToStorage(); 
-          renderTable(); 
-          updateFlashcardButton();
-          showToast('Đã xóa toàn bộ dữ liệu.', 'info'); 
-      }); 
-  }
-
-  function removeDuplicates() {
-    if (vocabulary.length === 0) { showToast('Danh sách trống, không có gì để xóa!', 'error'); return; }
-    const originalLength = vocabulary.length;
-    const uniqueVocab = [];
-    const seen = new Set();
-    for (const word of vocabulary) {
-      const key = `${(word.kanji || '').trim()}_${(word.furigana || '').trim()}_${(word.meaning || '').trim()}`.toLowerCase();
-      if (!seen.has(key)) { seen.add(key); uniqueVocab.push(word); }
-    }
-    const removedCount = originalLength - uniqueVocab.length;
-    if (removedCount > 0) { 
-      vocabulary = uniqueVocab; 
-      // Lọc lại các ID đã chọn phòng hờ có ID bị mất
-      const validIds = new Set(vocabulary.map(v => v.id));
-      selectedWordIds = new Set([...selectedWordIds].filter(id => validIds.has(id)));
-      saveToStorage(); 
-      renderTable(); 
-      updateFlashcardButton();
-      showToast(`Đã dọn dẹp! Xóa thành công ${removedCount} từ bị trùng.`, 'success'); 
-    } 
-    else { showToast('Không tìm thấy từ nào bị trùng lặp!', 'info'); }
-  }
-
-  // ==================== LOGIC QUẢN LÝ CHECKBOX ====================
-  function toggleSelectWord(id) {
-    if (selectedWordIds.has(id)) {
-      selectedWordIds.delete(id);
-    } else {
-      selectedWordIds.add(id);
-    }
-    updateFlashcardButton();
-    updateMasterCheckboxState();
-  }
-
-  function toggleSelectAll(masterChk) {
-    const query = (document.getElementById('search-input')?.value || '').toLowerCase();
-    const filtered = vocabulary.filter(v => (v.kanji || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
-    
-    if (masterChk.checked) {
-      filtered.forEach(v => selectedWordIds.add(v.id));
-    } else {
-      filtered.forEach(v => selectedWordIds.delete(v.id));
-    }
-    
-    // Chỉ render lại trạng thái checkbox của hàng để tối ưu hiệu năng thay vì build lại toàn bộ DOM table
-    const tbody = document.getElementById('vocab-table-body');
-    const checkboxes = tbody.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(chk => {
-       const id = chk.getAttribute('data-id');
-       if(id) chk.checked = masterChk.checked;
-    });
-
-    updateFlashcardButton();
-  }
-
-  function updateFlashcardButton() {
-    const btnText = document.getElementById('btn-fc-text');
-    if (btnText) {
-      btnText.textContent = `Tạo Flashcard (${selectedWordIds.size})`;
-    }
-  }
-
-  function updateMasterCheckboxState() {
-    const masterChk = document.getElementById('chk-select-all');
-    if (!masterChk) return;
-    
-    const query = (document.getElementById('search-input')?.value || '').toLowerCase();
-    const filtered = vocabulary.filter(v => (v.kanji || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
-    
-    if (filtered.length === 0) {
-      masterChk.checked = false;
-      return;
-    }
-    const allChecked = filtered.every(v => selectedWordIds.has(v.id));
-    masterChk.checked = allChecked;
-  }
-
-  function renderTable() {
-    const query = (document.getElementById('search-input')?.value || '').toLowerCase();
-    const filtered = vocabulary.filter(v => (v.kanji || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
-    const tbody = document.getElementById('vocab-table-body');
-    const empty = document.getElementById('empty-state');
-    document.getElementById('list-count').textContent = `${vocabulary.length} từ`;
-
-    if (filtered.length === 0) { tbody.innerHTML = ''; empty.classList.remove('hidden'); if(document.getElementById('chk-select-all')) document.getElementById('chk-select-all').checked = false; return; }
-    empty.classList.add('hidden');
-    
-    tbody.innerHTML = filtered.map((v, i) => {
-      const isChecked = selectedWordIds.has(v.id) ? 'checked' : '';
-      return `
-        <tr>
-          <td class="text-center w-12">
-            <input type="checkbox" data-id="${v.id}" onclick="toggleSelectWord('${v.id}')" ${isChecked} class="w-4 h-4 rounded border-ink-300 text-ink-600 focus:ring-ink-500 cursor-pointer">
-          </td>
-          <td class="text-ink-300 text-xs font-mono w-10">${i+1}</td>
-          <td><span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(v.kanji) || '-'}</span></td>
-          <td><span class="font-jp text-ink-500 text-sm">${escapeHtml(v.furigana) || '-'}</span></td>
-          <td class="text-ink-600 text-sm">${escapeHtml(v.meaning)}</td>
-          <td class="text-center">
-            <div class="flex items-center justify-center gap-1.5">
-              <button onclick="playAudio('${v.id}')" class="w-7 h-7 rounded bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors" title="Nghe phát âm">
-                <i class="fa-solid fa-volume-high text-[11px]"></i>
-              </button>
-              <button onclick="editWord('${v.id}')" class="w-7 h-7 rounded bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition-colors" title="Sửa">
-                <i class="fa-solid fa-pen text-[11px]"></i>
-              </button>
-              <button onclick="deleteWord('${v.id}')" class="w-7 h-7 rounded bg-sakura-50 text-sakura-500 hover:bg-sakura-100 hover:text-sakura-700 flex-center transition-colors" title="Xóa">
-                <i class="fa-solid fa-trash text-[11px]"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-      `;
-    }).join('');
-    
-    updateMasterCheckboxState();
-    updateFlashcardButton();
-  }
-
-  function updateHeaderCount() { const el = document.getElementById('header-count'); if (el) el.textContent = vocabulary.length; }
-
-  function exportExcel() {
-    if (vocabulary.length === 0) { showToast('Danh sách trống!', 'error'); return; }
-    try {
-      const data = [['Kanji', 'Furigana', 'Nghĩa']];
-      vocabulary.forEach(v => {
-        data.push([v.kanji || '', v.furigana || '', v.meaning || '']);
-      });
-      const ws = XLSX.utils.aoa_to_sheet(data);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Tu_Vung");
-      XLSX.writeFile(wb, "jp_vocabulary.xlsx");
-      showToast(`Đã xuất ${vocabulary.length} từ ra file Excel!`, 'success');
-    } catch(err) {
-      showToast('Lỗi khi xuất file Excel!', 'error');
-    }
-  }
-
-  function importExcel(event) {
-    const file = event.target.files[0]; if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
-        const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: '' });
-        let added = 0;
-        rows.forEach((row, idx) => {
-          const kanji = (row[0] || '').toString().trim(), furigana = (row[1] || '').toString().trim(), meaning = (row[2] || '').toString().trim();
-          if ((!kanji && !furigana) || !meaning || (idx === 0 && (kanji.toLowerCase().includes('kanji') || kanji === 'A'))) return;
-          if (!vocabulary.find(v => v.kanji === kanji && v.furigana === furigana && v.meaning === meaning)) { vocabulary.push({ id: Date.now().toString() + idx, kanji, furigana, meaning }); added++; }
-        });
-        saveToStorage(); renderTable(); showToast(`Đã nhập ${added} từ mới!`, 'success');
-      } catch(err) { showToast('Lỗi đọc file Excel!', 'error'); }
-    };
-    reader.readAsArrayBuffer(file); event.target.value = '';
-  }
-
-  function switchTab(name) {
-    ['vocab','quiz','print'].forEach(t => { document.getElementById(`panel-${t}`).classList.add('hidden'); document.getElementById(`tab-${t}`).classList.remove('active'); });
-    document.getElementById(`panel-${name}`).classList.remove('hidden'); document.getElementById(`tab-${name}`).classList.add('active');
-    if (name !== 'quiz') stopTimer();
-  }
-
-  function setQuizOpt(key, val) {
-    quizState[key] = val; const groupMap = { count: ['qc-10','qc-20','qc-50','qc-0'], timer: ['qt-0','qt-10','qt-15','qt-30'] };
-    const idMap = { count: { 10:'qc-10', 20:'qc-20', 50:'qc-50', 0:'qc-0' }, timer: { 0:'qt-0', 10:'qt-10', 15:'qt-15', 30:'qt-30' } };
-    if (groupMap[key]) {
-      groupMap[key].forEach(id => { const el = document.getElementById(id); if (el) el.className = el.className.replace('active-config','').replace('border-ink-500 text-ink-700','') + ' border-ink-100 text-ink-500 hover:border-ink-300'; });
-      const target = document.getElementById(idMap[key][val]); if (target) target.className = target.className.replace('border-ink-100 text-ink-500 hover:border-ink-300','') + ' active-config';
-    }
-  }
-
-  function toggleAutoNext() {
-    quizState.autoNext = !quizState.autoNext; const btn = document.getElementById('auto-next-toggle'), knob = document.getElementById('auto-next-knob');
-    if (quizState.autoNext) { btn.classList.replace('bg-ink-200','bg-ink-500'); knob.style.transform = 'translateX(24px)'; }
-    else { btn.classList.replace('bg-ink-500','bg-ink-200'); knob.style.transform = 'translateX(0)'; }
-  }
-
-  function toggleTTS() {
-    quizState.tts = !quizState.tts; const btn = document.getElementById('tts-toggle'), knob = document.getElementById('tts-knob');
-    if (quizState.tts) { btn.classList.replace('bg-ink-200','bg-ink-500'); knob.style.transform = 'translateX(24px)'; }
-    else { btn.classList.replace('bg-ink-500','bg-ink-200'); knob.style.transform = 'translateX(0)'; }
-  }
-
-  function startQuiz(customPool = null) {
-    let pool = [];
-    isFlashcardQuiz = false;
-    
-    if (customPool && Array.isArray(customPool)) {
-        pool = shuffle([...customPool]);
-        isFlashcardQuiz = true;
-    } else {
-        if (vocabulary.length < 4) { showToast('Cần ít nhất 4 từ vựng để trắc nghiệm!', 'error'); return; }
-        let targetCount = quizState.count === 0 ? vocabulary.length : Math.min(quizState.count, vocabulary.length);
-        let uniqueWrongWords = [];
-        if (lastWrongWords && lastWrongWords.length > 0) {
-            const seenIds = new Set();
-            for (const w of lastWrongWords) {
-                if (!seenIds.has(w.id)) { seenIds.add(w.id); uniqueWrongWords.push(w); }
+        let isFlashcardQuiz = false;
+        let fcState = { startIndex: 0, currentIndex: 0, pool: [], isFlipped: false };
+        
+        // --- Storage & Initialization ---
+        function loadFromStorage() {
+            try { 
+                const raw = localStorage.getItem('nihongo_vocab'); 
+                if (raw) vocabulary = JSON.parse(raw); 
+            } catch(e) { 
+                vocabulary = []; 
             }
+            renderTable(); 
+            updateHeaderCount();
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('nihongo_vocab', JSON.stringify(vocabulary));
+            updateHeaderCount();
+        }
+
+        // ==========================================
+        // KHU VỰC QUẢN LÝ DỮ LIỆU TỐI GIẢN (N1-N5)
+        // ==========================================
+        
+        // Khôi phục trạng thái Checkbox từ LocalStorage
+        function initLevelsUI() {
+            let saved = [];
+            try { saved = JSON.parse(localStorage.getItem('selected_levels')); } catch(e) {}
+            if (!Array.isArray(saved)) saved = [];
+            
+            $('.level-cb').each(function() {
+                $(this).prop('checked', saved.includes(this.value));
+            });
+        }
+
+        // Lưu các cấp độ đang được chọn
+        function saveLevelSelection() {
+            const levels = $('.level-cb:checked').map(function() { return this.value; }).get();
+            localStorage.setItem('selected_levels', JSON.stringify(levels));
+        }
+
+        // Xử lý khi nhấn BẬT hoặc TẮT nút N1-N5
+        async function toggleLevel(checkbox) {
+            const level = checkbox.value;
+            const isChecked = checkbox.checked;
+            
+            saveLevelSelection(); // Lưu trạng thái
+            
+            if (isChecked) {
+                // --- NẾU BẬT (CHECK) -> TẢI DỮ LIỆU ---
+                showToast(`Đang tải dữ liệu ${level.toUpperCase()}...`, 'info');
+                try {
+                    const res = await fetch(`${level}.xlsx`, { cache: 'no-store' });
+                    if (!res.ok) throw new Error(`Không tìm thấy file ${level}.xlsx`);
+                    
+                    const buffer = await res.arrayBuffer();
+                    const workbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
+                    const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: '' });
+                    
+                    let added = 0;
+                    rows.forEach((row, idx) => {
+                        const kanji = (row[0] || '').toString().trim();
+                        const furigana = (row[1] || '').toString().trim();
+                        const meaning = (row[2] || '').toString().trim();
+                        
+                        if ((!kanji && !furigana) || !meaning || (idx === 0 && (kanji.toLowerCase().includes('kanji') || kanji === 'A'))) return;
+                        
+                        // Lọc trùng & Thêm prefix 'sys_n5_...' vào ID để dễ dàng định danh khi gỡ bỏ
+                        if (!vocabulary.find(v => v.kanji === kanji && v.furigana === furigana && v.meaning === meaning)) {
+                            vocabulary.push({ id: `sys_${level}_${Date.now()}_${Math.random()}`, kanji, furigana, meaning });
+                            added++;
+                        }
+                    });
+                    
+                    if (added > 0) {
+                        saveToStorage();
+                        renderTable();
+                        showToast(`Đã nạp thành công ${added} từ vựng ${level.toUpperCase()}!`, 'success');
+                    } else {
+                        showToast(`Dữ liệu ${level.toUpperCase()} đã tồn tại!`, 'info');
+                    }
+                } catch (e) {
+                    console.error(`Lỗi tải ${level}:`, e);
+                    checkbox.checked = false; // Gỡ check nếu tải lỗi
+                    saveLevelSelection();
+                    $('#cors-alert').removeClass('hidden');
+                }
+            } else {
+                // --- NẾU TẮT (UNCHECK) -> GỠ BỎ DỮ LIỆU KHỎI BẢNG ---
+                const initialLength = vocabulary.length;
+                
+                // Chỉ giữ lại những từ vựng KHÔNG BẮT ĐẦU bằng `sys_n5_` 
+                vocabulary = vocabulary.filter(v => !(v.id && String(v.id).startsWith(`sys_${level}_`)));
+                
+                const removedCount = initialLength - vocabulary.length;
+                
+                // Gỡ các từ vựng này khỏi danh sách đang chọn tạo Flashcard (nếu có)
+                selectedWordIds.forEach(id => {
+                    if (String(id).startsWith(`sys_${level}_`)) selectedWordIds.delete(id);
+                });
+                
+                saveToStorage();
+                renderTable();
+                showToast(`Đã gỡ bỏ ${removedCount} từ vựng ${level.toUpperCase()}.`, 'info');
+            }
+        }
+
+        // --- CRUD Operations ---
+        function editWord(id) {
+            const word = vocabulary.find(v => v.id === id);
+            if (!word) return;
+            
+            $('#inp-kanji').val(word.kanji || '');
+            $('#inp-furigana').val(word.furigana || '');
+            $('#inp-meaning').val(word.meaning || '');
+            editingId = id;
+            
+            $('#form-title').text('Sửa từ vựng');
+            $('#form-icon').removeClass('bg-ink-100').addClass('bg-sakura-100')
+                         .html('<i class="fa-solid fa-pen text-sakura-500 text-xs"></i>');
+            $('#btn-save').html('<i class="fa-solid fa-check"></i> Cập nhật');
+            $('#btn-cancel').removeClass('hidden');
+            $('html, body').animate({ scrollTop: 0 }, 'smooth');
+        }
+
+        function cancelEdit() {
+            editingId = null;
+            clearForm();
+            $('#form-title').text('Thêm từ mới');
+            $('#form-icon').removeClass('bg-sakura-100').addClass('bg-ink-100')
+                         .html('<i class="fa-solid fa-plus text-ink-500 text-xs"></i>');
+            $('#btn-save').html('<i class="fa-solid fa-floppy-disk"></i> Lưu từ vựng');
+            $('#btn-cancel').addClass('hidden');
+        }
+
+        function saveWord() {
+            const kanji    = $('#inp-kanji').val().trim();
+            const furigana = $('#inp-furigana').val().trim();
+            const meaning  = $('#inp-meaning').val().trim();
+
+            if ((!kanji && !furigana) || !meaning) {
+                showToast('Vui lòng nhập Nghĩa và ít nhất Kanji hoặc Furigana!', 'error');
+                return;
+            }
+
+            if (editingId) {
+                const index = vocabulary.findIndex(v => v.id === editingId);
+                if (index > -1) {
+                    const dup = vocabulary.find(v => v.id !== editingId && v.kanji === kanji && v.furigana === furigana && v.meaning === meaning);
+                    if (dup) { showToast('Từ này đã tồn tại trong danh sách!', 'error'); return; }
+
+                    vocabulary[index] = { ...vocabulary[index], kanji, furigana, meaning };
+                    showToast(`Đã cập nhật từ vựng!`, 'success');
+                }
+                cancelEdit(); 
+            } else {
+                const dup = vocabulary.find(v => v.kanji === kanji && v.furigana === furigana && v.meaning === meaning);
+                if (dup) { showToast('Từ này đã tồn tại trong danh sách!', 'error'); return; }
+
+                vocabulary.unshift({ id: Date.now().toString(), kanji, furigana, meaning }); 
+                clearForm();
+                showToast(`Đã thêm từ thành công!`, 'success');
+            }
+
+            saveToStorage(); 
+            renderTable();
+        }
+
+        function deleteWord(id) { 
+            vocabulary = vocabulary.filter(v => v.id !== id); 
+            selectedWordIds.delete(id);
+            saveToStorage(); 
+            renderTable(); 
+            showToast('Đã xóa từ vựng.', 'info'); 
         }
         
-        if (uniqueWrongWords.length > 0) {
-            let remaining = vocabulary.filter(v => !uniqueWrongWords.some(lw => lw.id === v.id));
-            remaining = shuffle(remaining);
-            if (uniqueWrongWords.length >= targetCount) { pool = shuffle(uniqueWrongWords).slice(0, targetCount); } 
-            else {
-                pool = [...uniqueWrongWords];
-                let needed = targetCount - pool.length;
-                pool = pool.concat(remaining.slice(0, needed));
-            }
-        } else {
-            pool = shuffle([...vocabulary]).slice(0, targetCount);
+        function clearForm() { 
+            $('#inp-kanji, #inp-furigana, #inp-meaning').val(''); 
         }
-        pool = shuffle(pool);
-    }
-    
-    // Nếu trắc nghiệm từ Flashcard mà số lượng từ chọn ít hơn 4, vẫn lấy các từ khác làm mồi đáp án
-    quizState.questions = pool.map(word => {
-        let types = ['jp2vi', 'vi2jp'];
-        if (word.kanji && word.furigana && word.kanji !== word.furigana) {
-            types.push('kanji2furi');
-            types.push('furi2kanji');
+        
+        // Cập nhật hàm Xóa Toàn bộ (Đồng thời gỡ check các nút N1-N5)
+        function confirmClearAll() { 
+            openModal('Xóa toàn bộ dữ liệu?', 'Hành động này sẽ xóa hết tất cả từ vựng đang có trên màn hình.', () => { 
+                vocabulary = []; 
+                selectedWordIds.clear();
+                
+                // Bỏ chọn toàn bộ Checkbox N1-N5
+                $('.level-cb').prop('checked', false);
+                saveLevelSelection();
+                
+                saveToStorage(); 
+                renderTable(); 
+                showToast('Đã dọn sạch toàn bộ dữ liệu.', 'info'); 
+            }); 
         }
-        const type = types[Math.floor(Math.random() * types.length)];
-        return { word, type };
-    });
-    
-    quizState.current = 0; quizState.correct = 0; quizState.wrong = 0; quizState.wrongList = [];
-    document.getElementById('q-total').textContent = quizState.questions.length;
-    document.getElementById('quiz-setup').classList.add('hidden'); document.getElementById('quiz-result').classList.add('hidden'); document.getElementById('quiz-play').classList.remove('hidden');
-    loadQuestion();
-  }
 
-  function loadQuestion() {
-    document.getElementById('q-explanation').classList.add('hidden');
-    document.getElementById('expl-auto-next').classList.add('hidden');
-    const { questions, current, timer } = quizState;
-    if (current >= questions.length) { endQuiz(); return; }
-    const q = questions[current]; quizState.currentWord = q.word; quizState.type = q.type; quizState.answered = false;
-
-    document.getElementById('q-current').textContent = current + 1;
-    document.getElementById('q-correct').textContent = quizState.correct;
-    document.getElementById('q-wrong').textContent = quizState.wrong;
-    document.getElementById('q-progress-bar').style.width = Math.round((current / questions.length) * 100) + '%';
-
-    const jpBlock = document.getElementById('q-jp-block'), viBlock = document.getElementById('q-vi-block'), label = document.getElementById('q-type-label');
-    
-    jpBlock.classList.remove('hidden'); viBlock.classList.add('hidden');
-    document.getElementById('q-kanji').textContent = '';
-    document.getElementById('q-furigana').textContent = '';
-    
-    if (q.type === 'jp2vi') {
-      label.textContent = '🇯🇵 → 🇻🇳 Tìm nghĩa tiếng Việt';
-      document.getElementById('q-kanji').textContent = q.word.kanji || q.word.furigana;
-      document.getElementById('q-furigana').textContent = (q.word.kanji && q.word.furigana) ? q.word.furigana : '';
-    } else if (q.type === 'vi2jp') {
-      jpBlock.classList.add('hidden'); viBlock.classList.remove('hidden'); 
-      label.textContent = '🇻🇳 → 🇯🇵 Tìm từ tiếng Nhật đúng';
-      document.getElementById('q-meaning-vi').textContent = q.word.meaning;
-    } else if (q.type === 'kanji2furi') {
-      label.textContent = '🔤 Chọn Furigana tương ứng';
-      document.getElementById('q-kanji').textContent = q.word.kanji;
-    } else if (q.type === 'furi2kanji') {
-      label.textContent = '🔤 Chọn Hán tự tương ứng';
-      document.getElementById('q-kanji').textContent = q.word.furigana;
-    }
-
-    const options = shuffle([q.word, ...shuffle(vocabulary.filter(v => v.id !== q.word.id)).slice(0, 3)]);
-    document.getElementById('options-grid').innerHTML = options.map((opt, i) => {
-      let displayText = '';
-      if (q.type === 'jp2vi') {
-          displayText = escapeHtml(opt.meaning);
-      } else if (q.type === 'vi2jp') {
-          displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.kanji || opt.furigana)}</span>
-           ${opt.kanji && opt.furigana ? `<span class="font-jp text-ink-400 text-xs ml-1">(${escapeHtml(opt.furigana)})</span>` : ''}`;
-      } else if (q.type === 'kanji2furi') {
-          displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.furigana || opt.kanji)}</span>`;
-      } else if (q.type === 'furi2kanji') {
-          displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.kanji || opt.furigana)}</span>`;
-      }
-      return `<button onclick="answerQuestion('${opt.id}','${q.word.id}','btn-opt-${i}')" id="btn-opt-${i}" class="quiz-option"><span class="opt-label">${['A','B','C','D'][i]}</span><span>${displayText}</span></button>`;
-    }).join('');
-
-    document.getElementById('btn-next').classList.add('hidden');
-    const card = document.getElementById('question-card'); card.classList.remove('pop-in'); void card.offsetWidth; card.classList.add('pop-in');
-    
-    if (quizState.tts) {
-      if (q.type === 'furi2kanji') speakWord(q.word.furigana);
-      else speakWord(q.word.kanji || q.word.furigana);
-    }
-    
-    if (timer > 0) { document.getElementById('timer-display').classList.remove('hidden'); document.getElementById('timer-bar-wrap').classList.remove('hidden'); startTimer(timer); }
-    else { document.getElementById('timer-display').classList.add('hidden'); document.getElementById('timer-bar-wrap').classList.add('hidden'); }
-  }
-
-  function answerQuestion(selectedId, correctId, btnId) {
-    if (quizState.answered) return; quizState.answered = true; stopTimer();
-    const isCorrect = selectedId === correctId;
-    if (isCorrect) quizState.correct++; else { quizState.wrong++; quizState.wrongList.push({ word: quizState.currentWord, type: quizState.type }); }
-    document.querySelectorAll('.quiz-option').forEach(btn => {
-      btn.disabled = true; const oid = btn.getAttribute('onclick').match(/'([^']+)'/)?.[1];
-      if (oid === correctId) btn.classList.add('correct');
-      else if (btn.id === btnId && !isCorrect) { btn.classList.add('wrong'); btn.classList.add('shake'); }
-    });
-    document.getElementById('q-correct').textContent = quizState.correct; document.getElementById('q-wrong').textContent = quizState.wrong;
-    
-    const explBox = document.getElementById('q-explanation');
-    document.getElementById('expl-kanji').textContent = quizState.currentWord.kanji || '';
-    document.getElementById('expl-furigana').textContent = quizState.currentWord.furigana ? `(${quizState.currentWord.furigana})` : '';
-    document.getElementById('expl-meaning').textContent = quizState.currentWord.meaning || '';
-    explBox.style.borderColor = isCorrect ? '#4caf7d' : '#e03060';
-    explBox.style.background = isCorrect ? 'linear-gradient(135deg,#e6f5ec,#f0fbf5)' : 'linear-gradient(135deg,#fff0f5,#fff5f8)';
-    explBox.classList.remove('hidden');
-    explBox.classList.remove('pop-in'); void explBox.offsetWidth; explBox.classList.add('pop-in');
-    
-    document.getElementById('btn-next').classList.remove('hidden');
-    
-    if (quizState.autoNext) {
-        document.getElementById('expl-auto-next').classList.remove('hidden');
-        let cd = 2; document.getElementById('expl-countdown').textContent = cd;
-        const cdInterval = setInterval(() => { cd--; const el = document.getElementById('expl-countdown'); if (el) el.textContent = cd; if (cd <= 0) clearInterval(cdInterval); }, 1000);
-        setTimeout(nextQuestion, 2000);
-    } else {
-        document.getElementById('expl-auto-next').classList.add('hidden');
-    }
-  }
-
-  function nextQuestion() { quizState.current++; loadQuestion(); }
-
-  function exitQuiz() {
-      if (confirm('Bạn có chắc chắn muốn thoát trắc nghiệm? Tiến độ bài này sẽ không được lưu.')) {
-          stopTimer();
-          showQuizSetup();
-      }
-  }
-
-  function endQuiz() {
-    document.getElementById('quiz-play').classList.add('hidden'); document.getElementById('quiz-result').classList.remove('hidden');
-    if (quizState.wrongList.length > 0) {
-        const seenIds = new Set();
-        lastWrongWords = [];
-        for (const item of quizState.wrongList) {
-            if (!seenIds.has(item.word.id)) {
-                seenIds.add(item.word.id);
-                lastWrongWords.push(item.word);
+        function removeDuplicates() {
+            if (vocabulary.length === 0) { showToast('Danh sách trống, không có gì để xóa!', 'error'); return; }
+            
+            const originalLength = vocabulary.length;
+            const uniqueVocab = [];
+            const seen = new Set();
+            
+            $.each(vocabulary, (i, word) => {
+                const key = `${(word.kanji || '').trim()}_${(word.furigana || '').trim()}_${(word.meaning || '').trim()}`.toLowerCase();
+                if (!seen.has(key)) { seen.add(key); uniqueVocab.push(word); }
+            });
+            
+            const removedCount = originalLength - uniqueVocab.length;
+            if (removedCount > 0) { 
+                vocabulary = uniqueVocab; 
+                const validIds = new Set(vocabulary.map(v => v.id));
+                selectedWordIds = new Set([...selectedWordIds].filter(id => validIds.has(id)));
+                saveToStorage(); 
+                renderTable(); 
+                showToast(`Đã dọn dẹp! Xóa thành công ${removedCount} từ bị trùng.`, 'success'); 
+            } else { 
+                showToast('Không tìm thấy từ nào bị trùng lặp!', 'info'); 
             }
         }
-    } else {
-        lastWrongWords = [];
-    }
-    const total = quizState.questions.length, correct = quizState.correct, pct = total > 0 ? Math.round((correct / total) * 100) : 0;
-    document.getElementById('result-correct').textContent = correct; document.getElementById('result-total').textContent = total; document.getElementById('result-pct').textContent = pct + '%';
-    const ring = document.getElementById('result-pct-ring');
-    if (pct >= 80) { ring.style.borderColor = '#4caf7d'; document.getElementById('result-pct').style.color = '#2e9e5e'; document.getElementById('result-emoji').textContent = '🎉'; }
-    else if (pct >= 50) { ring.style.borderColor = '#f0a020'; document.getElementById('result-pct').style.color = '#c07010'; document.getElementById('result-emoji').textContent = '💪'; }
-    else { ring.style.borderColor = '#e03060'; document.getElementById('result-pct').style.color = '#c02040'; document.getElementById('result-emoji').textContent = '📚'; }
 
-    const wrongSection = document.getElementById('wrong-answers-section'), wrongList = document.getElementById('wrong-answers-list'), wrongBadge = document.getElementById('wrong-count-badge');
-    if (quizState.wrongList.length > 0) {
-      wrongSection.classList.remove('hidden'); wrongBadge.textContent = quizState.wrongList.length + ' câu sai';
-      wrongList.innerHTML = quizState.wrongList.map(item => `
-        <div class="flex items-start gap-3 p-3 bg-sakura-100 rounded-xl">
-          <i class="fa-solid fa-xmark text-sakura-400 mt-1 flex-shrink-0"></i>
-          <div>
-            <span class="font-jp font-bold text-ink-800">${escapeHtml(item.word.kanji || item.word.furigana)}</span>
-            ${item.word.kanji && item.word.furigana ? `<span class="font-jp text-ink-400 text-sm ml-1">(${escapeHtml(item.word.furigana)})</span>` : ''}
-            <span class="mx-2 text-ink-300">→</span><span class="text-ink-600">${escapeHtml(item.word.meaning)}</span>
-          </div>
-        </div>
-      `).join('');
-    } else wrongSection.classList.add('hidden');
-
-    if (isFlashcardQuiz) {
-        document.getElementById('regular-post-actions').classList.add('hidden');
-        document.getElementById('fc-post-actions').classList.remove('hidden');
-    } else {
-        document.getElementById('regular-post-actions').classList.remove('hidden');
-        document.getElementById('fc-post-actions').classList.add('hidden');
-    }
-  }
-
-  function restartQuiz() { startQuiz(); }
-  function showQuizSetup() { document.getElementById('quiz-result').classList.add('hidden'); document.getElementById('quiz-play').classList.add('hidden'); document.getElementById('quiz-setup').classList.remove('hidden'); }
-
-  function startTimer(seconds) {
-    stopTimer(); quizState.timerLeft = seconds; updateTimerUI(seconds, seconds);
-    quizState.timerInterval = setInterval(() => {
-      quizState.timerLeft--; updateTimerUI(quizState.timerLeft, seconds);
-      if (quizState.timerLeft <= 0) {
-        stopTimer();
-        if (!quizState.answered) {
-          quizState.answered = true; quizState.wrong++; quizState.wrongList.push({ word: quizState.currentWord, type: quizState.type });
-          document.getElementById('q-wrong').textContent = quizState.wrong;
-          document.querySelectorAll('.quiz-option').forEach(btn => {
-            btn.disabled = true; if (btn.getAttribute('onclick').match(/'([^']+)'/)?.[1] === quizState.currentWord.id) btn.classList.add('correct');
-          });
-          
-          const explBox2 = document.getElementById('q-explanation');
-          document.getElementById('expl-kanji').textContent = quizState.currentWord.kanji || '';
-          document.getElementById('expl-furigana').textContent = quizState.currentWord.furigana ? `(${quizState.currentWord.furigana})` : '';
-          document.getElementById('expl-meaning').textContent = quizState.currentWord.meaning || '';
-          explBox2.style.borderColor = '#e03060';
-          explBox2.style.background = 'linear-gradient(135deg,#fff0f5,#fff5f8)';
-          explBox2.classList.remove('hidden');
-          explBox2.classList.remove('pop-in'); void explBox2.offsetWidth; explBox2.classList.add('pop-in');
-          
-          document.getElementById('btn-next').classList.remove('hidden'); 
-          if (quizState.autoNext) {
-            document.getElementById('expl-auto-next').classList.remove('hidden');
-            let cd = 2; document.getElementById('expl-countdown').textContent = cd;
-            const cdI = setInterval(() => { cd--; const el = document.getElementById('expl-countdown'); if (el) el.textContent = cd; if (cd <= 0) clearInterval(cdI); }, 1000);
-            setTimeout(nextQuestion, 2000);
-          } else {
-            document.getElementById('expl-auto-next').classList.add('hidden');
-          }
+        // --- Table & Checkbox Management ---
+        function toggleSelectWord(id) {
+            if (selectedWordIds.has(id)) selectedWordIds.delete(id);
+            else selectedWordIds.add(id);
+            updateFlashcardButton();
+            updateMasterCheckboxState();
         }
-      }
-    }, 1000);
-  }
 
-  function updateTimerUI(left, total) { const pct = (left / total) * 100, bar = document.getElementById('timer-bar'); if (bar) { bar.style.width = pct + '%'; bar.className = 'timer-bar ' + (pct > 50 ? 'ok' : pct > 25 ? 'warn' : 'danger'); } document.getElementById('timer-val').textContent = left; }
-  function stopTimer() { if (quizState.timerInterval) { clearInterval(quizState.timerInterval); quizState.timerInterval = null; } }
-
-  function speakCurrent() { if (quizState.currentWord) speakWord(quizState.currentWord.kanji || quizState.currentWord.furigana); }
-  
-  function speakWord(text) { if (!window.speechSynthesis) return; window.speechSynthesis.cancel(); const utter = new SpeechSynthesisUtterance(text); utter.lang = 'ja-JP'; utter.rate = 0.9; utter.pitch = 1; const jpVoice = window.speechSynthesis.getVoices().find(v => v.lang.startsWith('ja')); if (jpVoice) utter.voice = jpVoice; window.speechSynthesis.speak(utter); }
-
-  function setPrintOpt(key, val) {
-    printState[key] = val; const groupMap = { count: ['pc-10','pc-20'], mode: ['pm-vi','pm-jp','pm-mix'] }, idMap = { count: { 10:'pc-10', 20:'pc-20' }, mode: { vi:'pm-vi', jp:'pm-jp', mix:'pm-mix' } };
-    if (groupMap[key]) {
-      groupMap[key].forEach(id => { const el = document.getElementById(id); if (el) el.className = el.className.replace('active-config','') + ' border-ink-100 text-ink-500 hover:border-ink-300'; });
-      const target = document.getElementById(idMap[key][val]); if (target) target.className = target.className.replace('border-ink-100 text-ink-500 hover:border-ink-300','') + ' active-config';
-    }
-  }
-
-  function generateTest() {
-    const { count, mode } = printState;
-    if (vocabulary.length < count) { showToast(`Cần ít nhất ${count} từ! (Hiện có ${vocabulary.length})`, 'error'); return; }
-    const pool = shuffle([...vocabulary]).slice(0, count);
-    
-    printState.generated = pool.map((w, i) => {
-      const isVi = mode === 'vi' || (mode === 'mix' && i % 2 === 0);
-      const jpQuestionStr = w.kanji || w.furigana; 
-      const jpAnswerStr = w.kanji && w.furigana ? `${w.kanji} (${w.furigana})` : (w.kanji || w.furigana);
-      const viAnswerStr = w.furigana ? `${w.meaning} (${w.furigana})` : w.meaning; 
-      
-      return { 
-        num: i + 1, 
-        type: isVi ? 'vi' : 'jp', 
-        word: w, 
-        question: isVi ? jpQuestionStr : w.meaning, 
-        answer: isVi ? viAnswerStr : jpAnswerStr 
-      };
-    });
-    document.getElementById('test-preview').innerHTML = buildTestHTML(printState.generated, document.getElementById('test-title').value || 'KIỂM TRA TỪ VỰNG TIẾNG NHẬT', false);
-    document.getElementById('btn-print').classList.remove('hidden'); showToast(`Đã tạo bài kiểm tra ${count} từ!`, 'success');
-  }
-
-  function buildTestHTML(questions, title, forPrint) {
-    const today = new Date().toLocaleDateString('vi-VN');
-    return `
-      <div class="${forPrint ? 'print-header' : 'border-b-2 border-ink-800 pb-3 mb-4'}">
-        <div class="${forPrint ? 'print-title' : 'text-xl font-black text-ink-800 font-jp'}">${escapeHtml(title)}</div>
-        <div class="${forPrint ? 'print-meta' : 'flex flex-wrap gap-4 text-sm text-ink-400 mt-2'}">
-          <span>Họ và tên: <span class="${forPrint ? 'print-meta-field' : 'inline-block border-b border-ink-200 min-w-[150px]'}"></span></span>
-          <span>Ngày: <span class="${forPrint ? 'print-meta-field' : 'inline-block border-b border-ink-200 min-w-[100px]'}">${forPrint ? '' : today}</span></span>
-          <span>Lớp: <span class="${forPrint ? 'print-meta-field' : 'inline-block border-b border-ink-200 min-w-[80px]'}"></span></span>
-          <span>Điểm: <span class="${forPrint ? 'print-meta-field' : 'inline-block border-b border-ink-200 min-w-[60px]'}"></span></span>
-        </div>
-      </div>
-      <div class="${forPrint ? '' : 'flex flex-col gap-0'}">
-        ${questions.map(q => `
-          <div class="${forPrint ? 'print-question' : 'flex items-center gap-3 py-2.5 border-b border-ink-50'}">
-            <span class="${forPrint ? 'print-question-num' : 'w-7 h-7 rounded-full bg-ink-100 flex-center text-ink-600 font-bold text-sm flex-shrink-0'}">${q.num}.</span>
-            <span class="text-xs text-ink-400 ${forPrint ? '' : 'hidden sm:inline'}">[${q.type === 'vi' ? '🇯🇵→🇻🇳 Viết nghĩa tiếng Việt' : '🇻🇳→🇯🇵 Viết từ tiếng Nhật'}]</span>
-            ${q.type === 'vi' 
-              ? `<span class="${forPrint ? 'print-jp' : 'font-jp font-bold text-ink-800 text-lg'}">${escapeHtml(q.word.kanji || q.word.furigana)}</span>`
-              : `<span class="${forPrint ? '' : 'text-ink-700 font-medium'}">${escapeHtml(q.word.meaning)}</span>`}
-            <span class="${forPrint ? 'print-blank' : 'flex-1 border-b border-dotted border-ink-200 ml-2 min-w-0'}"></span>
-          </div>`).join('')}
-      </div>
-      <div class="${forPrint ? 'page-break' : 'mt-8 pt-6 border-t-2 border-dashed border-ink-200'}">
-        <div class="${forPrint ? 'print-answer-header' : 'font-black text-ink-800 text-base mb-3 flex items-center gap-2'}">${forPrint ? '' : '<i class="fa-solid fa-key text-ink-400"></i>'}ĐÁP ÁN (ANSWER KEY)</div>
-        <div class="${forPrint ? 'answer-grid' : 'flex flex-wrap'}">
-          ${questions.map(q => `<div class="${forPrint ? 'answer-item' : 'inline-flex items-center gap-2 mr-4 mb-2 text-sm'}"><span class="font-bold text-ink-700">${q.num}.</span><span class="${q.type === 'vi' ? '' : 'font-jp'} text-ink-600">${escapeHtml(q.answer)}</span></div>`).join('')}
-        </div>
-      </div>`;
-  }
-  function printTest() { if (!printState.generated.length) return; document.getElementById('print-area').innerHTML = buildTestHTML(printState.generated, document.getElementById('test-title').value || 'KIỂM TRA TỪ VỰNG TIẾNG NHẬT', true); window.print(); }
-
-  function showToast(msg, type = 'info') { const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' }; const container = document.getElementById('toast-container'), toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = `<i class="fa-solid ${icons[type]}"></i> ${msg}`; container.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
-  function openModal(title, body, callback) { document.getElementById('modal-title').textContent = title; document.getElementById('modal-body').textContent = body; document.getElementById('modal-overlay').classList.remove('hidden'); document.getElementById('modal-overlay').classList.add('flex'); modalCallback = callback; }
-  function closeModal() { document.getElementById('modal-overlay').classList.add('hidden'); document.getElementById('modal-overlay').classList.remove('flex'); modalCallback = null; }
-  function confirmModal() { if (modalCallback) modalCallback(); closeModal(); }
-
-  function shuffle(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
-  function escapeHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-  (function injectActiveConfigCSS() { const style = document.createElement('style'); style.textContent = `.active-config { border-color: #4455e0 !important; color: #4455e0 !important; background: #f0f4ff !important; }`; document.head.appendChild(style); })();
-
-  const SLOGAN_KEY = 'nihongo_slogan_v1';
-  const SLOGAN_TTL = 1800000;             
-
-  const SLOGAN_TEMPLATES = [
-    "Trong hành trình thấu hiểu bản thân, đôi khi một {w1} nhỏ bé lại giúp ta vượt qua {w2} lớn lao nhất.",
-    "Người thực sự trưởng thành không cần {w1} để chứng minh — họ chỉ cần giữ vững {w2} trong lòng.",
-    "Mỗi ngày ta học thêm điều gì đó về {w1}, ta cũng vô tình học thêm điều gì đó về {w2}.",
-    "Không phải {w1} định hình con người — chính cách ta đối diện với {w2} mới làm nên tất cả.",
-    "Triết học phương Đông nhắc ta rằng: {w1} là điểm khởi đầu, nhưng {w2} mới là nơi ta thực sự lớn lên.",
-    "Ta có thể sở hữu {w1} cả đời mà không bao giờ thật sự thấu hiểu {w2}.",
-    "Giữa {w1} và {w2} luôn tồn tại một khoảng trống — đó là nơi sự hiểu biết được gieo mầm.",
-    "Người khôn ngoan không chạy trốn {w1}; họ dùng {w2} để chuyển hoá nó.",
-    "Khi ngôn ngữ dạy ta về {w1}, cuộc sống lặng lẽ dạy ta về {w2}.",
-    "Có những lúc {w1} xuất hiện không phải để thử thách ta, mà để nhắc ta nhớ đến {w2}.",
-    "Hành trình học tiếng Nhật cũng như cuộc đời: {w1} là bước đầu, nhưng {w2} là điều ta mang theo mãi.",
-    "Đừng lo khi chưa hiểu hết {w1} — ngay cả {w2} cũng từng là điều xa lạ với ta một thời.",
-    "Sức mạnh thực sự không đến từ {w1} — nó lớn lên từ {w2} mà ta không ngờ mình có.",
-    "Mỗi chữ Nhật như {w1} hay {w2} không chỉ là từ ngữ — chúng là cửa sổ nhìn vào tâm hồn một nền văn hoá.",
-    "Chỉ khi ta dám đối mặt với {w1}, ta mới nhận ra rằng {w2} vẫn luôn ở đó chờ ta sẵn sàng."
-  ];
-
-  function renderSlogan(data) {
-    const { tpl, w1, w2 } = data;
-    const chip = (w) => `<span class="slogan-word font-jp" title="${escapeHtml(w.meaning)}">${escapeHtml(w.kanji || w.furigana)}</span>`;
-    const quoteHtml = tpl.replace('{w1}', chip(w1)).replace('{w2}', chip(w2));
-    const furi = (w) => {
-      const meaning = `<span class="font-semibold not-italic text-ink-600">${escapeHtml(w.meaning)}</span>`;
-      const ruby   = w.furigana ? `<span class="font-jp text-ink-400 not-italic">(${escapeHtml(w.furigana)})</span>` : '';
-      return meaning + (ruby ? '&thinsp;' + ruby : '');
-    };
-    const viSentence = tpl.replace('{w1}', furi(w1)).replace('{w2}', furi(w2));
-    document.getElementById('slogan-quote').innerHTML = `<i class="fa-solid fa-quote-left text-ink-200 mr-1 not-italic" style="font-size:0.65rem;vertical-align:1px;"></i>${quoteHtml}`;
-    document.getElementById('slogan-explain').innerHTML = `<span class="italic">${viSentence}</span>`;
-    updateSloganTimerBadge(data.ts);
-  }
-
-  function generateSlogan() {
-    if (vocabulary.length < 2) {
-      document.getElementById('slogan-quote').innerHTML = '<span class="text-ink-300 text-xs not-italic">Thêm ít nhất 2 từ vựng để kích hoạt Slogan ✨</span>';
-      document.getElementById('slogan-explain').innerHTML = '';
-      document.getElementById('slogan-timer-badge').textContent = '';
-      return;
-    }
-    const [w1, w2] = shuffle([...vocabulary]).slice(0, 2);
-    const tpl = SLOGAN_TEMPLATES[Math.floor(Math.random() * SLOGAN_TEMPLATES.length)];
-    const data = { tpl, w1, w2, ts: Date.now() };
-    localStorage.setItem(SLOGAN_KEY, JSON.stringify(data));
-    renderSlogan(data);
-  }
-
-  function loadOrRefreshSlogan() {
-    try {
-      const raw = localStorage.getItem(SLOGAN_KEY);
-      if (raw) {
-        const data = JSON.parse(raw);
-        if (Date.now() - data.ts < SLOGAN_TTL && vocabulary.length >= 2) {
-          renderSlogan(data);
-          return;
+        function toggleSelectAll(el) {
+            const isChecked = $(el).prop('checked');
+            const query = ($('#search-input').val() || '').toLowerCase();
+            const filtered = vocabulary.filter(v => (v.kanji || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
+            
+            if (isChecked) {
+                filtered.forEach(v => selectedWordIds.add(v.id));
+            } else {
+                filtered.forEach(v => selectedWordIds.delete(v.id));
+            }
+            
+            $('#vocab-table-body input[type="checkbox"]').prop('checked', isChecked);
+            updateFlashcardButton();
         }
-      }
-    } catch (e) { }
-    generateSlogan();
-  }
 
-  function refreshSlogan() {
-    const icon = document.getElementById('slogan-refresh-icon');
-    icon.classList.remove('slogan-spin');
-    void icon.offsetWidth; 
-    icon.classList.add('slogan-spin');
-    generateSlogan();
-  }
+        function updateFlashcardButton() {
+            $('#btn-fc-text').text(`Tạo Flashcard (${selectedWordIds.size})`);
+        }
 
-  function updateSloganTimerBadge(ts) {
-    const badge = document.getElementById('slogan-timer-badge');
-    if (!badge) return;
-    const fn = () => {
-      const rem = SLOGAN_TTL - (Date.now() - ts);
-      if (rem <= 0) { badge.textContent = ''; loadOrRefreshSlogan(); return; }
-      const mins = Math.ceil(rem / 60000);
-      badge.textContent = `⏱ ${mins}p`;
-    };
-    fn(); 
-    clearInterval(window._sloganTimerInterval);
-    window._sloganTimerInterval = setInterval(fn, 60000);
-  }
+        function updateMasterCheckboxState() {
+            const query = ($('#search-input').val() || '').toLowerCase();
+            const filtered = vocabulary.filter(v => (v.kanji || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
+            
+            if (filtered.length === 0) {
+                $('#chk-select-all').prop('checked', false);
+                return;
+            }
+            const allChecked = filtered.every(v => selectedWordIds.has(v.id));
+            $('#chk-select-all').prop('checked', allChecked);
+        }
 
-  function seedSampleData() { if (vocabulary.length > 0) return; vocabulary = [{id:'s1',kanji:'先生',furigana:'せんせい',meaning:'Giáo viên'},{id:'s2',kanji:'学生',furigana:'がくせい',meaning:'Học sinh'},{id:'s3',kanji:'パン',furigana:'',meaning:'Bánh mì'}]; saveToStorage(); renderTable(); }
+        function renderTable() {
+            const query = ($('#search-input').val() || '').toLowerCase();
+            const filtered = vocabulary.filter(v => (v.kanji || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
+            
+            const $tbody = $('#vocab-table-body');
+            const $empty = $('#empty-state');
+            $('#list-count').text(`${vocabulary.length} từ`);
 
-  function playAudio(id) {
-    const word = vocabulary.find(v => v.id === id);
-    if (word) {
-      speakWord(word.kanji || word.furigana); 
-    }
-  }
+            if (filtered.length === 0) { 
+                $tbody.empty(); 
+                $empty.removeClass('hidden'); 
+                $('#chk-select-all').prop('checked', false); 
+                return; 
+            }
+            $empty.addClass('hidden');
+            
+            const rowsHTML = filtered.map((v, i) => {
+                const isChecked = selectedWordIds.has(v.id) ? 'checked' : '';
+                return `
+                    <tr>
+                        <td class="text-center w-12">
+                            <input type="checkbox" data-id="${v.id}" onclick="toggleSelectWord('${v.id}')" ${isChecked} class="w-4 h-4 rounded border-ink-300 text-ink-600 focus:ring-ink-500 cursor-pointer">
+                        </td>
+                        <td class="text-ink-300 text-xs font-mono w-10">${i+1}</td>
+                        <td><span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(v.kanji) || '-'}</span></td>
+                        <td><span class="font-jp text-ink-500 text-sm">${escapeHtml(v.furigana) || '-'}</span></td>
+                        <td class="text-ink-600 text-sm">${escapeHtml(v.meaning)}</td>
+                        <td class="text-center">
+                            <div class="flex items-center justify-center gap-1.5">
+                                <button onclick="playAudio('${v.id}')" class="w-7 h-7 rounded bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors" title="Nghe phát âm">
+                                    <i class="fa-solid fa-volume-high text-[11px]"></i>
+                                </button>
+                                <button onclick="editWord('${v.id}')" class="w-7 h-7 rounded bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition-colors" title="Sửa">
+                                    <i class="fa-solid fa-pen text-[11px]"></i>
+                                </button>
+                                <button onclick="deleteWord('${v.id}')" class="w-7 h-7 rounded bg-sakura-50 text-sakura-500 hover:bg-sakura-100 hover:text-sakura-700 flex-center transition-colors" title="Xóa">
+                                    <i class="fa-solid fa-trash text-[11px]"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            $tbody.html(rowsHTML);
+            updateMasterCheckboxState();
+            updateFlashcardButton();
+        }
 
-  // ==================== LOGIC FLASHCARD CHỌN ĐỐI TƯỢNG ====================
-  function openFlashcardModal() {
-      if (selectedWordIds.size === 0) { 
-          showToast("Vui lòng tích chọn ít nhất 1 từ vựng ở bảng để tạo Flashcard!", "error"); 
-          return; 
-      }
-      
-      // Lọc lấy danh sách các Object từ vựng đầy đủ dựa vào danh sách ID đã chọn
-      fcState.pool = vocabulary.filter(v => selectedWordIds.has(v.id));
-      
-      fcState.currentIndex = 0;
-      fcState.isFlipped = false;
-      document.getElementById('flashcard-modal').classList.remove('hidden');
-      renderFlashcard();
-      
-      document.getElementById('flashcard-modal').querySelector('.card').focus();
-  }
+        function updateHeaderCount() { $('#header-count').text(vocabulary.length); }
 
-  function closeFlashcardModal() { document.getElementById('flashcard-modal').classList.add('hidden'); }
+        // --- Import / Export Excel ---
+        function exportExcel() {
+            if (vocabulary.length === 0) { showToast('Danh sách trống!', 'error'); return; }
+            try {
+                const data = [['Kanji', 'Furigana', 'Nghĩa']];
+                $.each(vocabulary, (i, v) => data.push([v.kanji || '', v.furigana || '', v.meaning || '']));
+                
+                const ws = XLSX.utils.aoa_to_sheet(data);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Tu_Vung");
+                XLSX.writeFile(wb, "jp_vocabulary.xlsx");
+                
+                showToast(`Đã xuất ${vocabulary.length} từ ra file Excel!`, 'success');
+            } catch(err) {
+                showToast('Lỗi khi xuất file Excel!', 'error');
+            }
+        }
 
-  function toggleFlashcard() {
-      fcState.isFlipped = !fcState.isFlipped;
-      const inner = document.getElementById('fc-inner');
-      if (fcState.isFlipped) inner.classList.add('is-flipped');
-      else inner.classList.remove('is-flipped');
-  }
+        function importExcel(event) {
+            const file = event.target.files[0]; 
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+                    const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: '' });
+                    let added = 0;
+                    $.each(rows, (idx, row) => {
+                        const kanji = (row[0] || '').toString().trim();
+                        const furigana = (row[1] || '').toString().trim();
+                        const meaning = (row[2] || '').toString().trim();
+                        
+                        if ((!kanji && !furigana) || !meaning || (idx === 0 && (kanji.toLowerCase().includes('kanji') || kanji === 'A'))) return;
+                        if (!vocabulary.find(v => v.kanji === kanji && v.furigana === furigana && v.meaning === meaning)) { 
+                            vocabulary.push({ id: Date.now().toString() + idx, kanji, furigana, meaning }); 
+                            added++; 
+                        }
+                    });
+                    saveToStorage(); 
+                    renderTable(); 
+                    showToast(`Đã nhập ${added} từ mới!`, 'success');
+                } catch(err) { 
+                    showToast('Lỗi đọc file Excel!', 'error'); 
+                }
+            };
+            reader.readAsArrayBuffer(file); 
+            $(event.target).val('');
+        }
 
-  function renderFlashcard() {
-      if (fcState.pool.length === 0) return;
-      const word = fcState.pool[fcState.currentIndex];
-      
-      document.getElementById('fc-kanji').textContent = word.kanji || word.furigana;
-      document.getElementById('fc-furigana').textContent = word.furigana || '';
-      document.getElementById('fc-meaning').textContent = word.meaning || '';
-      
-      fcState.isFlipped = false;
-      document.getElementById('fc-inner').classList.remove('is-flipped');
+        // --- Tabs Navigation ---
+        function switchTab(name) {
+            $('.tab-panel').addClass('hidden');
+            $('.tab-btn').removeClass('active');
+            
+            $(`#panel-${name}`).removeClass('hidden');
+            $(`#tab-${name}`).addClass('active');
+            
+            if (name !== 'quiz') stopTimer();
+        }
 
-      document.getElementById('fc-progress').textContent = `${fcState.currentIndex + 1} / ${fcState.pool.length}`;
-      document.getElementById('fc-progress-bar').style.width = `${((fcState.currentIndex + 1) / fcState.pool.length) * 100}%`;
+        // --- Quiz Features ---
+        function setQuizOpt(key, val) {
+            quizState[key] = val; 
+            const groupMap = { count: ['qc-10','qc-20','qc-50','qc-0'], timer: ['qt-0','qt-10','qt-15','qt-30'] };
+            const idMap = { count: { 10:'qc-10', 20:'qc-20', 50:'qc-50', 0:'qc-0' }, timer: { 0:'qt-0', 10:'qt-10', 15:'qt-15', 30:'qt-30' } };
+            
+            if (groupMap[key]) {
+                $.each(groupMap[key], (i, id) => {
+                    $(`#${id}`).removeClass('active-config border-ink-500 text-ink-700')
+                               .addClass('border-ink-100 text-ink-500 hover:border-ink-300');
+                });
+                $(`#${idMap[key][val]}`).removeClass('border-ink-100 text-ink-500 hover:border-ink-300')
+                                        .addClass('active-config');
+            }
+        }
 
-      document.getElementById('btn-fc-prev').disabled = (fcState.currentIndex === 0);
-      document.getElementById('btn-fc-prev').style.opacity = (fcState.currentIndex === 0) ? '0.5' : '1';
+        function toggleAutoNext() {
+            quizState.autoNext = !quizState.autoNext; 
+            const $btn = $('#auto-next-toggle'), $knob = $('#auto-next-knob');
+            if (quizState.autoNext) { 
+                $btn.removeClass('bg-ink-200').addClass('bg-ink-500'); 
+                $knob.css('transform', 'translateX(24px)'); 
+            } else { 
+                $btn.removeClass('bg-ink-500').addClass('bg-ink-200'); 
+                $knob.css('transform', 'translateX(0)'); 
+            }
+        }
 
-      if (fcState.currentIndex === fcState.pool.length - 1) {
-          document.getElementById('btn-fc-next').classList.add('hidden');
-          document.getElementById('fc-quiz-action').classList.remove('hidden');
-      } else {
-          document.getElementById('btn-fc-next').classList.remove('hidden');
-          document.getElementById('fc-quiz-action').classList.add('hidden');
-      }
-  }
+        function toggleTTS() {
+            quizState.tts = !quizState.tts; 
+            const $btn = $('#tts-toggle'), $knob = $('#tts-knob');
+            if (quizState.tts) { 
+                $btn.removeClass('bg-ink-200').addClass('bg-ink-500'); 
+                $knob.css('transform', 'translateX(24px)'); 
+            } else { 
+                $btn.removeClass('bg-ink-500').addClass('bg-ink-200'); 
+                $knob.css('transform', 'translateX(0)'); 
+            }
+        }
 
-  function prevFlashcard() { 
-      if (fcState.currentIndex > 0) { 
-          fcState.currentIndex--; 
-          renderFlashcard(); 
-          playCurrentFlashcardAudio(); 
-      } 
-  }
-  
-  function nextFlashcard() { 
-      if (fcState.currentIndex < fcState.pool.length - 1) { 
-          fcState.currentIndex++; 
-          renderFlashcard(); 
-          playCurrentFlashcardAudio(); 
-      } 
-  }
+        function startQuiz(customPool = null) {
+            let pool = [];
+            isFlashcardQuiz = false;
+            
+            if (customPool && Array.isArray(customPool)) {
+                pool = shuffle([...customPool]);
+                isFlashcardQuiz = true;
+            } else {
+                if (vocabulary.length < 4) { showToast('Cần ít nhất 4 từ vựng để trắc nghiệm!', 'error'); return; }
+                let targetCount = quizState.count === 0 ? vocabulary.length : Math.min(quizState.count, vocabulary.length);
+                let uniqueWrongWords = [];
+                
+                if (lastWrongWords && lastWrongWords.length > 0) {
+                    const seenIds = new Set();
+                    $.each(lastWrongWords, (i, w) => {
+                        if (!seenIds.has(w.id)) { seenIds.add(w.id); uniqueWrongWords.push(w); }
+                    });
+                }
+                
+                if (uniqueWrongWords.length > 0) {
+                    let remaining = vocabulary.filter(v => !uniqueWrongWords.some(lw => lw.id === v.id));
+                    remaining = shuffle(remaining);
+                    if (uniqueWrongWords.length >= targetCount) { 
+                        pool = shuffle(uniqueWrongWords).slice(0, targetCount); 
+                    } else {
+                        pool = [...uniqueWrongWords].concat(remaining.slice(0, targetCount - uniqueWrongWords.length));
+                    }
+                } else {
+                    pool = shuffle([...vocabulary]).slice(0, targetCount);
+                }
+                pool = shuffle(pool);
+            }
+            
+            quizState.questions = pool.map(word => {
+                let types = ['jp2vi', 'vi2jp'];
+                if (word.kanji && word.furigana && word.kanji !== word.furigana) {
+                    types.push('kanji2furi', 'furi2kanji');
+                }
+                const type = types[Math.floor(Math.random() * types.length)];
+                return { word, type };
+            });
+            
+            quizState.current = 0; quizState.correct = 0; quizState.wrong = 0; quizState.wrongList = [];
+            
+            $('#q-total').text(quizState.questions.length);
+            $('#quiz-setup').addClass('hidden'); 
+            $('#quiz-result').addClass('hidden'); 
+            $('#quiz-play').removeClass('hidden');
+            
+            loadQuestion();
+        }
 
-  function playCurrentFlashcardAudio() {
-      const word = fcState.pool[fcState.currentIndex];
-      if (word) speakWord(word.kanji || word.furigana);
-  }
+        function loadQuestion() {
+            $('#q-explanation').addClass('hidden');
+            $('#expl-auto-next').addClass('hidden');
+            
+            const { questions, current, timer } = quizState;
+            if (current >= questions.length) { endQuiz(); return; }
+            
+            const q = questions[current]; 
+            quizState.currentWord = q.word; 
+            quizState.type = q.type; 
+            quizState.answered = false;
 
-  function startFlashcardQuiz() {
-      closeFlashcardModal();
-      switchTab('quiz');
-      startQuiz(fcState.pool);
-  }
+            $('#q-current').text(current + 1);
+            $('#q-correct').text(quizState.correct);
+            $('#q-wrong').text(quizState.wrong);
+            $('#q-progress-bar').css('width', Math.round((current / questions.length) * 100) + '%');
 
-  function continueFlashcard() {
-      switchTab('vocab');
-      openFlashcardModal();
-  }
+            const $jpBlock = $('#q-jp-block'), $viBlock = $('#q-vi-block'), $label = $('#q-type-label');
+            $jpBlock.removeClass('hidden'); 
+            $viBlock.addClass('hidden');
+            $('#q-kanji').text('');
+            $('#q-furigana').text('');
+            
+            if (q.type === 'jp2vi') {
+                $label.text('🇯🇵 → 🇻🇳 Tìm nghĩa tiếng Việt');
+                $('#q-kanji').text(q.word.kanji || q.word.furigana);
+                $('#q-furigana').text((q.word.kanji && q.word.furigana) ? q.word.furigana : '');
+            } else if (q.type === 'vi2jp') {
+                $jpBlock.addClass('hidden'); 
+                $viBlock.removeClass('hidden'); 
+                $label.text('🇻🇳 → 🇯🇵 Tìm từ tiếng Nhật đúng');
+                $('#q-meaning-vi').text(q.word.meaning);
+            } else if (q.type === 'kanji2furi') {
+                $label.text('🔤 Chọn Furigana tương ứng');
+                $('#q-kanji').text(q.word.kanji);
+            } else if (q.type === 'furi2kanji') {
+                $label.text('🔤 Chọn Hán tự tương ứng');
+                $('#q-kanji').text(q.word.furigana);
+            }
 
-  function backToFlashcard() {
-      switchTab('vocab');
-      document.getElementById('flashcard-modal').classList.remove('hidden');
-      fcState.currentIndex = 0;
-      renderFlashcard();
-  }
-  
-  // XỬ LÝ PHÍM TẮT CHO FLASHCARD
-  document.addEventListener('keydown', function(e) {
-      const modal = document.getElementById('flashcard-modal');
-      if (!modal.classList.contains('hidden')) {
-          if (e.key === ' ' || e.key === 'Enter') {
-              e.preventDefault(); 
-              toggleFlashcard();
-          } else if (e.key === 'ArrowRight') {
-              e.preventDefault();
-              nextFlashcard();
-          } else if (e.key === 'ArrowLeft') {
-              e.preventDefault();
-              prevFlashcard();
-          }
-      }
-  });
+            const options = shuffle([q.word, ...shuffle(vocabulary.filter(v => v.id !== q.word.id)).slice(0, 3)]);
+            
+            const optionsHTML = options.map((opt, i) => {
+                let displayText = '';
+                if (q.type === 'jp2vi') {
+                    displayText = escapeHtml(opt.meaning);
+                } else if (q.type === 'vi2jp') {
+                    displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.kanji || opt.furigana)}</span>
+                    ${opt.kanji && opt.furigana ? `<span class="font-jp text-ink-400 text-xs ml-1">(${escapeHtml(opt.furigana)})</span>` : ''}`;
+                } else if (q.type === 'kanji2furi') {
+                    displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.furigana || opt.kanji)}</span>`;
+                } else if (q.type === 'furi2kanji') {
+                    displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.kanji || opt.furigana)}</span>`;
+                }
+                return `<button onclick="answerQuestion('${opt.id}','${q.word.id}','btn-opt-${i}')" id="btn-opt-${i}" class="quiz-option"><span class="opt-label">${['A','B','C','D'][i]}</span><span>${displayText}</span></button>`;
+            }).join('');
+            
+            $('#options-grid').html(optionsHTML);
+            $('#btn-next').addClass('hidden');
+            
+            const $card = $('#question-card'); 
+            $card.removeClass('pop-in'); 
+            void $card[0].offsetWidth; 
+            $card.addClass('pop-in');
+            
+            if (quizState.tts) {
+                speakWord(q.type === 'furi2kanji' ? q.word.furigana : (q.word.kanji || q.word.furigana));
+            }
+            
+            if (timer > 0) { 
+                $('#timer-display, #timer-bar-wrap').removeClass('hidden'); 
+                startTimer(timer); 
+            } else { 
+                $('#timer-display, #timer-bar-wrap').addClass('hidden'); 
+            }
+        }
 
-  window.addEventListener('DOMContentLoaded', () => {
-    if (typeof tippy !== 'undefined') {
-        tippy('[data-tippy-content]', {
-            animation: 'scale',
-            theme: 'light',
-            placement: 'bottom'
+        function answerQuestion(selectedId, correctId, btnId) {
+            if (quizState.answered) return; 
+            quizState.answered = true; 
+            stopTimer();
+            
+            const isCorrect = selectedId === correctId;
+            if (isCorrect) {
+                quizState.correct++; 
+            } else { 
+                quizState.wrong++; 
+                quizState.wrongList.push({ word: quizState.currentWord, type: quizState.type }); 
+            }
+            
+            $('.quiz-option').each(function() {
+                $(this).prop('disabled', true);
+                const oid = $(this).attr('onclick').match(/'([^']+)'/)?.[1];
+                if (oid === correctId) {
+                    $(this).addClass('correct');
+                } else if ($(this).attr('id') === btnId && !isCorrect) { 
+                    $(this).addClass('wrong shake'); 
+                }
+            });
+            
+            $('#q-correct').text(quizState.correct); 
+            $('#q-wrong').text(quizState.wrong);
+            
+            const $explBox = $('#q-explanation');
+            $('#expl-kanji').text(quizState.currentWord.kanji || '');
+            $('#expl-furigana').text(quizState.currentWord.furigana ? `(${quizState.currentWord.furigana})` : '');
+            $('#expl-meaning').text(quizState.currentWord.meaning || '');
+            
+            $explBox.css({
+                'border-color': isCorrect ? '#4caf7d' : '#e03060',
+                'background': isCorrect ? 'linear-gradient(135deg,#e6f5ec,#f0fbf5)' : 'linear-gradient(135deg,#fff0f5,#fff5f8)'
+            });
+            
+            $explBox.removeClass('hidden pop-in'); 
+            void $explBox[0].offsetWidth; 
+            $explBox.addClass('pop-in');
+            
+            $('#btn-next').removeClass('hidden');
+            
+            if (quizState.autoNext) {
+                $('#expl-auto-next').removeClass('hidden');
+                let cd = 2; 
+                $('#expl-countdown').text(cd);
+                const cdInterval = setInterval(() => { 
+                    cd--; 
+                    $('#expl-countdown').text(cd);
+                    if (cd <= 0) clearInterval(cdInterval); 
+                }, 1000);
+                setTimeout(nextQuestion, 2000);
+            } else {
+                $('#expl-auto-next').addClass('hidden');
+            }
+        }
+
+        function nextQuestion() { 
+            quizState.current++; 
+            loadQuestion(); 
+        }
+
+        function exitQuiz() {
+            if (confirm('Bạn có chắc chắn muốn thoát trắc nghiệm? Tiến độ bài này sẽ không được lưu.')) {
+                stopTimer();
+                showQuizSetup();
+            }
+        }
+
+        function endQuiz() {
+            $('#quiz-play').addClass('hidden'); 
+            $('#quiz-result').removeClass('hidden');
+            
+            if (quizState.wrongList.length > 0) {
+                const seenIds = new Set();
+                lastWrongWords = [];
+                $.each(quizState.wrongList, (i, item) => {
+                    if (!seenIds.has(item.word.id)) {
+                        seenIds.add(item.word.id);
+                        lastWrongWords.push(item.word);
+                    }
+                });
+            } else {
+                lastWrongWords = [];
+            }
+            
+            const total = quizState.questions.length;
+            const correct = quizState.correct;
+            const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+            
+            $('#result-correct').text(correct); 
+            $('#result-total').text(total); 
+            $('#result-pct').text(pct + '%');
+            
+            const $ring = $('#result-pct-ring');
+            if (pct >= 80) { 
+                $ring.css('border-color', '#4caf7d'); 
+                $('#result-pct').css('color', '#2e9e5e'); 
+                $('#result-emoji').text('🎉'); 
+            } else if (pct >= 50) { 
+                $ring.css('border-color', '#f0a020'); 
+                $('#result-pct').css('color', '#c07010'); 
+                $('#result-emoji').text('💪'); 
+            } else { 
+                $ring.css('border-color', '#e03060'); 
+                $('#result-pct').css('color', '#c02040'); 
+                $('#result-emoji').text('📚'); 
+            }
+
+            const $wrongSection = $('#wrong-answers-section');
+            if (quizState.wrongList.length > 0) {
+                $wrongSection.removeClass('hidden'); 
+                $('#wrong-count-badge').text(quizState.wrongList.length + ' câu sai');
+                
+                const wrongHTML = quizState.wrongList.map(item => `
+                    <div class="flex items-start gap-3 p-3 bg-sakura-100 rounded-xl">
+                        <i class="fa-solid fa-xmark text-sakura-400 mt-1 flex-shrink-0"></i>
+                        <div>
+                            <span class="font-jp font-bold text-ink-800">${escapeHtml(item.word.kanji || item.word.furigana)}</span>
+                            ${item.word.kanji && item.word.furigana ? `<span class="font-jp text-ink-400 text-sm ml-1">(${escapeHtml(item.word.furigana)})</span>` : ''}
+                            <span class="mx-2 text-ink-300">→</span><span class="text-ink-600">${escapeHtml(item.word.meaning)}</span>
+                        </div>
+                    </div>
+                `).join('');
+                $('#wrong-answers-list').html(wrongHTML);
+            } else {
+                $wrongSection.addClass('hidden');
+            }
+
+            if (isFlashcardQuiz) {
+                $('#regular-post-actions').addClass('hidden');
+                $('#fc-post-actions').removeClass('hidden');
+            } else {
+                $('#regular-post-actions').removeClass('hidden');
+                $('#fc-post-actions').addClass('hidden');
+            }
+        }
+
+        function restartQuiz() { startQuiz(); }
+        function showQuizSetup() { $('#quiz-result, #quiz-play').addClass('hidden'); $('#quiz-setup').removeClass('hidden'); }
+
+        function startTimer(seconds) {
+            stopTimer(); 
+            quizState.timerLeft = seconds; 
+            updateTimerUI(seconds, seconds);
+            
+            quizState.timerInterval = setInterval(() => {
+                quizState.timerLeft--; 
+                updateTimerUI(quizState.timerLeft, seconds);
+                
+                if (quizState.timerLeft <= 0) {
+                    stopTimer();
+                    if (!quizState.answered) {
+                        quizState.answered = true; 
+                        quizState.wrong++; 
+                        quizState.wrongList.push({ word: quizState.currentWord, type: quizState.type });
+                        $('#q-wrong').text(quizState.wrong);
+                        
+                        $('.quiz-option').each(function() {
+                            $(this).prop('disabled', true); 
+                            if ($(this).attr('onclick').match(/'([^']+)'/)?.[1] === quizState.currentWord.id) {
+                                $(this).addClass('correct');
+                            }
+                        });
+                        
+                        const $explBox = $('#q-explanation');
+                        $('#expl-kanji').text(quizState.currentWord.kanji || '');
+                        $('#expl-furigana').text(quizState.currentWord.furigana ? `(${quizState.currentWord.furigana})` : '');
+                        $('#expl-meaning').text(quizState.currentWord.meaning || '');
+                        
+                        $explBox.css({
+                            'border-color': '#e03060',
+                            'background': 'linear-gradient(135deg,#fff0f5,#fff5f8)'
+                        });
+                        $explBox.removeClass('hidden pop-in'); 
+                        void $explBox[0].offsetWidth; 
+                        $explBox.addClass('pop-in');
+                        
+                        $('#btn-next').removeClass('hidden'); 
+                        
+                        if (quizState.autoNext) {
+                            $('#expl-auto-next').removeClass('hidden');
+                            let cd = 2; 
+                            $('#expl-countdown').text(cd);
+                            const cdI = setInterval(() => { 
+                                cd--; 
+                                $('#expl-countdown').text(cd); 
+                                if (cd <= 0) clearInterval(cdI); 
+                            }, 1000);
+                            setTimeout(nextQuestion, 2000);
+                        } else {
+                            $('#expl-auto-next').addClass('hidden');
+                        }
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimerUI(left, total) { 
+            const pct = (left / total) * 100;
+            const $bar = $('#timer-bar'); 
+            if ($bar.length) { 
+                $bar.css('width', pct + '%'); 
+                $bar.attr('class', 'timer-bar ' + (pct > 50 ? 'ok' : pct > 25 ? 'warn' : 'danger')); 
+            } 
+            $('#timer-val').text(left); 
+        }
+        
+        function stopTimer() { 
+            if (quizState.timerInterval) { clearInterval(quizState.timerInterval); quizState.timerInterval = null; } 
+        }
+
+        // --- Speech Synthesis ---
+        function speakCurrent() { 
+            if (quizState.currentWord) speakWord(quizState.currentWord.kanji || quizState.currentWord.furigana); 
+        }
+        
+        function speakWord(text) { 
+            if (!window.speechSynthesis) return; 
+            window.speechSynthesis.cancel(); 
+            const utter = new SpeechSynthesisUtterance(text); 
+            utter.lang = 'ja-JP'; 
+            utter.rate = 0.9; 
+            utter.pitch = 1; 
+            const jpVoice = window.speechSynthesis.getVoices().find(v => v.lang.startsWith('ja')); 
+            if (jpVoice) utter.voice = jpVoice; 
+            window.speechSynthesis.speak(utter); 
+        }
+
+        function playAudio(id) {
+            const word = vocabulary.find(v => v.id === id);
+            if (word) {
+                speakWord(word.kanji || word.furigana); 
+            }
+        }
+
+        // --- Print Generator Features ---
+        function setPrintOpt(key, val) {
+            printState[key] = val; 
+            const groupMap = { count: ['pc-10','pc-20'], mode: ['pm-vi','pm-jp','pm-mix'] };
+            const idMap = { count: { 10:'pc-10', 20:'pc-20' }, mode: { vi:'pm-vi', jp:'pm-jp', mix:'pm-mix' } };
+            
+            if (groupMap[key]) {
+                $.each(groupMap[key], (i, id) => {
+                    $(`#${id}`).removeClass('active-config').addClass('border-ink-100 text-ink-500 hover:border-ink-300');
+                });
+                $(`#${idMap[key][val]}`).removeClass('border-ink-100 text-ink-500 hover:border-ink-300').addClass('active-config');
+            }
+        }
+
+        function generateTest() {
+            const { count, mode } = printState;
+            if (vocabulary.length < count) { showToast(`Cần ít nhất ${count} từ! (Hiện có ${vocabulary.length})`, 'error'); return; }
+            
+            const pool = shuffle([...vocabulary]).slice(0, count);
+            printState.generated = pool.map((w, i) => {
+                const isVi = mode === 'vi' || (mode === 'mix' && i % 2 === 0);
+                const jpQuestionStr = w.kanji || w.furigana; 
+                const jpAnswerStr = w.kanji && w.furigana ? `${w.kanji} (${w.furigana})` : (w.kanji || w.furigana);
+                const viAnswerStr = w.furigana ? `${w.meaning} (${w.furigana})` : w.meaning; 
+                
+                return { num: i + 1, type: isVi ? 'vi' : 'jp', word: w, question: isVi ? jpQuestionStr : w.meaning, answer: isVi ? viAnswerStr : jpAnswerStr };
+            });
+            
+            $('#test-preview').html(buildTestHTML(printState.generated, $('#test-title').val() || 'KIỂM TRA TỪ VỰNG TIẾNG NHẬT', false));
+            $('#btn-print').removeClass('hidden'); 
+            showToast(`Đã tạo bài kiểm tra ${count} từ!`, 'success');
+        }
+
+        function buildTestHTML(questions, title, forPrint) {
+            const today = new Date().toLocaleDateString('vi-VN');
+            return `
+                <div class="${forPrint ? 'print-header' : 'border-b-2 border-ink-800 pb-3 mb-4'}">
+                    <div class="${forPrint ? 'print-title' : 'text-xl font-black text-ink-800 font-jp'}">${escapeHtml(title)}</div>
+                    <div class="${forPrint ? 'print-meta' : 'flex flex-wrap gap-4 text-sm text-ink-400 mt-2'}">
+                        <span>Họ và tên: <span class="${forPrint ? 'print-meta-field' : 'inline-block border-b border-ink-200 min-w-[150px]'}"></span></span>
+                        <span>Ngày: <span class="${forPrint ? 'print-meta-field' : 'inline-block border-b border-ink-200 min-w-[100px]'}">${forPrint ? '' : today}</span></span>
+                        <span>Lớp: <span class="${forPrint ? 'print-meta-field' : 'inline-block border-b border-ink-200 min-w-[80px]'}"></span></span>
+                        <span>Điểm: <span class="${forPrint ? 'print-meta-field' : 'inline-block border-b border-ink-200 min-w-[60px]'}"></span></span>
+                    </div>
+                </div>
+                <div class="${forPrint ? '' : 'flex flex-col gap-0'}">
+                    ${questions.map(q => `
+                    <div class="${forPrint ? 'print-question' : 'flex items-center gap-3 py-2.5 border-b border-ink-50'}">
+                        <span class="${forPrint ? 'print-question-num' : 'w-7 h-7 rounded-full bg-ink-100 flex-center text-ink-600 font-bold text-sm flex-shrink-0'}">${q.num}.</span>
+                        <span class="text-xs text-ink-400 ${forPrint ? '' : 'hidden sm:inline'}">[${q.type === 'vi' ? '🇯🇵→🇻🇳 Viết nghĩa tiếng Việt' : '🇻🇳→🇯🇵 Viết từ tiếng Nhật'}]</span>
+                        ${q.type === 'vi' 
+                            ? `<span class="${forPrint ? 'print-jp' : 'font-jp font-bold text-ink-800 text-lg'}">${escapeHtml(q.word.kanji || q.word.furigana)}</span>`
+                            : `<span class="${forPrint ? '' : 'text-ink-700 font-medium'}">${escapeHtml(q.word.meaning)}</span>`}
+                        <span class="${forPrint ? 'print-blank' : 'flex-1 border-b border-dotted border-ink-200 ml-2 min-w-0'}"></span>
+                    </div>`).join('')}
+                </div>
+                <div class="${forPrint ? 'page-break' : 'mt-8 pt-6 border-t-2 border-dashed border-ink-200'}">
+                    <div class="${forPrint ? 'print-answer-header' : 'font-black text-ink-800 text-base mb-3 flex items-center gap-2'}">${forPrint ? '' : '<i class="fa-solid fa-key text-ink-400"></i>'}ĐÁP ÁN (ANSWER KEY)</div>
+                    <div class="${forPrint ? 'answer-grid' : 'flex flex-wrap'}">
+                        ${questions.map(q => `<div class="${forPrint ? 'answer-item' : 'inline-flex items-center gap-2 mr-4 mb-2 text-sm'}"><span class="font-bold text-ink-700">${q.num}.</span><span class="${q.type === 'vi' ? '' : 'font-jp'} text-ink-600">${escapeHtml(q.answer)}</span></div>`).join('')}
+                    </div>
+                </div>`;
+        }
+        
+        function printTest() { 
+            if (!printState.generated.length) return; 
+            $('#print-area').html(buildTestHTML(printState.generated, $('#test-title').val() || 'KIỂM TRA TỪ VỰNG TIẾNG NHẬT', true)); 
+            window.print(); 
+        }
+
+        // --- Utils & Modals ---
+        function showToast(msg, type = 'info') { 
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' }; 
+            const $toast = $('<div>').addClass(`toast ${type}`).html(`<i class="fa-solid ${icons[type]}"></i> ${msg}`); 
+            $('#toast-container').append($toast); 
+            setTimeout(() => $toast.remove(), 3000); 
+        }
+        
+        function openModal(title, body, callback) { 
+            $('#modal-title').text(title); 
+            $('#modal-body').text(body); 
+            $('#modal-overlay').removeClass('hidden').addClass('flex'); 
+            modalCallback = callback; 
+        }
+        
+        function closeModal() { 
+            $('#modal-overlay').addClass('hidden').removeClass('flex'); 
+            modalCallback = null; 
+        }
+        
+        function confirmModal() { 
+            if (modalCallback) modalCallback(); 
+            closeModal(); 
+        }
+
+        function shuffle(arr) { 
+            for (let i = arr.length - 1; i > 0; i--) { 
+                const j = Math.floor(Math.random() * (i + 1)); 
+                [arr[i], arr[j]] = [arr[j], arr[i]]; 
+            } 
+            return arr; 
+        }
+        
+        function escapeHtml(str) { 
+            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); 
+        }
+
+        (function injectActiveConfigCSS() { 
+            const style = `<style>.active-config { border-color: #4455e0 !important; color: #4455e0 !important; background: #f0f4ff !important; }</style>`;
+            $('head').append(style); 
+        })();
+
+        // --- Slogan Widget ---
+        const SLOGAN_KEY = 'nihongo_slogan_v1';
+        const SLOGAN_TTL = 1800000;             
+        const SLOGAN_TEMPLATES = [
+            "Trong hành trình thấu hiểu bản thân, đôi khi một {w1} nhỏ bé lại giúp ta vượt qua {w2} lớn lao nhất.",
+            "Người thực sự trưởng thành không cần {w1} để chứng minh — họ chỉ cần giữ vững {w2} trong lòng.",
+            "Mỗi ngày ta học thêm điều gì đó về {w1}, ta cũng vô tình học thêm điều gì đó về {w2}.",
+            "Không phải {w1} định hình con người — chính cách ta đối diện với {w2} mới làm nên tất cả.",
+            "Triết học phương Đông nhắc ta rằng: {w1} là điểm khởi đầu, nhưng {w2} mới là nơi ta thực sự lớn lên.",
+            "Ta có thể sở hữu {w1} cả đời mà không bao giờ thật sự thấu hiểu {w2}."
+        ];
+
+        function renderSlogan(data) {
+            const { tpl, w1, w2 } = data;
+            const chip = (w) => `<span class="slogan-word font-jp" title="${escapeHtml(w.meaning)}">${escapeHtml(w.kanji || w.furigana)}</span>`;
+            const quoteHtml = tpl.replace('{w1}', chip(w1)).replace('{w2}', chip(w2));
+            const furi = (w) => {
+                const meaning = `<span class="font-semibold not-italic text-ink-600">${escapeHtml(w.meaning)}</span>`;
+                const ruby = w.furigana ? `<span class="font-jp text-ink-400 not-italic">(${escapeHtml(w.furigana)})</span>` : '';
+                return meaning + (ruby ? '&thinsp;' + ruby : '');
+            };
+            const viSentence = tpl.replace('{w1}', furi(w1)).replace('{w2}', furi(w2));
+            
+            $('#slogan-quote').html(`<i class="fa-solid fa-quote-left text-ink-200 mr-1 not-italic" style="font-size:0.65rem;vertical-align:1px;"></i>${quoteHtml}`);
+            $('#slogan-explain').html(`<span class="italic">${viSentence}</span>`);
+            updateSloganTimerBadge(data.ts);
+        }
+
+        function generateSlogan() {
+            if (vocabulary.length < 2) {
+                $('#slogan-quote').html('<span class="text-ink-300 text-xs not-italic">Thêm ít nhất 2 từ vựng để kích hoạt Slogan ✨</span>');
+                $('#slogan-explain').html('');
+                $('#slogan-timer-badge').text('');
+                return;
+            }
+            const [w1, w2] = shuffle([...vocabulary]).slice(0, 2);
+            const tpl = SLOGAN_TEMPLATES[Math.floor(Math.random() * SLOGAN_TEMPLATES.length)];
+            const data = { tpl, w1, w2, ts: Date.now() };
+            localStorage.setItem(SLOGAN_KEY, JSON.stringify(data));
+            renderSlogan(data);
+        }
+
+        function loadOrRefreshSlogan() {
+            try {
+                const raw = localStorage.getItem(SLOGAN_KEY);
+                if (raw) {
+                    const data = JSON.parse(raw);
+                    if (Date.now() - data.ts < SLOGAN_TTL && vocabulary.length >= 2) {
+                        renderSlogan(data);
+                        return;
+                    }
+                }
+            } catch (e) { }
+            generateSlogan();
+        }
+
+        function refreshSlogan() {
+            const $icon = $('#slogan-refresh-icon');
+            $icon.removeClass('slogan-spin');
+            void $icon[0].offsetWidth; 
+            $icon.addClass('slogan-spin');
+            generateSlogan();
+        }
+
+        function updateSloganTimerBadge(ts) {
+            const $badge = $('#slogan-timer-badge');
+            if (!$badge.length) return;
+            
+            const fn = () => {
+                const rem = SLOGAN_TTL - (Date.now() - ts);
+                if (rem <= 0) { $badge.text(''); loadOrRefreshSlogan(); return; }
+                const mins = Math.ceil(rem / 60000);
+                $badge.text(`⏱ ${mins}p`);
+            };
+            
+            fn(); 
+            clearInterval(window._sloganTimerInterval);
+            window._sloganTimerInterval = setInterval(fn, 60000);
+        }
+
+        // --- Flashcard Features ---
+        function openFlashcardModal() {
+            if (selectedWordIds.size === 0) { 
+                showToast("Vui lòng tích chọn ít nhất 1 từ vựng ở bảng để tạo Flashcard!", "error"); 
+                return; 
+            }
+            
+            fcState.pool = vocabulary.filter(v => selectedWordIds.has(v.id));
+            fcState.currentIndex = 0;
+            fcState.isFlipped = false;
+            
+            $('#flashcard-modal').removeClass('hidden');
+            renderFlashcard();
+            $('#flashcard-modal .card').focus();
+        }
+
+        function closeFlashcardModal() { 
+            $('#flashcard-modal').addClass('hidden'); 
+        }
+
+        function toggleFlashcard() {
+            fcState.isFlipped = !fcState.isFlipped;
+            $('#fc-inner').toggleClass('is-flipped', fcState.isFlipped);
+        }
+
+        function renderFlashcard() {
+            if (fcState.pool.length === 0) return;
+            const word = fcState.pool[fcState.currentIndex];
+            
+            $('#fc-kanji').text(word.kanji || word.furigana);
+            $('#fc-furigana').text(word.furigana || '');
+            $('#fc-meaning').text(word.meaning || '');
+            
+            fcState.isFlipped = false;
+            $('#fc-inner').removeClass('is-flipped');
+
+            $('#fc-progress').text(`${fcState.currentIndex + 1} / ${fcState.pool.length}`);
+            $('#fc-progress-bar').css('width', `${((fcState.currentIndex + 1) / fcState.pool.length) * 100}%`);
+
+            $('#btn-fc-prev').prop('disabled', fcState.currentIndex === 0)
+                             .css('opacity', fcState.currentIndex === 0 ? '0.5' : '1');
+
+            if (fcState.currentIndex === fcState.pool.length - 1) {
+                $('#btn-fc-next').addClass('hidden');
+                $('#fc-quiz-action').removeClass('hidden');
+            } else {
+                $('#btn-fc-next').removeClass('hidden');
+                $('#fc-quiz-action').addClass('hidden');
+            }
+        }
+
+        function prevFlashcard() { 
+            if (fcState.currentIndex > 0) { 
+                fcState.currentIndex--; 
+                renderFlashcard(); 
+                playCurrentFlashcardAudio(); 
+            } 
+        }
+        
+        function nextFlashcard() { 
+            if (fcState.currentIndex < fcState.pool.length - 1) { 
+                fcState.currentIndex++; 
+                renderFlashcard(); 
+                playCurrentFlashcardAudio(); 
+            } 
+        }
+
+        function playCurrentFlashcardAudio() {
+            const word = fcState.pool[fcState.currentIndex];
+            if (word) speakWord(word.kanji || word.furigana);
+        }
+
+        function startFlashcardQuiz() {
+            closeFlashcardModal();
+            switchTab('quiz');
+            startQuiz(fcState.pool);
+        }
+
+        function continueFlashcard() {
+            switchTab('vocab');
+            openFlashcardModal();
+        }
+
+        function backToFlashcard() {
+            switchTab('vocab');
+            $('#flashcard-modal').removeClass('hidden');
+            fcState.currentIndex = 0;
+            renderFlashcard();
+        }
+
+        // --- Document Ready / Init ---
+        $(function() {
+            // Khởi tạo Tippy (Tooltip)
+            if (typeof tippy !== 'undefined') {
+                tippy('[data-tippy-content]', { animation: 'scale', theme: 'light', placement: 'bottom' });
+            }
+
+            // Init Data (Chỉ load 1 lần từ localStorage - Cực kỳ tối ưu)
+            loadFromStorage();
+            initLevelsUI();
+            loadOrRefreshSlogan();
+
+            // Lắng nghe sự kiện Enter trong Form thêm từ
+            $('#inp-kanji, #inp-furigana, #inp-meaning').on('keydown', function(e) {
+                if (e.key === 'Enter') saveWord();
+            });
+
+            // Đóng Modal khi bấm ra ngoài
+            $('#modal-overlay').on('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+
+            // Phím tắt bàn phím cho Flashcard
+            $(document).on('keydown', function(e) {
+                if (!$('#flashcard-modal').hasClass('hidden')) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault(); 
+                        toggleFlashcard();
+                    } else if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        nextFlashcard();
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        prevFlashcard();
+                    }
+                }
+            });
+
+            // Cấu hình âm thanh TTS
+            if (window.speechSynthesis) {
+                window.speechSynthesis.getVoices();
+                window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+            }
         });
-    }
-
-    updateDataStatusUI();
-    loadFromStorage();
-    loadOrRefreshSlogan();
-    fetchAutoExcel().then(() => {
-        if (vocabulary.length === 0) seedSampleData();
-        loadOrRefreshSlogan();
-    });
-    ['inp-kanji','inp-furigana','inp-meaning'].forEach(id => document.getElementById(id).addEventListener('keydown', (e) => { if (e.key === 'Enter') saveWord(); }));
-    window.speechSynthesis?.getVoices(); if (window.speechSynthesis) window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-    document.getElementById('modal-overlay').addEventListener('click', (e) => { if (e.target === document.getElementById('modal-overlay')) closeModal(); });
-  });
-  </script>
+    </script>
 </body>
 </html>
