@@ -73,6 +73,7 @@
     .quiz-option:hover:not(:disabled) { border-color: #4455e0; background: #f0f4ff; transform: translateX(4px); }
     .quiz-option.correct { background: #e6f5ec; border-color: #2e9e5e; color: #1a7040; }
     .quiz-option.wrong { background: #fff0f5; border-color: #e03060; color: #b02040; }
+    .quiz-option.with-border { border: 1.5px solid #e0e9ff; }
     .quiz-option:disabled { cursor: default; }
     .quiz-option .opt-label { width: 32px; height: 32px; border-radius: 8px; background: #e0e9ff; color: #4455e0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; flex-shrink: 0; transition: all 0.18s; }
     .quiz-option.correct .opt-label { background: #2e9e5e; color: white; }
@@ -286,17 +287,20 @@
           <div class="card p-5">
             <div class="flex items-center justify-between gap-2 mb-4">
               <div class="flex items-center gap-2">
-                <div class="w-7 h-7 rounded-lg bg-matcha-100 flex-center"><i class="fa-solid fa-arrows-rotate text-matcha-500 text-xs"></i></div>
+                <div class="w-7 h-7 rounded-lg bg-matcha-100 flex-center">
+                  <i class="fa-solid fa-arrows-rotate text-matcha-500 text-xs"></i>
+                </div>
                 <h2 class="font-bold text-ink-800 text-base">Dữ liệu</h2>
               </div>
-              <div id="data-status-badge" class="badge bg-matcha-100 text-matcha-500 text-[0.65rem] px-2 py-0.5 rounded-md" title="Trạng thái tự động nạp Excel">
-                <i class="fa-solid fa-check mr-1"></i> Tự nạp
-              </div>
+              
+              <button onclick="toggleAutoLoadExcel()" id="auto-excel-toggle" class="relative w-10 h-5 rounded-full transition-all duration-300 bg-matcha-500 focus:outline-none" title="Bật/tắt tự động nạp Excel">
+                <span id="auto-excel-knob" class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 transform translate-x-5"></span>
+              </button>
             </div>
-
-            <button id="btn-restore-excel" onclick="restoreDefaultData()" class="hidden btn-secondary w-full justify-center text-xs py-2 mb-3 bg-matcha-50 border-matcha-200 text-matcha-700 hover:bg-matcha-100">
-              <i class="fa-solid fa-rotate-left"></i> Bật lại Tự động nạp Excel
-            </button>
+            
+            <div id="auto-excel-status-text" class="text-xs text-matcha-600 mb-3 font-medium flex items-center gap-1">
+              <i class="fa-solid fa-check-circle"></i> Đang bật tự động nạp file Excel
+            </div>
 
             <div class="flex flex-col gap-3">
               <div class="border border-ink-100 rounded-xl overflow-hidden">
@@ -315,7 +319,6 @@
                 </div>
               </div>
 
-
               <div class="grid grid-cols-2 gap-2 mt-1">
                 <button onclick="removeDuplicates()" class="btn-secondary justify-center text-[0.8rem] px-2 py-2">
                   <i class="fa-solid fa-broom"></i> Dọn trùng
@@ -330,14 +333,14 @@
         </div>
         <div class="lg:col-span-2">
           <div class="card overflow-hidden">
-            <div class="flex flex-wrap items-center justify-between gap-3 p-4 border-b border-ink-50">
+            <div class="flex flex-wrap items-center justify-between gap-3 p-4 border-b border-b border-ink-50">
               <div class="flex items-center gap-2">
                 <i class="fa-solid fa-list text-ink-400"></i><span class="font-bold text-ink-800">Danh sách từ vựng</span>
                 <span class="badge bg-ink-100 text-ink-600 ml-1" id="list-count">0 từ</span>
               </div>
               <div class="flex items-center gap-2 flex-1 justify-end min-w-0">
-                <button onclick="openFlashcardModal()" data-tippy-content="Học 10 từ vựng ngẫu nhiên mỗi ngày bằng Flashcard" class="btn-primary py-1.5 px-3 sm:px-4 text-[0.8rem] sm:text-sm pulse-ring rounded-full shadow-md flex-shrink-0 outline-none">
-                  <i class="fa-solid fa-bolt text-yellow-300"></i> <span class="hidden sm:inline">Flashcard mỗi ngày</span><span class="sm:hidden">Flashcard</span>
+                <button onclick="openFlashcardModal()" data-tippy-content="Chọn từ vựng muốn ôn tập" class="btn-primary py-1.5 px-3 sm:px-4 text-[0.8rem] sm:text-sm pulse-ring rounded-full shadow-md flex-shrink-0 outline-none">
+                  <i class="fa-solid fa-bolt text-yellow-300"></i> <span id="btn-fc-text">Tạo Flashcard (0)</span>
                 </button>
                 <div class="relative flex-1 max-w-xs min-w-[120px]">
                   <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-300 text-sm"></i>
@@ -347,9 +350,10 @@
             </div>
             <div class="overflow-x-auto" style="max-height:600px;overflow-y:auto;">
               <table class="vocab-table w-full">
-                <thead class="sticky top-0">
+                <thead class="sticky top-0 z-10">
                   <tr>
-                    <th class="text-left rounded-tl-none">#</th>
+                    <th class="text-center w-12"><input type="checkbox" id="chk-select-all" onclick="toggleSelectAll(this)" class="w-4 h-4 rounded border-ink-300 text-ink-600 focus:ring-ink-500 cursor-pointer"></th>
+                    <th class="text-left">#</th>
                     <th class="text-left">Từ cần học</th>
                     <th class="text-left">Furigana</th>
                     <th class="text-left">Nghĩa</th>
@@ -490,8 +494,8 @@
             <button onclick="showQuizSetup()" class="btn-secondary"><i class="fa-solid fa-gear"></i> Cài đặt mới</button>
           </div>
           <div id="fc-post-actions" class="hidden flex flex-col gap-3 items-center">
-            <button onclick="continueFlashcard()" class="btn-primary w-full max-w-xs justify-center shadow-lg"><i class="fa-solid fa-forward-step"></i> Học tiếp 10 từ ngày mai</button>
-            <button onclick="backToFlashcard()" class="btn-secondary w-full max-w-xs justify-center"><i class="fa-solid fa-rotate-left"></i> Quay lại Flashcard hôm nay</button>
+            <button onclick="continueFlashcard()" class="btn-primary w-full max-w-xs justify-center shadow-lg"><i class="fa-solid fa-forward-step"></i> Tiếp tục học Flashcard</button>
+            <button onclick="backToFlashcard()" class="btn-secondary w-full max-w-xs justify-center"><i class="fa-solid fa-rotate-left"></i> Quay lại Flashcard vừa chọn</button>
           </div>
         </div>
         <div id="wrong-answers-section" class="card p-5 hidden">
@@ -555,7 +559,7 @@
 
       <div class="text-center mb-4 mt-2">
         <h3 class="font-black text-ink-800 text-lg flex items-center justify-center gap-2">
-          <i class="fa-solid fa-bolt text-yellow-400"></i> Luyện 10 từ mỗi ngày
+          <i class="fa-solid fa-bolt text-yellow-400"></i> Flashcard từ vựng đã chọn
         </h3>
         <div class="text-ink-500 text-sm mt-1.5 font-bold"><span id="fc-progress">1 / 10</span></div>
         <div class="w-full bg-ink-100 rounded-full h-1.5 mt-2"><div id="fc-progress-bar" class="progress-bar-inner" style="width:10%"></div></div>
@@ -588,8 +592,14 @@
         </button>
       </div>
 
+      <div class="mt-3 text-[11px] text-zinc-400 text-center select-none opacity-80">
+        <span class="border border-zinc-200 bg-zinc-50 px-1 rounded text-[10px] font-mono">Space</span> lật • 
+        <span class="border border-zinc-200 bg-zinc-50 px-1 rounded text-[10px] font-mono">→</span> tiếp • 
+        <span class="border border-zinc-200 bg-zinc-50 px-1 rounded text-[10px] font-mono">←</span> lùi
+      </div>
+
       <div id="fc-quiz-action" class="hidden mt-4 pt-4 border-t border-ink-100 pop-in">
-        <button onclick="startFlashcardQuiz()" class="btn-success w-full justify-center py-3 text-base shadow-lg outline-none"><i class="fa-solid fa-gamepad"></i> Làm bài trắc nghiệm 10 từ này</button>
+        <button onclick="startFlashcardQuiz()" class="btn-success w-full justify-center py-3 text-base shadow-lg outline-none"><i class="fa-solid fa-gamepad"></i> Làm bài trắc nghiệm các từ này</button>
       </div>
     </div>
   </div>
@@ -605,6 +615,7 @@
 
   <script>
   let vocabulary = [];
+  let selectedWordIds = new Set(); // Lưu danh sách ID các từ được chọn bằng checkbox
   let editingId = null; 
   let quizState = { count: 10, timer: 30, tts: false, autoNext: false, questions: [], current: 0, correct: 0, wrong: 0, wrongList: [], timerInterval: null, timerLeft: 30, answered: false, currentWord: null, type: 'jp2vi' };
   let printState = { count: 10, mode: 'mix', generated: [] };
@@ -613,6 +624,7 @@
 
   let isFlashcardQuiz = false;
   let fcState = { startIndex: 0, currentIndex: 0, pool: [], isFlipped: false };
+  let autoLoadExcel = localStorage.getItem('auto_load_excel') !== 'false';
 
   function loadFromStorage() {
     try { const raw = localStorage.getItem('nihongo_vocab'); if (raw) vocabulary = JSON.parse(raw); } catch(e) { vocabulary = []; }
@@ -625,32 +637,43 @@
   }
 
   function updateDataStatusUI() {
-      const isCleared = localStorage.getItem('is_data_cleared') === 'true';
-      const badge = document.getElementById('data-status-badge');
-      const btnRestore = document.getElementById('btn-restore-excel');
-      if (badge) {
-        if (isCleared) {
-            badge.className = "badge bg-sakura-100 text-sakura-500 text-[0.65rem] px-2 py-0.5 rounded-md";
-            badge.innerHTML = '<i class="fa-solid fa-ban mr-1"></i> Đã tắt tự nạp';
-        } else {
-            badge.className = "badge bg-matcha-100 text-matcha-500 text-[0.65rem] px-2 py-0.5 rounded-md";
-            badge.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Tự nạp Excel';
-        }
+      autoLoadExcel = localStorage.getItem('auto_load_excel') !== 'false';
+      const btn = document.getElementById('auto-excel-toggle');
+      const knob = document.getElementById('auto-excel-knob');
+      const statusText = document.getElementById('auto-excel-status-text');
+      
+      if (!btn || !knob || !statusText) return;
+
+      if (autoLoadExcel) {
+          btn.classList.remove('bg-ink-200');
+          btn.classList.add('bg-matcha-500');
+          knob.style.transform = 'translateX(20px)';
+          statusText.innerHTML = '<i class="fa-solid fa-check-circle"></i> Đang bật tự động nạp file Excel';
+          statusText.className = 'text-xs text-matcha-600 mb-3 font-medium flex items-center gap-1';
+      } else {
+          btn.classList.remove('bg-matcha-500');
+          btn.classList.add('bg-ink-200');
+          knob.style.transform = 'translateX(0)';
+          statusText.innerHTML = '<i class="fa-solid fa-ban"></i> Đã tắt tự động nạp file Excel';
+          statusText.className = 'text-xs text-ink-400 mb-3 font-medium flex items-center gap-1';
       }
-      if (btnRestore) {
-        if (isCleared) {
-            btnRestore.classList.remove('hidden');
-            btnRestore.classList.add('flex');
-        } else {
-            btnRestore.classList.add('hidden');
-            btnRestore.classList.remove('flex');
-        }
+  }
+
+  function toggleAutoLoadExcel() {
+      autoLoadExcel = !autoLoadExcel;
+      localStorage.setItem('auto_load_excel', autoLoadExcel);
+      updateDataStatusUI();
+      
+      if (autoLoadExcel) {
+          fetchAutoExcel().then(() => renderTable());
+          showToast('Đã bật tự động nạp Excel!', 'success');
+      } else {
+          showToast('Đã tắt tự động nạp Excel!', 'info');
       }
   }
 
   async function fetchAutoExcel() {
-      const isCleared = localStorage.getItem('is_data_cleared') === 'true';
-      if (isCleared) return;
+      if (!autoLoadExcel) return;
 
       try {
           const res = await fetch('jp_vocabulary.xlsx', { cache: 'no-store' });
@@ -681,18 +704,6 @@
               document.getElementById('cors-alert').classList.remove('hidden');
           }
       }
-  }
-
-  function restoreDefaultData() {
-      localStorage.removeItem('is_data_cleared');
-      localStorage.removeItem('nihongo_vocab');
-      vocabulary = [];
-      updateDataStatusUI();
-      fetchAutoExcel().then(() => {
-          renderTable();
-          if (vocabulary.length === 0) seedSampleData();
-      });
-      showToast('Đã khôi phục chế độ nạp file tự động!', 'info');
   }
 
   function editWord(id) {
@@ -755,16 +766,24 @@
     renderTable();
   }
 
-  function deleteWord(id) { vocabulary = vocabulary.filter(v => v.id !== id); saveToStorage(); renderTable(); showToast('Đã xóa từ vựng.', 'info'); }
+  function deleteWord(id) { 
+    vocabulary = vocabulary.filter(v => v.id !== id); 
+    selectedWordIds.delete(id);
+    saveToStorage(); 
+    renderTable(); 
+    updateFlashcardButton();
+    showToast('Đã xóa từ vựng.', 'info'); 
+  }
+  
   function clearForm() { ['inp-kanji','inp-furigana','inp-meaning'].forEach(id => document.getElementById(id).value = ''); }
   
   function confirmClearAll() { 
-      openModal('Xóa toàn bộ dữ liệu?', 'Hành động này sẽ xóa hết tất cả từ vựng và dừng nạp file tự động.', () => { 
+      openModal('Xóa toàn bộ dữ liệu?', 'Hành động này sẽ xóa hết tất cả từ vựng.', () => { 
           vocabulary = []; 
-          localStorage.setItem('is_data_cleared', 'true');
+          selectedWordIds.clear();
           saveToStorage(); 
-          updateDataStatusUI();
           renderTable(); 
+          updateFlashcardButton();
           showToast('Đã xóa toàn bộ dữ liệu.', 'info'); 
       }); 
   }
@@ -779,8 +798,71 @@
       if (!seen.has(key)) { seen.add(key); uniqueVocab.push(word); }
     }
     const removedCount = originalLength - uniqueVocab.length;
-    if (removedCount > 0) { vocabulary = uniqueVocab; saveToStorage(); renderTable(); showToast(`Đã dọn dẹp! Xóa thành công ${removedCount} từ bị trùng.`, 'success'); } 
+    if (removedCount > 0) { 
+      vocabulary = uniqueVocab; 
+      // Lọc lại các ID đã chọn phòng hờ có ID bị mất
+      const validIds = new Set(vocabulary.map(v => v.id));
+      selectedWordIds = new Set([...selectedWordIds].filter(id => validIds.has(id)));
+      saveToStorage(); 
+      renderTable(); 
+      updateFlashcardButton();
+      showToast(`Đã dọn dẹp! Xóa thành công ${removedCount} từ bị trùng.`, 'success'); 
+    } 
     else { showToast('Không tìm thấy từ nào bị trùng lặp!', 'info'); }
+  }
+
+  // ==================== LOGIC QUẢN LÝ CHECKBOX ====================
+  function toggleSelectWord(id) {
+    if (selectedWordIds.has(id)) {
+      selectedWordIds.delete(id);
+    } else {
+      selectedWordIds.add(id);
+    }
+    updateFlashcardButton();
+    updateMasterCheckboxState();
+  }
+
+  function toggleSelectAll(masterChk) {
+    const query = (document.getElementById('search-input')?.value || '').toLowerCase();
+    const filtered = vocabulary.filter(v => (v.kanji || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
+    
+    if (masterChk.checked) {
+      filtered.forEach(v => selectedWordIds.add(v.id));
+    } else {
+      filtered.forEach(v => selectedWordIds.delete(v.id));
+    }
+    
+    // Chỉ render lại trạng thái checkbox của hàng để tối ưu hiệu năng thay vì build lại toàn bộ DOM table
+    const tbody = document.getElementById('vocab-table-body');
+    const checkboxes = tbody.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(chk => {
+       const id = chk.getAttribute('data-id');
+       if(id) chk.checked = masterChk.checked;
+    });
+
+    updateFlashcardButton();
+  }
+
+  function updateFlashcardButton() {
+    const btnText = document.getElementById('btn-fc-text');
+    if (btnText) {
+      btnText.textContent = `Tạo Flashcard (${selectedWordIds.size})`;
+    }
+  }
+
+  function updateMasterCheckboxState() {
+    const masterChk = document.getElementById('chk-select-all');
+    if (!masterChk) return;
+    
+    const query = (document.getElementById('search-input')?.value || '').toLowerCase();
+    const filtered = vocabulary.filter(v => (v.kanji || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
+    
+    if (filtered.length === 0) {
+      masterChk.checked = false;
+      return;
+    }
+    const allChecked = filtered.every(v => selectedWordIds.has(v.id));
+    masterChk.checked = allChecked;
   }
 
   function renderTable() {
@@ -790,29 +872,39 @@
     const empty = document.getElementById('empty-state');
     document.getElementById('list-count').textContent = `${vocabulary.length} từ`;
 
-    if (filtered.length === 0) { tbody.innerHTML = ''; empty.classList.remove('hidden'); return; }
+    if (filtered.length === 0) { tbody.innerHTML = ''; empty.classList.remove('hidden'); if(document.getElementById('chk-select-all')) document.getElementById('chk-select-all').checked = false; return; }
     empty.classList.add('hidden');
-    tbody.innerHTML = filtered.map((v, i) => `
-      <tr>
-        <td class="text-ink-300 text-xs font-mono w-10">${i+1}</td>
-        <td><span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(v.kanji) || '-'}</span></td>
-        <td><span class="font-jp text-ink-500 text-sm">${escapeHtml(v.furigana) || '-'}</span></td>
-        <td class="text-ink-600 text-sm">${escapeHtml(v.meaning)}</td>
-        <td class="text-center">
-          <div class="flex items-center justify-center gap-1.5">
-            <button onclick="playAudio('${v.id}')" class="w-7 h-7 rounded bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors" title="Nghe phát âm">
-              <i class="fa-solid fa-volume-high text-[11px]"></i>
-            </button>
-            <button onclick="editWord('${v.id}')" class="w-7 h-7 rounded bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition-colors" title="Sửa">
-              <i class="fa-solid fa-pen text-[11px]"></i>
-            </button>
-            <button onclick="deleteWord('${v.id}')" class="w-7 h-7 rounded bg-sakura-50 text-sakura-500 hover:bg-sakura-100 hover:text-sakura-700 flex-center transition-colors" title="Xóa">
-              <i class="fa-solid fa-trash text-[11px]"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
+    
+    tbody.innerHTML = filtered.map((v, i) => {
+      const isChecked = selectedWordIds.has(v.id) ? 'checked' : '';
+      return `
+        <tr>
+          <td class="text-center w-12">
+            <input type="checkbox" data-id="${v.id}" onclick="toggleSelectWord('${v.id}')" ${isChecked} class="w-4 h-4 rounded border-ink-300 text-ink-600 focus:ring-ink-500 cursor-pointer">
+          </td>
+          <td class="text-ink-300 text-xs font-mono w-10">${i+1}</td>
+          <td><span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(v.kanji) || '-'}</span></td>
+          <td><span class="font-jp text-ink-500 text-sm">${escapeHtml(v.furigana) || '-'}</span></td>
+          <td class="text-ink-600 text-sm">${escapeHtml(v.meaning)}</td>
+          <td class="text-center">
+            <div class="flex items-center justify-center gap-1.5">
+              <button onclick="playAudio('${v.id}')" class="w-7 h-7 rounded bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors" title="Nghe phát âm">
+                <i class="fa-solid fa-volume-high text-[11px]"></i>
+              </button>
+              <button onclick="editWord('${v.id}')" class="w-7 h-7 rounded bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition-colors" title="Sửa">
+                <i class="fa-solid fa-pen text-[11px]"></i>
+              </button>
+              <button onclick="deleteWord('${v.id}')" class="w-7 h-7 rounded bg-sakura-50 text-sakura-500 hover:bg-sakura-100 hover:text-sakura-700 flex-center transition-colors" title="Xóa">
+                <i class="fa-solid fa-trash text-[11px]"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+    
+    updateMasterCheckboxState();
+    updateFlashcardButton();
   }
 
   function updateHeaderCount() { const el = document.getElementById('header-count'); if (el) el.textContent = vocabulary.length; }
@@ -832,31 +924,6 @@
     } catch(err) {
       showToast('Lỗi khi xuất file Excel!', 'error');
     }
-  }
-
-  function exportJSON() {
-    if (vocabulary.length === 0) { showToast('Danh sách trống!', 'error'); return; }
-    const blob = new Blob([JSON.stringify(vocabulary, null, 2)], { type: 'application/json' });
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'vocabulary.json'; a.click();
-    showToast(`Đã xuất ${vocabulary.length} từ!`, 'success');
-  }
-
-  function importJSON(event) {
-    const file = event.target.files[0]; if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const data = JSON.parse(e.target.result); let added = 0;
-        data.forEach(item => {
-          if ((!item.kanji && !item.furigana) || !item.meaning) return;
-          if (!vocabulary.find(v => v.kanji === item.kanji && v.furigana === item.furigana && v.meaning === item.meaning)) {
-            vocabulary.push({ id: item.id || Date.now().toString() + Math.random(), kanji: item.kanji || '', furigana: item.furigana || '', meaning: item.meaning }); added++;
-          }
-        });
-        saveToStorage(); renderTable(); showToast(`Đã nhập ${added} từ mới!`, 'success');
-      } catch(err) { showToast('File JSON không hợp lệ!', 'error'); }
-    };
-    reader.readAsText(file); event.target.value = '';
   }
 
   function importExcel(event) {
@@ -893,7 +960,7 @@
     }
   }
 
-    function toggleAutoNext() {
+  function toggleAutoNext() {
     quizState.autoNext = !quizState.autoNext; const btn = document.getElementById('auto-next-toggle'), knob = document.getElementById('auto-next-knob');
     if (quizState.autoNext) { btn.classList.replace('bg-ink-200','bg-ink-500'); knob.style.transform = 'translateX(24px)'; }
     else { btn.classList.replace('bg-ink-500','bg-ink-200'); knob.style.transform = 'translateX(0)'; }
@@ -906,16 +973,15 @@
   }
 
   function startQuiz(customPool = null) {
-    if (vocabulary.length < 4) { showToast('Cần ít nhất 4 từ vựng để trắc nghiệm!', 'error'); return; }
-    
     let pool = [];
     isFlashcardQuiz = false;
-    let targetCount = quizState.count === 0 ? vocabulary.length : Math.min(quizState.count, vocabulary.length);
     
     if (customPool && Array.isArray(customPool)) {
         pool = shuffle([...customPool]);
         isFlashcardQuiz = true;
     } else {
+        if (vocabulary.length < 4) { showToast('Cần ít nhất 4 từ vựng để trắc nghiệm!', 'error'); return; }
+        let targetCount = quizState.count === 0 ? vocabulary.length : Math.min(quizState.count, vocabulary.length);
         let uniqueWrongWords = [];
         if (lastWrongWords && lastWrongWords.length > 0) {
             const seenIds = new Set();
@@ -939,6 +1005,7 @@
         pool = shuffle(pool);
     }
     
+    // Nếu trắc nghiệm từ Flashcard mà số lượng từ chọn ít hơn 4, vẫn lấy các từ khác làm mồi đáp án
     quizState.questions = pool.map(word => {
         let types = ['jp2vi', 'vi2jp'];
         if (word.kanji && word.furigana && word.kanji !== word.furigana) {
@@ -1097,9 +1164,6 @@
     if (isFlashcardQuiz) {
         document.getElementById('regular-post-actions').classList.add('hidden');
         document.getElementById('fc-post-actions').classList.remove('hidden');
-        let nextIndex = fcState.startIndex + fcState.pool.length;
-        if (nextIndex >= vocabulary.length) nextIndex = 0; 
-        localStorage.setItem('daily_flashcard_index', nextIndex);
     } else {
         document.getElementById('regular-post-actions').classList.remove('hidden');
         document.getElementById('fc-post-actions').classList.add('hidden');
@@ -1320,31 +1384,21 @@
     }
   }
 
-  // ==================== LOGIC FLASHCARD ====================
-  function getFlashcardStartIndex() {
-      let idx = parseInt(localStorage.getItem('daily_flashcard_index')) || 0;
-      if (idx >= vocabulary.length) idx = 0; 
-      return idx;
-  }
-
+  // ==================== LOGIC FLASHCARD CHỌN ĐỐI TƯỢNG ====================
   function openFlashcardModal() {
-      if (vocabulary.length === 0) { showToast("Cần ít nhất 1 từ vựng để tạo Flashcard!", "error"); return; }
-      
-      fcState.startIndex = getFlashcardStartIndex();
-      fcState.pool = vocabulary.slice(fcState.startIndex, fcState.startIndex + 10);
-      
-      if (fcState.pool.length === 0) {
-          fcState.startIndex = 0;
-          localStorage.setItem('daily_flashcard_index', 0);
-          fcState.pool = vocabulary.slice(0, 10);
+      if (selectedWordIds.size === 0) { 
+          showToast("Vui lòng tích chọn ít nhất 1 từ vựng ở bảng để tạo Flashcard!", "error"); 
+          return; 
       }
+      
+      // Lọc lấy danh sách các Object từ vựng đầy đủ dựa vào danh sách ID đã chọn
+      fcState.pool = vocabulary.filter(v => selectedWordIds.has(v.id));
       
       fcState.currentIndex = 0;
       fcState.isFlipped = false;
       document.getElementById('flashcard-modal').classList.remove('hidden');
       renderFlashcard();
       
-      // Auto focus vào modal để nhận diện phím tắt mượt hơn
       document.getElementById('flashcard-modal').querySelector('.card').focus();
   }
 
@@ -1425,10 +1479,9 @@
   // XỬ LÝ PHÍM TẮT CHO FLASHCARD
   document.addEventListener('keydown', function(e) {
       const modal = document.getElementById('flashcard-modal');
-      // Chỉ kích hoạt khi modal đang mở
       if (!modal.classList.contains('hidden')) {
           if (e.key === ' ' || e.key === 'Enter') {
-              e.preventDefault(); // Ngăn trình duyệt cuộn trang
+              e.preventDefault(); 
               toggleFlashcard();
           } else if (e.key === 'ArrowRight') {
               e.preventDefault();
@@ -1441,7 +1494,6 @@
   });
 
   window.addEventListener('DOMContentLoaded', () => {
-    // Kích hoạt Tooltip Tippy.js
     if (typeof tippy !== 'undefined') {
         tippy('[data-tippy-content]', {
             animation: 'scale',
