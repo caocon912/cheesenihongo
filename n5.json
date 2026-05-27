@@ -1,0 +1,3427 @@
+[{
+        "phonetic": "たり -たり り びと -り と ひと にん じん",
+        "word": "人",
+        "id": "143326",
+        "mean": "con người; nhân loại; người; người khác; người ta; tôi; người ta; vợ gọi chồng",
+        "group": "5"
+    }, {
+        "phonetic": "-とせ とせ とし ねん",
+        "word": "年",
+        "id": "55521",
+        "mean": "năm; năm tháng; tuổi",
+        "group": "5"
+    }, {
+        "phonetic": "なか ちゅう じゅう",
+        "word": "中",
+        "id": "142371",
+        "mean": "bên trong; giữa; trong khi; trong; ở trong",
+        "group": "5"
+    }, {
+        "word": "何",
+        "phonetic": "なん ナニ など なに",
+        "id": "144284",
+        "mean": "cái gì",
+        "group": "5"
+    }, {
+        "phonetic": "でも",
+        "word": "でも",
+        "id": "67356",
+        "mean": "nhưng; tuy nhiên; tuy nhiên",
+        "group": "5"
+    }, {
+        "word": "私",
+        "phonetic": "あたい わし わっし あて わて わっち あたし あたくし わらわ わい わたし わちき わたくし わたい あっし し",
+        "id": "173722",
+        "mean": "tôi",
+        "group": "5"
+    }, {
+        "word": "一",
+        "phonetic": "いち いっ いつ いん イー ひい ひ ひと はじめ いっち ひと- 一 ひとつ",
+        "id": "141521",
+        "mean": "một",
+        "group": "5"
+    }, {
+        "phonetic": "こん いま こん- ま",
+        "word": "今",
+        "id": "143552",
+        "mean": "bây giờ",
+        "group": "5"
+    }, {
+        "phonetic": "へ がた -ざま ほう ざま -がた さま かた",
+        "word": "方",
+        "id": "101312",
+        "mean": "phương diện; phương hướng; phía; phương",
+        "group": "5"
+    }, {
+        "phonetic": "じぶん",
+        "word": "自分",
+        "id": "30942",
+        "mean": "bản thân mình; tự mình",
+        "group": "5"
+    }, {
+        "word": "より",
+        "phonetic": "より",
+        "id": "131636",
+        "mean": "hơn; kém; không bằng",
+        "group": "5"
+    }, {
+        "phonetic": "ぜん さき まえ",
+        "word": "前",
+        "id": "78054",
+        "mean": "đằng trước; phần đầu; phần trước; trước đây",
+        "group": "5"
+    }, {
+        "phonetic": "いっにん いちじん ひとり いちにん",
+        "word": "一人",
+        "id": "141539",
+        "mean": "một người",
+        "group": "5"
+    }, {
+        "phonetic": "じかん",
+        "word": "時間",
+        "id": "185391",
+        "mean": "giờ đồng hồ; giờ giấc; thì giờ; thời buổi; thời điểm; thời giờ; tiếng đồng hồ; thời gian; giờ",
+        "group": "5"
+    }, {
+        "phonetic": "もう",
+        "word": "もう",
+        "id": "200298",
+        "mean": "đã; rồi",
+        "group": "5"
+    }, {
+        "phonetic": "め もく ま",
+        "word": "目",
+        "id": "172769",
+        "mean": "con mắt; mắt",
+        "group": "5"
+    }, {
+        "phonetic": "ついたち ひとえ いちにち つきたち いっぴ いちじつ ひとひ さくじつ",
+        "word": "一日",
+        "id": "141630",
+        "mean": "ngày mồng 1; ngày một",
+        "group": "5"
+    }, {
+        "phonetic": "わ はなし",
+        "word": "話",
+        "id": "33199",
+        "mean": "câu chuyện; sự nói chuyện; sự hội thoại",
+        "group": "5"
+    }, {
+        "phonetic": "-け んち いえ け -か や か うち ち",
+        "word": "家",
+        "id": "54176",
+        "mean": "nhà; nhà cửa; gia đình; gia tộc",
+        "group": "5"
+    }, {
+        "phonetic": "うしろ しり こう- しりえ のち ご あと",
+        "word": "後",
+        "id": "97867",
+        "mean": "sau đó; sau khi; kể từ đó; trong tương lai",
+        "group": "5"
+    }, {
+        "phonetic": "アー リャン ふた ふ アル に ふた- アール ふう",
+        "word": "二",
+        "id": "142922",
+        "mean": "hai; số hai",
+        "group": "5"
+    }, {
+        "phonetic": "すき ずき",
+        "word": "好き",
+        "id": "53362",
+        "mean": "sự thích; yêu; quý; mến",
+        "group": "5"
+    }, {
+        "phonetic": "じょう うえ うわ かみ うわ- かり",
+        "word": "上",
+        "id": "141845",
+        "mean": "hơn nữa; hơn tuổi; già hơn; người có địa vị cao quý; nơi cao quý; trên",
+        "group": "5"
+    }, {
+        "phonetic": "ばん まん よろず",
+        "word": "万",
+        "id": "141774",
+        "mean": "vạn; vô số; tất cả; mọi thứ; mười nghìn; 1 vạn",
+        "group": "5"
+    }, {
+        "word": "本",
+        "phonetic": "もと ほん ぼん",
+        "id": "186043",
+        "mean": "nguồn; nguồn gốc; căn nguyên",
+        "group": "5"
+    }, {
+        "word": "他",
+        "phonetic": "た ほか あだ",
+        "id": "143710",
+        "mean": "ngoài",
+        "group": "5"
+    }, {
+        "phonetic": "だあれ た たれ だれ だーれ",
+        "word": "誰",
+        "id": "33371",
+        "mean": "ai",
+        "group": "5"
+    }, {
+        "phonetic": "ににん ふたり",
+        "word": "二人",
+        "id": "142942",
+        "mean": "hai người",
+        "group": "5"
+    }, {
+        "word": "仕事",
+        "phonetic": "しごと",
+        "id": "143657",
+        "mean": "công việc; sự làm việc; sự tác nghiệp; sự thực hiện; sự làm ; sự hành động; sự bày trò; sự giở thủ đoạn; thành tựu; thành quả; kết quả; công việc may vá; việc may vá; công; công của lực",
+        "group": "5"
+    }, {
+        "phonetic": "いう ゆう",
+        "word": "言う",
+        "id": "32865",
+        "mean": "nói",
+        "group": "5"
+    }, {
+        "phonetic": "にか ににち ふつか ふたか",
+        "word": "二日",
+        "id": "143006",
+        "mean": "ngày mùng hai",
+        "group": "5"
+    }, {
+        "phonetic": "おなじ、おんなじ おんなじ おんなし おなじ",
+        "word": "同じ",
+        "id": "79948",
+        "mean": "bằng nhau; sự giống nhau; sự giống; giống nhau; cùng; giống",
+        "group": "5"
+    }, {
+        "phonetic": "もんだい",
+        "word": "問題",
+        "id": "80572",
+        "mean": "vấn đề",
+        "group": "5"
+    }, {
+        "phonetic": "こんな",
+        "word": "こんな",
+        "id": "136082",
+        "mean": "như thế này",
+        "group": "5"
+    }, {
+        "phonetic": "-しゅ しゅ て た",
+        "word": "手",
+        "id": "99335",
+        "mean": "bàn tay; tay",
+        "group": "5"
+    }, {
+        "phonetic": "み さん みい サン",
+        "word": "三",
+        "id": "141818",
+        "mean": "ba",
+        "group": "5"
+    }, {
+        "phonetic": "こく -こく くに",
+        "word": "国",
+        "id": "80898",
+        "mean": "đất nước; quốc gia; quê nhà",
+        "group": "5"
+    }, {
+        "phonetic": "こんち いまひ いまび こんにち きょう こんじつ",
+        "word": "今日",
+        "id": "143569",
+        "mean": "ngày nay",
+        "group": "5"
+    }, {
+        "phonetic": "くるま しゃ クルマ",
+        "word": "車",
+        "id": "107758",
+        "mean": "bánh xe; mô tô; ô tô; xe; xe cộ; xe hơi; xe chở hàng; xe ô-tô",
+        "group": "5"
+    }, {
+        "phonetic": "おおい",
+        "word": "多い",
+        "id": "52584",
+        "mean": "bộn; nhiều",
+        "group": "5"
+    }, {
+        "word": "男",
+        "phonetic": "だん なん おとこ おっこ おのこ お",
+        "id": "172041",
+        "mean": "nam; đàn ông; người đàn ông; trai; đàn ông; nam giới; đàn ông; nam giới; phái nam; chồng; đực; hoa đực; nhị đực; cái lớn hơn hoặc nam tính hơn trong một cặp; nam tính; dũng cảm; quả cảm",
+        "group": "5"
+    }, {
+        "phonetic": "みっか",
+        "word": "三日",
+        "id": "141827",
+        "mean": "ba ngày; ngày mùng ba",
+        "group": "5"
+    }, {
+        "phonetic": "おんな むすめ おうな なんじ おなご おみな め おな じょ うみな",
+        "word": "女",
+        "id": "53320",
+        "mean": "phụ nữ; con gái; cô gái; đàn bà; nữ; con gái; nữ giới",
+        "group": "5"
+    }, {
+        "phonetic": "ゆく いく",
+        "word": "行く",
+        "id": "32139",
+        "mean": "đi",
+        "group": "5"
+    }, {
+        "phonetic": "じ つぎ",
+        "word": "次",
+        "id": "187034",
+        "mean": "lần sau; sau đây; tiếp đến",
+        "group": "5"
+    }, {
+        "phonetic": "あのう",
+        "word": "あのう",
+        "id": "140013",
+        "mean": "à à...; xin lỗi; này",
+        "group": "5"
+    }, {
+        "phonetic": "ほしい",
+        "word": "欲しい",
+        "id": "187097",
+        "mean": "muốn; mong muốn",
+        "group": "5"
+    }, {
+        "phonetic": "みる",
+        "word": "見る",
+        "id": "32578",
+        "mean": "coi; ngắm; ngó; nhìn thấy; nhìn xem; nhìn; xem; nhòm; nhòm ngó",
+        "group": "5"
+    }, {
+        "phonetic": "いみ",
+        "word": "意味",
+        "id": "98843",
+        "mean": "ý nghĩa; nghĩa",
+        "group": "5"
+    }, {
+        "word": "一緒",
+        "phonetic": "いちちょ いっしょ",
+        "id": "141688",
+        "mean": "cùng; cùng nhau; sự giống như vậy",
+        "group": "5"
+    }, {
+        "word": "もっと",
+        "phonetic": "もっと",
+        "id": "130410",
+        "mean": "nữa; hơn nữa; thêm",
+        "group": "5"
+    }, {
+        "phonetic": "ニクい -にくい わろい にくい わるい",
+        "word": "悪い",
+        "id": "98644",
+        "mean": "xấu; không tốt; kém; khó chịu; hỏng; xin lỗi",
+        "group": "5"
+    }, {
+        "phonetic": "-てん みせ てん たな",
+        "word": "店",
+        "id": "55810",
+        "mean": "cửa hàng; cửa hiệu; cơ sở; hiệu buôn; tiệm",
+        "group": "5"
+    }, {
+        "word": "先",
+        "phonetic": "さっき せん さき",
+        "id": "145244",
+        "mean": "đầu mút; điểm đầu; tương lai; trước đây",
+        "group": "5"
+    }, {
+        "word": "写真",
+        "phonetic": "しゃしん",
+        "id": "77339",
+        "mean": "ảnh; hình ảnh",
+        "group": "5"
+    }, {
+        "phonetic": "ブツ モノ ぶつ もの もん",
+        "word": "物",
+        "id": "171073",
+        "mean": "đồ vật; vật",
+        "group": "5"
+    }, {
+        "phonetic": "かいしゃ",
+        "word": "会社",
+        "id": "144017",
+        "mean": "công ty; hãng",
+        "group": "5"
+    }, {
+        "phonetic": "たがう ちがう",
+        "word": "違う",
+        "id": "108983",
+        "mean": "khác; khác nhau; không giống; trái ngược; không phù hợp; lầm lẫn; sai",
+        "group": "5"
+    }, {
+        "phonetic": "しょう こえ",
+        "word": "声",
+        "id": "52358",
+        "mean": "tiếng; giọng nói; giọng nói",
+        "group": "5"
+    }, {
+        "word": "頭",
+        "phonetic": "-がしら つむ つぶり かぶし ず かぶ あたま がしら とう かしら どたま かぶり ドタマ こうべ つむり",
+        "id": "42099",
+        "mean": "đầu",
+        "group": "5"
+    }, {
+        "phonetic": "すこし",
+        "word": "少し",
+        "id": "54737",
+        "mean": "chút đỉnh; chút ít; hơi; hơi hơi; một chút; một ít; một tí; tí; tí ti; tí tị",
+        "group": "5"
+    }, {
+        "phonetic": "そ と シー つづ とお じゅう",
+        "word": "十",
+        "id": "78651",
+        "mean": "mười",
+        "group": "5"
+    }, {
+        "phonetic": "こども",
+        "word": "子供",
+        "id": "53640",
+        "mean": "bé con; bé thơ; con; con nhỏ; con nít; con trẻ; đứa trẻ; hài đồng; thơ ấu; trẻ con; con cái; trẻ em; trẻ nhỏ",
+        "group": "5"
+    }, {
+        "phonetic": "なまえ",
+        "word": "名前",
+        "id": "80033",
+        "mean": "tên; họ tên",
+        "group": "5"
+    }, {
+        "phonetic": "さがる げ か- しも した もと -か か",
+        "word": "下",
+        "id": "141940",
+        "mean": "dưới; phía dưới; bên dưới; phần dưới; phần sau; tập sau",
+        "group": "5"
+    }, {
+        "phonetic": "たかーい だかい たかい たっかーい たっけー",
+        "word": "高い",
+        "id": "42725",
+        "mean": "cao; đắt; đắt tiền",
+        "group": "5"
+    }, {
+        "word": "町",
+        "phonetic": "ちょう まち",
+        "id": "172057",
+        "mean": "thị trấn; con phố",
+        "group": "5"
+    }, {
+        "phonetic": "けとば ことば",
+        "word": "言葉",
+        "id": "32874",
+        "mean": "câu nói; ngôn ngữ; tiếng nói; lời ăn tiếng nói; từ ngữ; lời nói; lời",
+        "group": "5"
+    }, {
+        "phonetic": "だいじょうふ だいじょぶ だいじょうぶ",
+        "word": "大丈夫",
+        "id": "52681",
+        "mean": "an toàn; chắc chắn; được; ổn; ok",
+        "group": "5"
+    }, {
+        "phonetic": "ひとつがい いちばん いっばん ひとばん",
+        "word": "一番",
+        "id": "141670",
+        "mean": "nhất; tốt nhất; số một; đầu tiên; number one",
+        "group": "5"
+    }, {
+        "phonetic": "とおか",
+        "word": "十日",
+        "id": "78668",
+        "mean": "mười ngày; ngày mùng mười; ngày mười",
+        "group": "5"
+    }, {
+        "word": "映画",
+        "phonetic": "えいが",
+        "id": "185285",
+        "mean": "điện ảnh; phim",
+        "group": "5"
+    }, {
+        "word": "駅",
+        "phonetic": "えき うまや",
+        "id": "42629",
+        "mean": "ga; nhà ga",
+        "group": "5"
+    }, {
+        "phonetic": "しんてい てい からだ しんだい たい しんたい",
+        "word": "体",
+        "id": "144246",
+        "mean": "cơ thể; sức khoẻ; thân thể; khối",
+        "group": "5"
+    }, {
+        "phonetic": "はじめ",
+        "word": "始め",
+        "id": "53482",
+        "mean": "lúc đầu; đầu tiên; 開始",
+        "group": "5"
+    }, {
+        "phonetic": "みず すい み",
+        "word": "水",
+        "id": "187681",
+        "mean": "nước",
+        "group": "5"
+    }, {
+        "word": "学校",
+        "phonetic": "がっこう",
+        "id": "53758",
+        "mean": "trường học",
+        "group": "5"
+    }, {
+        "phonetic": "シーサン せんしょう ぜんじょう せんせ せんせい せんじょう",
+        "word": "先生",
+        "id": "145271",
+        "mean": "giáo viên; giảng viên; thầy; ông giáo; ông thầy; thầy giáo; tiên sinh",
+        "group": "5"
+    }, {
+        "phonetic": "ぜんぶ",
+        "word": "全部",
+        "id": "145593",
+        "mean": "cả thảy; hết cả; hết thảy; tất cả; toàn bộ; toàn phần",
+        "group": "5"
+    }, {
+        "phonetic": "よる や -や よ",
+        "word": "夜",
+        "id": "52624",
+        "mean": "ban tối; buổi tối; đêm; tối",
+        "group": "5"
+    }, {
+        "word": "結婚",
+        "phonetic": "けっこん",
+        "id": "29531",
+        "mean": "cưới xin; đã lập gia đình; đã có chồng; đã có vợ; đã kết hôn; hôn nhân; hôn phối; sự kết hôn; sự lập gia đình; sự lấy chồng; sự lấy vợ; kết hôn; lập gia định; lấy chồng; lấy vợ; có gia đình; cưới; kết hôn",
+        "group": "5"
+    }, {
+        "phonetic": "そと と ほか -がい よそ がい",
+        "word": "外",
+        "id": "52492",
+        "mean": "ngoài ra",
+        "group": "5"
+    }, {
+        "phonetic": "テレビ",
+        "word": "テレビ",
+        "id": "181822",
+        "mean": "máy tuốc bin; máy vô tuyến truyền hình; ti vi; vô tuyến; truyền hình; vô tuyến truyền hình; tivi",
+        "group": "5"
+    }, {
+        "phonetic": "ともたち トモダチ ともだち",
+        "word": "友達",
+        "id": "79249",
+        "mean": "bạn; bạn bè; bè bạn; người bạn",
+        "group": "5"
+    }, {
+        "phonetic": "ひとつ",
+        "word": "一つ",
+        "id": "141524",
+        "mean": "một",
+        "group": "5"
+    }, {
+        "phonetic": "いろ. しょく いろ しき -しょく",
+        "word": "色",
+        "id": "31330",
+        "mean": "màu; mầu; sắc; màu sắc",
+        "group": "5"
+    }, {
+        "phonetic": "はじめて",
+        "word": "初めて",
+        "id": "77858",
+        "mean": "lần đầu tiên; mới",
+        "group": "5"
+    }, {
+        "phonetic": "あたらしい",
+        "word": "新しい",
+        "id": "101231",
+        "mean": "mới; mới mẻ",
+        "group": "5"
+    }, {
+        "phonetic": "おんにゃのこ おんなのこ めのこ",
+        "word": "女の子",
+        "id": "53323",
+        "mean": "cô gái; cô bé",
+        "group": "5"
+    }, {
+        "phonetic": "にじゅうはつか はつか にじゅうにち",
+        "word": "二十日",
+        "id": "142971",
+        "mean": "ngày hai mươi; hai mươi ngày",
+        "group": "5"
+    }, {
+        "word": "大変",
+        "phonetic": "たいへん",
+        "id": "52729",
+        "mean": "chết rồi; không xong rồi; kinh khủng quá.v.v..; kinh khủng; ghê gớm; mệt mỏi; khó khăn; vất vả; quá; vô cùng; rất",
+        "group": "5"
+    }, {
+        "phonetic": "でる",
+        "word": "出る",
+        "id": "77526",
+        "mean": "đi ra; ngoi; xuất hiện; đi ra khỏi",
+        "group": "5"
+    }, {
+        "word": "風",
+        "phonetic": "ふり ふう ぷう -ぶり かぜ",
+        "id": "42225",
+        "mean": "phong cách; phương thức; kiểu; gió",
+        "group": "5"
+    }, {
+        "phonetic": "ぢ みち どう ち",
+        "word": "道",
+        "id": "108946",
+        "mean": "con đường; con phố; đạo; đường; đường đi; lĩnh vực; phương tiện; cách thức",
+        "group": "5"
+    }, {
+        "phonetic": "でんわ",
+        "word": "電話",
+        "id": "110956",
+        "mean": "điện thoại; máy điện thoại",
+        "group": "5"
+    }, {
+        "phonetic": "おかね",
+        "word": "お金",
+        "id": "51284",
+        "mean": "tiền; của cải",
+        "group": "5"
+    }, {
+        "word": "口",
+        "phonetic": "く こう くち ぐち",
+        "id": "79573",
+        "mean": "cửa; miệng; chỗ cho vào; chỗ ra vào; mồm; miệng; mỏ; miệng; lời nói",
+        "group": "5"
+    }, {
+        "word": "明日",
+        "phonetic": "みょうにち あした あす",
+        "id": "185229",
+        "mean": "bữa hôm sau; bữa sau; ngày hôm sau; ngày mai",
+        "group": "5"
+    }, {
+        "phonetic": "はな",
+        "word": "花",
+        "id": "31361",
+        "mean": "bông hoa; đóa hoa; hoa; huê",
+        "group": "5"
+    }, {
+        "phonetic": "ニュース",
+        "word": "ニュース",
+        "id": "182218",
+        "mean": "tin tức; thông tin mới; bản tin; thời sự",
+        "group": "5"
+    }, {
+        "phonetic": "きたる くる",
+        "word": "来る",
+        "id": "186175",
+        "mean": "đến; tới; tới",
+        "group": "5"
+    }, {
+        "phonetic": "つかう",
+        "word": "使う",
+        "id": "144429",
+        "mean": "dụng; sử dụng; dùng; xài",
+        "group": "5"
+    }, {
+        "phonetic": "あさ ちょう あした",
+        "word": "朝",
+        "id": "185848",
+        "mean": "ban sáng; buổi sáng; sáng",
+        "group": "5"
+    }, {
+        "word": "部屋",
+        "phonetic": "へや べや",
+        "id": "109212",
+        "mean": "căn buồng; phòng; buồng",
+        "group": "5"
+    }, {
+        "phonetic": "かぞく",
+        "word": "家族",
+        "id": "54211",
+        "mean": "gia đình; gia quyến; gia tộc; quyến thuộc",
+        "group": "5"
+    }, {
+        "word": "夏",
+        "phonetic": "か なつ げ",
+        "id": "52465",
+        "mean": "hạ; mùa hè; mùa hạ; mùa hè; nhà hạ",
+        "group": "5"
+    }, {
+        "phonetic": "えいご",
+        "word": "英語",
+        "id": "31534",
+        "mean": "tiếng anh",
+        "group": "5"
+    }, {
+        "word": "質問",
+        "phonetic": "しつもん",
+        "id": "107364",
+        "mean": "câu hỏi; chất vấn",
+        "group": "5"
+    }, {
+        "phonetic": "だいがく",
+        "word": "大学",
+        "id": "52738",
+        "mean": "đại học; trường đại học",
+        "group": "5"
+    }, {
+        "phonetic": "こわい つよい",
+        "word": "強い",
+        "id": "97613",
+        "mean": "khỏe; mạnh; khoẻ; bền; tốt",
+        "group": "5"
+    }, {
+        "word": "足",
+        "phonetic": "あし そく -そく",
+        "id": "107607",
+        "mean": "chân",
+        "group": "5"
+    }, {
+        "phonetic": "おんがく おとらく",
+        "word": "音楽",
+        "id": "41982",
+        "mean": "âm nhạc; nhạc; ca nhạc; âm nhạc",
+        "group": "5"
+    }, {
+        "phonetic": "おおきな",
+        "word": "大きな",
+        "id": "52667",
+        "mean": "bự; lớn; to; to lớn",
+        "group": "5"
+    }, {
+        "phonetic": "まいにち",
+        "word": "毎日",
+        "id": "187468",
+        "mean": "hàng ngày; mỗi ngày; mọi ngày; ngày ngày; thường ngày",
+        "group": "5"
+    }, {
+        "phonetic": "はい",
+        "word": "はい",
+        "id": "200209",
+        "mean": "vâng; đúng vậy; được chứ; tôi hiểu rồi",
+        "group": "5"
+    }, {
+        "word": "病院",
+        "phonetic": "びょういん",
+        "id": "172277",
+        "mean": "nhà thương; sinh bệnh; bệnh viện",
+        "group": "5"
+    }, {
+        "phonetic": "けっこう",
+        "word": "結構",
+        "id": "29559",
+        "mean": "kết cấu; cấu trúc; tạm được; tương đối; kha khá; đủ; được; cũng được",
+        "group": "5"
+    }, {
+        "phonetic": "イヌ いぬ -けん",
+        "word": "犬",
+        "id": "171260",
+        "mean": "cẩu; chó; khuyển",
+        "group": "5"
+    }, {
+        "word": "海",
+        "phonetic": "-かい うみ み わだ わた",
+        "id": "188431",
+        "mean": "bể; bể khơi; biển; bờ biển",
+        "group": "5"
+    }, {
+        "phonetic": "づくる つくる",
+        "word": "作る",
+        "id": "144366",
+        "mean": "chế biến; làm; tạo; sáng tác; xây dựng; nấu",
+        "group": "5"
+    }, {
+        "phonetic": "おもしろい",
+        "word": "面白い",
+        "id": "41929",
+        "mean": "dí dỏm; thú vị; hay; vui tính",
+        "group": "5"
+    }, {
+        "phonetic": "ちかく ぢかく",
+        "word": "近く",
+        "id": "108224",
+        "mean": "cận; gần; ở gần; cạnh; kề; kề bên; ngay cạnh; ngay sát; hàng xóm",
+        "group": "5"
+    }, {
+        "phonetic": "せん ち",
+        "word": "千",
+        "id": "78677",
+        "mean": "con số một nghìn; rất nhiều; nghìn",
+        "group": "5"
+    }, {
+        "phonetic": "じゃあ じゃ",
+        "word": "じゃあ",
+        "id": "44592",
+        "mean": "nào; thế thì; thế thì; vậy thì; vậy thì",
+        "group": "5"
+    }, {
+        "phonetic": "しぬ ﾀﾋぬ",
+        "word": "死ぬ",
+        "id": "187319",
+        "mean": "chết; đi đời; lâm chung; mệnh hệ; qua đời; xuống lỗ",
+        "group": "5"
+    }, {
+        "phonetic": "もつ",
+        "word": "持つ",
+        "id": "100014",
+        "mean": "cầm; nắm; mang; chịu; đảm nhiệm; có; duy trì; khiêng; mang; vác; xách",
+        "group": "5"
+    }, {
+        "phonetic": "にじっさい はたとせ にじゅうさい はたち にじゅっさい",
+        "word": "二十歳",
+        "id": "142973",
+        "mean": "đôi mươi; hai mươi tuổi",
+        "group": "5"
+    }, {
+        "phonetic": "いや や",
+        "word": "嫌",
+        "id": "53613",
+        "mean": "không thích; ghét; khó chịu; không đâu; ôi không",
+        "group": "5"
+    }, {
+        "phonetic": "ええ えー",
+        "word": "ええ",
+        "id": "49626",
+        "mean": "vâng; vâng; dạ; ừ",
+        "group": "5"
+    }, {
+        "phonetic": "ほんとー ほんとう ほんと",
+        "word": "本当",
+        "id": "186077",
+        "mean": "sự thật; thật; thật sự; thiệt",
+        "group": "5"
+    }, {
+        "word": "昨日",
+        "phonetic": "きぞ きのう さくじつ",
+        "id": "185320",
+        "mean": "hôm qua",
+        "group": "5"
+    }, {
+        "word": "絵",
+        "phonetic": "え",
+        "id": "29645",
+        "mean": "bức tranh; tranh; hình ảnh",
+        "group": "5"
+    }, {
+        "phonetic": "むつかしい むづかしい むずかしい",
+        "word": "難しい",
+        "id": "110669",
+        "mean": "khó; khó khăn",
+        "group": "5"
+    }, {
+        "phonetic": "たぶん",
+        "word": "多分",
+        "id": "52590",
+        "mean": "đa phần; rất nhiều; rất lớn",
+        "group": "5"
+    }, {
+        "phonetic": "ねこ ネコ ねこま",
+        "word": "猫",
+        "id": "171420",
+        "mean": "mèo",
+        "group": "5"
+    }, {
+        "phonetic": "ことし こんねん",
+        "word": "今年",
+        "id": "143565",
+        "mean": "năm nay",
+        "group": "5"
+    }, {
+        "phonetic": "いる はいる",
+        "word": "入る",
+        "id": "145399",
+        "mean": "đi vào; vào; bước vào; đi vô; vô",
+        "group": "5"
+    }, {
+        "phonetic": "げんき",
+        "word": "元気",
+        "id": "145204",
+        "mean": "khoẻ; khoẻ mạnh; khoẻ khoắn; sức khoẻ; sự khoẻ mạnh",
+        "group": "5"
+    }, {
+        "phonetic": "もも ひゃく",
+        "word": "百",
+        "id": "172603",
+        "mean": "một trăm; trăm",
+        "group": "5"
+    }, {
+        "phonetic": "しら- しろ はく せりふ しら",
+        "word": "白",
+        "id": "172540",
+        "mean": "bên trắng; màu trắng; người da trắng; vật màu trắng; vô tội; trong trắng",
+        "group": "5"
+    }, {
+        "phonetic": "バス",
+        "word": "バス",
+        "id": "182526",
+        "mean": "đàn công-trơ-bas; giọng trầm; giọng nam trầm; sự tắm rửa; sự tắm bồn; xe buýt; ô tô buýt; xe đò; xe buýt",
+        "group": "5"
+    }, {
+        "word": "勉強",
+        "phonetic": "べんきょう",
+        "id": "78383",
+        "mean": "việc học hành; sự học hành",
+        "group": "5"
+    }, {
+        "phonetic": "ふく ぶく",
+        "word": "服",
+        "id": "185815",
+        "mean": "quần áo; bộ",
+        "group": "5"
+    }, {
+        "phonetic": "ごしゅ おさけ",
+        "word": "お酒",
+        "id": "51275",
+        "mean": "rượu; rượu sakê",
+        "group": "5"
+    }, {
+        "phonetic": "たのしい",
+        "word": "楽しい",
+        "id": "186783",
+        "mean": "dí dỏm; khoái ý; sướng; vui sướng; vui vẻ; vui nhộn; vui tính; vui; vui vẻ; khoái lạc; sung sướng",
+        "group": "5"
+    }, {
+        "phonetic": "スポーツ",
+        "word": "スポーツ",
+        "id": "181368",
+        "mean": "thể thao",
+        "group": "5"
+    }, {
+        "phonetic": "もく こ き ぎ",
+        "word": "木",
+        "id": "185920",
+        "mean": "cây cối; cây; gỗ; mộc",
+        "group": "5"
+    }, {
+        "phonetic": "ぐろ くろ",
+        "word": "黒",
+        "id": "43085",
+        "mean": "màu đen; sự có tội",
+        "group": "5"
+    }, {
+        "phonetic": "むれ やま -さん ざん さん",
+        "word": "山",
+        "id": "54915",
+        "mean": "núi; sơn; ngọn núi",
+        "group": "5"
+    }, {
+        "phonetic": "かう",
+        "word": "買う",
+        "id": "107162",
+        "mean": "mua; sắm; chuốc lấy; gặp phải; đánh giá cao",
+        "group": "5"
+    }, {
+        "phonetic": "たんじょうひ たんじょうび たんじょうにち",
+        "word": "誕生日",
+        "id": "33281",
+        "mean": "ngày sinh; ngày sinh nhật",
+        "group": "5"
+    }, {
+        "phonetic": "がくしょう がくそう がくせい",
+        "word": "学生",
+        "id": "53767",
+        "mean": "sinh viên; học sinh",
+        "group": "5"
+    }, {
+        "phonetic": "おとな たいじん おおびと だいにん うし",
+        "word": "大人",
+        "id": "52686",
+        "mean": "người lớn; người trưởng thành",
+        "group": "5"
+    }, {
+        "phonetic": "くすり やく ぐすり",
+        "word": "薬",
+        "id": "31879",
+        "mean": "dược; thuốc",
+        "group": "5"
+    }, {
+        "phonetic": "歌 -か うた",
+        "word": "歌",
+        "id": "187106",
+        "mean": "bài hát",
+        "group": "5"
+    }, {
+        "word": "右",
+        "phonetic": "みぎ",
+        "id": "79762",
+        "mean": "bên phải; phía bên phải; hữu",
+        "group": "5"
+    }, {
+        "phonetic": "りょうり",
+        "word": "料理",
+        "id": "101179",
+        "mean": "bữa ăn; sự nấu ăn; món ăn; bữa ăn",
+        "group": "5"
+    }, {
+        "phonetic": "だします だす いだす",
+        "word": "出す",
+        "id": "77522",
+        "mean": "gửi đi; cho ra khỏi; xuất bản",
+        "group": "5"
+    }, {
+        "phonetic": "どうぶつ",
+        "word": "動物",
+        "id": "78411",
+        "mean": "động vật; muông thú; súc vật",
+        "group": "5"
+    }, {
+        "phonetic": "だいすき",
+        "word": "大好き",
+        "id": "52735",
+        "mean": "rất thích",
+        "group": "5"
+    }, {
+        "phonetic": "はる",
+        "word": "春",
+        "id": "185291",
+        "mean": "mùa xuân; xuân",
+        "group": "5"
+    }, {
+        "phonetic": "キャメラ カメラ",
+        "word": "カメラ",
+        "id": "179938",
+        "mean": "máy ảnh; máy ảnh; máy quay phim; máy chụp ảnh; máy quay phim",
+        "group": "5"
+    }, {
+        "phonetic": "おおぎり たいせち たいせつ",
+        "word": "大切",
+        "id": "52705",
+        "mean": "quan trọng; sự quan trọng",
+        "group": "5"
+    }, {
+        "phonetic": "すくない 少ない 寡い 尠い",
+        "word": "少ない",
+        "id": "54747",
+        "mean": "ít; ít ỏi",
+        "group": "5"
+    }, {
+        "phonetic": "ぎんこう",
+        "word": "銀行",
+        "id": "109753",
+        "mean": "ngân hàng; nhà băng",
+        "group": "5"
+    }, {
+        "phonetic": "ばんごう",
+        "word": "番号",
+        "id": "172140",
+        "mean": "số hiệu; số liệu",
+        "group": "5"
+    }, {
+        "phonetic": "ながーい なっがい ながい なげー",
+        "word": "長い",
+        "id": "109935",
+        "mean": "bao lâu; dài; lâu",
+        "group": "5"
+    }, {
+        "phonetic": "ちかい",
+        "word": "近い",
+        "id": "108223",
+        "mean": "cận; gần; cạnh; kề sát; ngay cạnh; ngay sát; giống như; gần như; tương tự; thân thiết; mật thiết; thân cận; gần gũi",
+        "group": "5"
+    }, {
+        "phonetic": "そら うつぼ うろ から うつほ うつお くう うつせ",
+        "word": "空",
+        "id": "174001",
+        "mean": "bầu trời; tất cả mọi thứ đều là những hình vẽ dự kiến ​​do số phận tạo ra; và không có thực thể hay bản ngã vĩnh viễn",
+        "group": "5"
+    }, {
+        "phonetic": "むら そん",
+        "word": "村",
+        "id": "186140",
+        "mean": "làng; làng mạc; thôn xã; xã",
+        "group": "5"
+    }, {
+        "phonetic": "スー よ よん よう し",
+        "word": "四",
+        "id": "80733",
+        "mean": "bốn",
+        "group": "5"
+    }, {
+        "phonetic": "みんなさん みなさん",
+        "word": "皆さん",
+        "id": "172643",
+        "mean": "mọi người",
+        "group": "5"
+    }, {
+        "phonetic": "しし にく",
+        "word": "肉",
+        "id": "30407",
+        "mean": "thịt",
+        "group": "5"
+    }, {
+        "phonetic": "どうぞ",
+        "word": "どうぞ",
+        "id": "174919",
+        "mean": "xin mời",
+        "group": "5"
+    }, {
+        "phonetic": "たべる",
+        "word": "食べる",
+        "id": "42389",
+        "mean": "ăn",
+        "group": "5"
+    }, {
+        "phonetic": "でんしゃ",
+        "word": "電車",
+        "id": "110974",
+        "mean": "tàu điện; tàu lửa; xe điện; xe lửa",
+        "group": "5"
+    }, {
+        "phonetic": "よっか",
+        "word": "四日",
+        "id": "80745",
+        "mean": "bốn ngày; ngày mùng bốn",
+        "group": "5"
+    }, {
+        "phonetic": "きく",
+        "word": "聞く",
+        "id": "30361",
+        "mean": "nghe; hỏi",
+        "group": "5"
+    }, {
+        "phonetic": "ホテル",
+        "word": "ホテル",
+        "id": "183881",
+        "mean": "khách sạn",
+        "group": "5"
+    }, {
+        "phonetic": "ゆうめい",
+        "word": "有名",
+        "id": "185774",
+        "mean": "hữu danh; sự nổi tiếng; nổi tiếng; có danh",
+        "group": "5"
+    }, {
+        "phonetic": "はいれる いれる",
+        "word": "入れる",
+        "id": "145400",
+        "mean": "cho vào; bỏ vào; đút; kéo vào; trồng",
+        "group": "5"
+    }, {
+        "phonetic": "さ ひだり",
+        "word": "左",
+        "id": "55126",
+        "mean": "bên trái; tả; trái",
+        "group": "5"
+    }, {
+        "phonetic": "あま- あめ",
+        "word": "雨",
+        "id": "110717",
+        "mean": "cơn mưa; mưa; trận mưa",
+        "group": "5"
+    }, {
+        "phonetic": "はん",
+        "word": "半",
+        "id": "78696",
+        "mean": "bán; một nửa; nửa; rưỡi",
+        "group": "5"
+    }, {
+        "phonetic": "きた ペー",
+        "word": "北",
+        "id": "78562",
+        "mean": "phía bắc; miền bắc",
+        "group": "5"
+    }, {
+        "phonetic": "とつくに がいこく そとぐに",
+        "word": "外国",
+        "id": "52524",
+        "mean": "đất khách; ngoại quốc; nước ngoài",
+        "group": "5"
+    }, {
+        "phonetic": "がいこくじん",
+        "word": "外国人",
+        "id": "52527",
+        "mean": "ngoại nhân; người nước ngoài; người ngoại quốc",
+        "group": "5"
+    }, {
+        "phonetic": "あか",
+        "word": "赤",
+        "id": "107426",
+        "mean": "màu đỏ",
+        "group": "5"
+    }, {
+        "phonetic": "わかい",
+        "word": "若い",
+        "id": "31463",
+        "mean": "bé; bé bỏng; choai choai; chưa có kinh nghiệm; non nớt; 未熟; ít tuổi; nhỏ; 若い番号:số nhỏ; nhỏ tuổi; non nớt; non trẻ; trẻ tuổi; trẻ; trẻ trung",
+        "group": "5"
+    }, {
+        "phonetic": "はこ",
+        "word": "箱",
+        "id": "174417",
+        "mean": "hộp; hòm; kiện hàng; thùng",
+        "group": "5"
+    }, {
+        "word": "南",
+        "phonetic": "なん- ナン みなみ",
+        "id": "78814",
+        "mean": "nam; phía nam; phương nam",
+        "group": "5"
+    }, {
+        "phonetic": "しんぶん",
+        "word": "新聞",
+        "id": "101275",
+        "mean": "báo; tờ báo; nhật báo; tờ báo; báo",
+        "group": "5"
+    }, {
+        "phonetic": "よむ",
+        "word": "読む",
+        "id": "33361",
+        "mean": "đọc",
+        "group": "5"
+    }, {
+        "phonetic": "パン",
+        "word": "パン",
+        "id": "182805",
+        "mean": "bánh mì; chảo; cái chảo; bánh mỳ; mạng khu vực cá nhân",
+        "group": "5"
+    }, {
+        "word": "妹",
+        "phonetic": "いもうと いも",
+        "id": "53462",
+        "mean": "em; em gái",
+        "group": "5"
+    }, {
+        "word": "耳",
+        "phonetic": "みみ のみ",
+        "id": "30306",
+        "mean": "cái tai; tai",
+        "group": "5"
+    }, {
+        "phonetic": "いい ウー い いつ ご",
+        "word": "五",
+        "id": "143149",
+        "mean": "năm; số 5",
+        "group": "5"
+    }, {
+        "phonetic": "おおきい",
+        "word": "大きい",
+        "id": "52662",
+        "mean": "bự; to lớn; to; lớn",
+        "group": "5"
+    }, {
+        "phonetic": "テスト",
+        "word": "テスト",
+        "id": "181800",
+        "mean": "bài kiểm tra; cuộc thí nghiệm; sự kiểm tra; thử; thí nghiệm",
+        "group": "5"
+    }, {
+        "phonetic": "カップ",
+        "word": "カップ",
+        "id": "179890",
+        "mean": "cốc; chén; bát; cúp; cốc; cái cốc",
+        "group": "5"
+    }, {
+        "phonetic": "クラス",
+        "word": "クラス",
+        "id": "180267",
+        "mean": "lớp; lớp học; lớp; lớp học",
+        "group": "5"
+    }, {
+        "phonetic": "いつか ごにち",
+        "word": "五日",
+        "id": "143161",
+        "mean": "5 ngày; năm ngày; ngày mồng 5",
+        "group": "5"
+    }, {
+        "phonetic": "りょこう",
+        "word": "旅行",
+        "id": "184875",
+        "mean": "lữ hành; sự đi lại; sự du lịch; du lịch",
+        "group": "5"
+    }, {
+        "phonetic": "のむ",
+        "word": "飲む",
+        "id": "42450",
+        "mean": "húp; uống",
+        "group": "5"
+    }, {
+        "word": "秋",
+        "phonetic": "あき とき",
+        "id": "173747",
+        "mean": "mùa thu; thu",
+        "group": "5"
+    }, {
+        "phonetic": "はっやい はっやーい はえー はやい ばやい はやーい",
+        "word": "早い",
+        "id": "185154",
+        "mean": "sớm; nhanh chóng",
+        "group": "5"
+    }, {
+        "phonetic": "トイレ",
+        "word": "トイレ",
+        "id": "181964",
+        "mean": "nhà vệ sinh; cầu tiên; toa-lét; nhà vệ sinh",
+        "group": "5"
+    }, {
+        "phonetic": "れんしゅう",
+        "word": "練習",
+        "id": "29894",
+        "mean": "sự luyện tập; tập luyện",
+        "group": "5"
+    }, {
+        "phonetic": "せいと",
+        "word": "生徒",
+        "id": "171812",
+        "mean": "học sinh; học trò",
+        "group": "5"
+    }, {
+        "phonetic": "し -し かみ",
+        "word": "紙",
+        "id": "29297",
+        "mean": "giấy",
+        "group": "5"
+    }, {
+        "word": "弟",
+        "phonetic": "おとと てい おと おとうと",
+        "id": "97575",
+        "mean": "bào đệ; em; em trai",
+        "group": "5"
+    }, {
+        "phonetic": "よこ",
+        "word": "横",
+        "id": "186916",
+        "mean": "bề ngang; bên cạnh; chiều ngang",
+        "group": "5"
+    }, {
+        "phonetic": "でんき",
+        "word": "電気",
+        "id": "110864",
+        "mean": "điện khí; điện; đèn điện; điện; điện lực",
+        "group": "5"
+    }, {
+        "phonetic": "ゆっくり",
+        "word": "ゆっくり",
+        "id": "131127",
+        "mean": "chậm; chầm chậm; đủng đỉnh; rón rén; từ từ; thong thả",
+        "group": "5"
+    }, {
+        "phonetic": "ちさい ちいさい",
+        "word": "小さい",
+        "id": "54629",
+        "mean": "bé; bé bỏng; bé nhỏ; còm; nhỏ; nhỏ bé; thấp bé; tí; tí hon",
+        "group": "5"
+    }, {
+        "phonetic": "ちいさな",
+        "word": "小さな",
+        "id": "222347",
+        "mean": "nhỏ",
+        "group": "5"
+    }, {
+        "phonetic": "かわ がわ",
+        "word": "川",
+        "id": "55013",
+        "mean": "con sông; sông",
+        "group": "5"
+    }, {
+        "phonetic": "けい あに このかみ せ にい",
+        "word": "兄",
+        "id": "145214",
+        "mean": "anh trai",
+        "group": "5"
+    }, {
+        "phonetic": "パー はち や",
+        "word": "八",
+        "id": "145604",
+        "mean": "tám; thứ tám",
+        "group": "5"
+    }, {
+        "phonetic": "ふゆ",
+        "word": "冬",
+        "id": "77353",
+        "mean": "đông; mùa đông",
+        "group": "5"
+    }, {
+        "phonetic": "やすい",
+        "word": "安い",
+        "id": "53837",
+        "mean": "điềm tĩnh; yên tâm; rẻ; rẻ tiền; thấp",
+        "group": "5"
+    }, {
+        "word": "西",
+        "phonetic": "せい にし シャー",
+        "id": "32486",
+        "mean": "hướng tây; phía tây",
+        "group": "5"
+    }, {
+        "word": "雑誌",
+        "phonetic": "ざっし",
+        "id": "110631",
+        "mean": "tạp chí; tạp san; tập san",
+        "group": "5"
+    }, {
+        "phonetic": "あお",
+        "word": "青",
+        "id": "41722",
+        "mean": "màu xanh da trời; màu xanh nước biển",
+        "group": "5"
+    }, {
+        "phonetic": "はんぶん はんぷん",
+        "word": "半分",
+        "id": "78709",
+        "mean": "một nửa",
+        "group": "5"
+    }, {
+        "phonetic": "ようか",
+        "word": "八日",
+        "id": "145611",
+        "mean": "ngày tám; mồng tám; tám ngày",
+        "group": "5"
+    }, {
+        "phonetic": "こうえん",
+        "word": "公園",
+        "id": "145656",
+        "mean": "công viên; uyển; vườn",
+        "group": "5"
+    }, {
+        "phonetic": "おわる",
+        "word": "終わる",
+        "id": "29409",
+        "mean": "chấm dứt; dứt; hoàn thành; đóng; kết thúc; xong; hết; trôi qua; vãn",
+        "group": "5"
+    }, {
+        "phonetic": "トン あづま ひむかし ひがし ひんがし とう- あずま",
+        "word": "東",
+        "id": "186195",
+        "mean": "đông; hướng đông",
+        "group": "5"
+    }, {
+        "word": "家庭",
+        "phonetic": "かてい",
+        "id": "54204",
+        "mean": "gia đình; hộ gia đình",
+        "group": "5"
+    }, {
+        "phonetic": "うしろ",
+        "word": "後ろ",
+        "id": "97877",
+        "mean": "sau; đằng sau; phía sau",
+        "group": "5"
+    }, {
+        "phonetic": "ゆき",
+        "word": "雪",
+        "id": "110739",
+        "mean": "tuyết",
+        "group": "5"
+    }, {
+        "phonetic": "ふるい",
+        "word": "古い",
+        "id": "79670",
+        "mean": "cũ; cổ; già",
+        "group": "5"
+    }, {
+        "phonetic": "たてもの",
+        "word": "建物",
+        "id": "55950",
+        "mean": "tòa nhà; ngôi nhà; công trình kiến trúc",
+        "group": "5"
+    }, {
+        "phonetic": "ラジオ",
+        "word": "ラジオ",
+        "id": "184578",
+        "mean": "đài radio; cái đài; cái radio; máy thu thanh; máy vô tuyến truyền thanh; ra-di-o; truyền thanh; vô tuyến truyền thanh; radio; ra-đi-ô; ra-dô",
+        "group": "5"
+    }, {
+        "phonetic": "ひくい ひっくい",
+        "word": "低い",
+        "id": "144175",
+        "mean": "lè tè; thấp",
+        "group": "5"
+    }, {
+        "phonetic": "びょうき やまいけ ビョーキ",
+        "word": "病気",
+        "id": "172249",
+        "mean": "bệnh tật; bệnh; sự ốm; bịnh; đau ốm; ốm; ốm đau; tật bệnh; thói xấu; chứng; tật",
+        "group": "5"
+    }, {
+        "phonetic": "いたい",
+        "word": "痛い",
+        "id": "172294",
+        "mean": "đau; đau đớn; nhức",
+        "group": "5"
+    }, {
+        "word": "取る",
+        "phonetic": "とる どる",
+        "id": "79459",
+        "mean": "bắt giữ; biểu thị; biểu quyết; cầm lấy; cầm; nắm; giữ; kéo; cao tuổi; chiếm; dùng; sử dụng; hao phí; đảm nhiệm; đo; hấp thu; ăn; kiểm tra; ký lục; sao chép; lấy; dùng; lấy; lấy được; thu được; lí giải; giải thích; mua; thoát khỏi; bỏ ra; thu hồi; thu thập; thu; lấy; tiến hành ; chơi; trộm cắp; trừ; giải trừ; từ chức; ước tính; xem ; đếm ; bắt; xử lý",
+        "group": "5"
+    }, {
+        "phonetic": "よぶ",
+        "word": "呼ぶ",
+        "id": "80253",
+        "mean": "gọi; mời; kêu tên; hô hào; hú; thu hút",
+        "group": "5"
+    }, {
+        "phonetic": "やすみ",
+        "word": "休み",
+        "id": "143964",
+        "mean": "nghỉ; vắng mặt",
+        "group": "5"
+    }, {
+        "word": "シャツ",
+        "phonetic": "シャツ",
+        "id": "180938",
+        "mean": "áo sơ mi; áo sơ mi; áo cánh; sơ mi",
+        "group": "5"
+    }, {
+        "phonetic": "し ねえ -し あね",
+        "word": "姉",
+        "id": "53472",
+        "mean": "chị; chị của mình; tỷ",
+        "group": "5"
+    }, {
+        "phonetic": "しる",
+        "word": "知る",
+        "id": "173218",
+        "mean": "biết; hay tin; nhận ra",
+        "group": "5"
+    }, {
+        "phonetic": "ごご",
+        "word": "午後",
+        "id": "78694",
+        "mean": "vào buổi chiều; sau 12 giờ trưa; buổi chiều; chiều",
+        "group": "5"
+    }, {
+        "phonetic": "ベッド",
+        "word": "ベッド",
+        "id": "183754",
+        "mean": "giường; giường ngủ; giường",
+        "group": "5"
+    }, {
+        "phonetic": "さかな うお -ぎょ な とと",
+        "word": "魚",
+        "id": "42880",
+        "mean": "cá",
+        "group": "5"
+    }, {
+        "phonetic": "けいてい きょうだい",
+        "word": "兄弟",
+        "id": "145218",
+        "mean": "anh em; anh chị em; người anh em; huynh đệ",
+        "group": "5"
+    }, {
+        "phonetic": "はじまる",
+        "word": "始まる",
+        "id": "53480",
+        "mean": "bắt đầu; khởi đầu; 開始する; 遡る",
+        "group": "5"
+    }, {
+        "phonetic": "となり",
+        "word": "隣",
+        "id": "110529",
+        "mean": "bên cạnh; cạnh; sự giáp bên; sự ngay bên cạnh",
+        "group": "5"
+    }, {
+        "phonetic": "じゅぎょう",
+        "word": "授業",
+        "id": "100220",
+        "mean": "buổi học; giờ học; sự giảng bài; sự lên lớp",
+        "group": "5"
+    }, {
+        "phonetic": "とり",
+        "word": "鳥",
+        "id": "42947",
+        "mean": "chim chóc; chim; gia cầm; điểu",
+        "group": "5"
+    }, {
+        "phonetic": "べんり",
+        "word": "便利",
+        "id": "144531",
+        "mean": "thuận tiện; tiện lợi",
+        "group": "5"
+    }, {
+        "phonetic": "ふろ ぶろ",
+        "word": "風呂",
+        "id": "42254",
+        "mean": "bể tắm; bồn tắm",
+        "group": "5"
+    }, {
+        "phonetic": "みどり",
+        "word": "緑",
+        "id": "29829",
+        "mean": "màu xanh lá cây; xanh",
+        "group": "5"
+    }, {
+        "phonetic": "おふろ",
+        "word": "お風呂",
+        "id": "51320",
+        "mean": "bồn",
+        "group": "5"
+    }, {
+        "phonetic": "じどうしゃ",
+        "word": "自動車",
+        "id": "30965",
+        "mean": "xe con; xe hơi; xe ô tô; ô tô",
+        "group": "5"
+    }, {
+        "phonetic": "ボタン",
+        "word": "ボタン",
+        "id": "183940",
+        "mean": "cúc; khuy; khuy áo; nút bấm; nút để ấn; nút bấm; nút bắt đầu; phần start trên máy tính",
+        "group": "5"
+    }, {
+        "phonetic": "まど",
+        "word": "窓",
+        "id": "174121",
+        "mean": "cửa sổ; khoảng trống giá; khoảng trống",
+        "group": "5"
+    }, {
+        "phonetic": "かく",
+        "word": "書く",
+        "id": "185613",
+        "mean": "viết; sáng tác; viết lách; viết",
+        "group": "5"
+    }, {
+        "phonetic": "じてんしゃ じでんしゃ",
+        "word": "自転車",
+        "id": "31090",
+        "mean": "xe đạp",
+        "group": "5"
+    }, {
+        "word": "辛い",
+        "phonetic": "つらい づらい -づらい がらい からい ずらい",
+        "id": "108104",
+        "mean": "cay",
+        "group": "5"
+    }, {
+        "phonetic": "なな しち",
+        "word": "七",
+        "id": "141760",
+        "mean": "bảy; số bảy",
+        "group": "5"
+    }, {
+        "phonetic": "そうじ",
+        "word": "掃除",
+        "id": "100208",
+        "mean": "sự quét tước; sự dọn dẹp; sự quét dọn",
+        "group": "5"
+    }, {
+        "phonetic": "むう リュー むっつ リウ ろく む リィウ",
+        "word": "六",
+        "id": "76938",
+        "mean": "sáu; số sáu",
+        "group": "5"
+    }, {
+        "phonetic": "なのか なぬか",
+        "word": "七日",
+        "id": "141767",
+        "mean": "7 ngày; ngày thứ 7 của tháng",
+        "group": "5"
+    }, {
+        "phonetic": "むよか むいか むゆか",
+        "word": "六日",
+        "id": "76940",
+        "mean": "ngày thứ sáu",
+        "group": "5"
+    }, {
+        "phonetic": "えいがかん",
+        "word": "映画館",
+        "id": "185290",
+        "mean": "rạp chiếu phim; rạp; rạp chiếu bóng; trung tâm chiếu phim",
+        "group": "5"
+    }, {
+        "word": "寝る",
+        "phonetic": "ねる",
+        "id": "54382",
+        "mean": "đặt lưng; đặt mình; nằm; ngả lưng; ngủ",
+        "group": "5"
+    }, {
+        "phonetic": "くつ",
+        "word": "靴",
+        "id": "41950",
+        "mean": "giày; dép; guốc",
+        "group": "5"
+    }, {
+        "phonetic": "かえる かえります",
+        "word": "帰る",
+        "id": "55342",
+        "mean": "về; chạy về",
+        "group": "5"
+    }, {
+        "phonetic": "キロ",
+        "word": "キロ",
+        "id": "180193",
+        "mean": "ký lô; kilo; cân; ki lô",
+        "group": "5"
+    }, {
+        "phonetic": "どうも",
+        "word": "どうも",
+        "id": "174968",
+        "mean": "xin chào; cảm ơn; hơi hơi; có vẻ; mập mờ",
+        "group": "5"
+    }, {
+        "phonetic": "すみ かく かく／かど／つの つの かど",
+        "word": "角",
+        "id": "32764",
+        "mean": "sừng; góc",
+        "group": "5"
+    }, {
+        "phonetic": "おなか",
+        "word": "お腹",
+        "id": "51227",
+        "mean": "bụng",
+        "group": "5"
+    }, {
+        "phonetic": "かい かいご たまご らん",
+        "word": "卵",
+        "id": "79018",
+        "mean": "trứng; quả trứng; noãn; tế bào trứng; phôi châu",
+        "group": "5"
+    }, {
+        "phonetic": "はなす",
+        "word": "話す",
+        "id": "33211",
+        "mean": "bàn tán; chuyện; chuyện trò; kể lại; thuật lại; nói lại; mở miệng; nói; nói chuyện; nói; thốt",
+        "group": "5"
+    }, {
+        "phonetic": "よわい",
+        "word": "弱い",
+        "id": "97591",
+        "mean": "hèn yếu; kém cỏi; không chắc; không bền; không chịu được; không chống lại; không gay gắt; không mãnh liệt; không rành; kém; yếu; làm không tốt; lỏng; mềm yếu; yếu đuối; nhát; mỏng; mỏng manh; mức độ thấp; nhẹ",
+        "group": "5"
+    }, {
+        "phonetic": "はたらく",
+        "word": "働く",
+        "id": "145110",
+        "mean": "làm lụng; lao động; hoạt động; phạm ; làm việc; làm",
+        "group": "5"
+    }, {
+        "phonetic": "ふつ ぷたつ ふたつ につ ふつつ",
+        "word": "二つ",
+        "id": "142924",
+        "mean": "hai",
+        "group": "5"
+    }, {
+        "phonetic": "はな",
+        "word": "鼻",
+        "id": "43199",
+        "mean": "mũi",
+        "group": "5"
+    }, {
+        "phonetic": "ごぜん",
+        "word": "午前",
+        "id": "78688",
+        "mean": "buổi sáng; vào buổi sáng; sáng",
+        "group": "5"
+    }, {
+        "phonetic": "では",
+        "word": "では",
+        "id": "67338",
+        "mean": "thế thì; thế là",
+        "group": "5"
+    }, {
+        "phonetic": "まいねん まいとし",
+        "word": "毎年",
+        "id": "187466",
+        "mean": "hàng năm; mỗi năm; mọi năm",
+        "group": "5"
+    }, {
+        "word": "野菜",
+        "phonetic": "やさい",
+        "id": "109467",
+        "mean": "rau; rau củ",
+        "group": "5"
+    }, {
+        "phonetic": "じお えん しお",
+        "word": "塩",
+        "id": "52259",
+        "mean": "muối",
+        "group": "5"
+    }, {
+        "phonetic": "は -し ば し よわい",
+        "word": "歯",
+        "id": "187273",
+        "mean": "răng",
+        "group": "5"
+    }, {
+        "phonetic": "きょう はし -きょう",
+        "word": "橋",
+        "id": "186946",
+        "mean": "cầu; cầu não",
+        "group": "5"
+    }, {
+        "phonetic": "おかーさん おかあさん",
+        "word": "お母さん",
+        "id": "51159",
+        "mean": "má; mẹ; mẹ ơi; thân mẫu",
+        "group": "5"
+    }, {
+        "phonetic": "うわて かみて じょうて じょうしゅ じょうず",
+        "word": "上手",
+        "id": "141895",
+        "mean": "giỏi; cừ",
+        "group": "5"
+    }, {
+        "phonetic": "ドア",
+        "word": "ドア",
+        "id": "182080",
+        "mean": "cửa; cửa; cửa ra vào; cánh cửa ra vào",
+        "group": "5"
+    }, {
+        "phonetic": "ごはん",
+        "word": "ご飯",
+        "id": "136564",
+        "mean": "cơm; bữa cơm",
+        "group": "5"
+    }, {
+        "phonetic": "こぞ きょねん",
+        "word": "去年",
+        "id": "79188",
+        "mean": "năm ngoái; năm trước; năm qua",
+        "group": "5"
+    }, {
+        "phonetic": "けん かぎ",
+        "word": "鍵",
+        "id": "109883",
+        "mean": "chốt; khoá; cái chìa khoá; chìa khóa; kích thước chính",
+        "group": "5"
+    }, {
+        "phonetic": "あまい うまい",
+        "word": "甘い",
+        "id": "171706",
+        "mean": "ngon ngọt; ngọt; ngọt bùi; ngọt ngào; dễ chịu; trạng thái rẻ; ngọt",
+        "group": "5"
+    }, {
+        "phonetic": "あう",
+        "word": "会う",
+        "id": "143993",
+        "mean": "gặp; hội ngộ",
+        "group": "5"
+    }, {
+        "phonetic": "こまる",
+        "word": "困る",
+        "id": "80832",
+        "mean": "bối rối; khó khăn; lúng túng",
+        "group": "5"
+    }, {
+        "phonetic": "く きゅう この ここ ここの- チュー ここの",
+        "word": "九",
+        "id": "142717",
+        "mean": "số 9; chín",
+        "group": "5"
+    }, {
+        "phonetic": "ここのか ここぬか",
+        "word": "九日",
+        "id": "142721",
+        "mean": "mồng 9; ngày 9; ngày mồng 9; 9 ngày",
+        "group": "5"
+    }, {
+        "word": "頼む",
+        "phonetic": "たのむ",
+        "id": "42148",
+        "mean": "cậy; khất; năn nỉ; nhờ; trông; trông cậy; yêu cầu; đề nghị; nhờ cậy",
+        "group": "5"
+    }, {
+        "phonetic": "さぶい さむい",
+        "word": "寒い",
+        "id": "54346",
+        "mean": "cóng; hàn; lành lạnh; lạnh lẽo; lạnh; lạnh giá; rét; trời lạnh",
+        "group": "5"
+    }, {
+        "phonetic": "てんき",
+        "word": "天気",
+        "id": "52995",
+        "mean": "thời tiết; thời tiết; trạng thái thời tiết",
+        "group": "5"
+    }, {
+        "phonetic": "むこう",
+        "word": "向こう",
+        "id": "80109",
+        "mean": "phía bên kia; mặt bên kia; cạnh bên kia; phía trước; phía đối diện",
+        "group": "5"
+    }, {
+        "phonetic": "じろい はくい しろい",
+        "word": "白い",
+        "id": "172541",
+        "mean": "màu trắng; sạch sẽ; trắng muốt; trắng; trắng trẻo; vô tội",
+        "group": "5"
+    }, {
+        "phonetic": "いとま ひま",
+        "word": "暇",
+        "id": "14433",
+        "mean": "thời gian rảnh rỗi; thì giờ nhàn hạ; sự nghỉ ngơi; sự cáo từ; sự từ giã",
+        "group": "5"
+    }, {
+        "phonetic": "コピー",
+        "word": "コピー",
+        "id": "180507",
+        "mean": "sự sao chép; copy; phôtôcopy; sao chép",
+        "group": "5"
+    }, {
+        "word": "起きる",
+        "phonetic": "おきる",
+        "id": "107526",
+        "mean": "dấy; đứng dậy; ngồi dậy; bình phục; nhen nhúm; thức; thức dậy; dậy; xảy ra",
+        "group": "5"
+    }, {
+        "word": "両親",
+        "phonetic": "りょうしん ふたおや",
+        "id": "142329",
+        "mean": "bố mẹ; phụ mẫu; song thân; thân sinh",
+        "group": "5"
+    }, {
+        "phonetic": "あかい",
+        "word": "赤い",
+        "id": "107428",
+        "mean": "đỏ",
+        "group": "5"
+    }, {
+        "phonetic": "きょうしっ きょうしつ",
+        "word": "教室",
+        "id": "100967",
+        "mean": "buồng học; phòng học; lớp học",
+        "group": "5"
+    }, {
+        "phonetic": "たべもの たべもん",
+        "word": "食べ物",
+        "id": "42391",
+        "mean": "đồ ăn; món ăn; thức; thức ăn",
+        "group": "5"
+    }, {
+        "phonetic": "こんしゅう",
+        "word": "今週",
+        "id": "143588",
+        "mean": "tuần lễ này; tuần này",
+        "group": "5"
+    }, {
+        "phonetic": "ポスト",
+        "word": "ポスト",
+        "id": "184017",
+        "mean": "hộp thư; thùng thư; hòm thư; hộp thư; quá trình post máy tính; tự kiểm tra khi nguồn bật",
+        "group": "5"
+    }, {
+        "phonetic": "いそがしい せわしい",
+        "word": "忙しい",
+        "id": "98274",
+        "mean": "bận; bận rộn; bề bộn; bộn; bộn rộn; chộn rộn; đa đoan; mắc bận; rộn",
+        "group": "5"
+    }, {
+        "phonetic": "おそい おっそい おっそーい おっせー おせー おそーい",
+        "word": "遅い",
+        "id": "108822",
+        "mean": "muộn màng; muộn; chậm; trễ",
+        "group": "5"
+    }, {
+        "phonetic": "うる",
+        "word": "売る",
+        "id": "52383",
+        "mean": "bán; bán hàng",
+        "group": "5"
+    }, {
+        "phonetic": "かいもん かいもの",
+        "word": "買い物",
+        "id": "107159",
+        "mean": "món hàng mua được; sự mua hàng; thứ cần mua",
+        "group": "5"
+    }, {
+        "phonetic": "にもつ",
+        "word": "荷物",
+        "id": "31634",
+        "mean": "hành lý",
+        "group": "5"
+    }, {
+        "phonetic": "ときはかり とけい",
+        "word": "時計",
+        "id": "185380",
+        "mean": "đồng hồ",
+        "group": "5"
+    }, {
+        "word": "文章",
+        "phonetic": "ぶんしょう もんじょう もんぞう",
+        "id": "101157",
+        "mean": "đoạn văn; văn chương",
+        "group": "5"
+    }, {
+        "phonetic": "-べ べ え へん ほとり へ わたり",
+        "word": "辺",
+        "id": "108200",
+        "mean": "cạnh; nơi xa; nơi hẻo lánh; trình độ; mức độ; vùng",
+        "group": "5"
+    }, {
+        "phonetic": "てがみ",
+        "word": "手紙",
+        "id": "99491",
+        "mean": "bức thơ; bức thư; phong thơ; phong thư; thơ từ; thư; thư từ",
+        "group": "5"
+    }, {
+        "phonetic": "ひる",
+        "word": "昼",
+        "id": "185329",
+        "mean": "ban trưa; buổi trưa; ban ngày; trưa",
+        "group": "5"
+    }, {
+        "phonetic": "さいふ",
+        "word": "財布",
+        "id": "106994",
+        "mean": "bao tượng; bóp; đãy tiền; hầu bao; túi tiền; ví",
+        "group": "5"
+    }, {
+        "phonetic": "のる",
+        "word": "乗る",
+        "id": "142699",
+        "mean": "cưỡi; lên xe; lên tàu; đi; vào ; có hứng",
+        "group": "5"
+    }, {
+        "phonetic": "おく",
+        "word": "置く",
+        "id": "30046",
+        "mean": "bố trí; cho thuê chỗ ở; chừa ra; để chừa ra; đặt để; đặt; để; để nguyên trạng thái; kinh doanh; bán; mang theo; xếp",
+        "group": "5"
+    }, {
+        "phonetic": "おとこのこ おのこ",
+        "word": "男の子",
+        "id": "172044",
+        "mean": "cậu bé; con đực",
+        "group": "5"
+    }, {
+        "phonetic": "プール",
+        "word": "プール",
+        "id": "183695",
+        "mean": "bể; bể bơi; vùng chứa; vùng trữ",
+        "group": "5"
+    }, {
+        "phonetic": "ちず",
+        "word": "地図",
+        "id": "51988",
+        "mean": "bản đồ; địa đồ",
+        "group": "5"
+    }, {
+        "phonetic": "おちゃ",
+        "word": "お茶",
+        "id": "51237",
+        "mean": "chè; nước chè; trà; chè xanh; trà",
+        "group": "5"
+    }, {
+        "phonetic": "らいねん",
+        "word": "来年",
+        "id": "186182",
+        "mean": "năm sau",
+        "group": "5"
+    }, {
+        "phonetic": "あさごはん",
+        "word": "朝ご飯",
+        "id": "185849",
+        "mean": "bữa sáng; cơm sáng",
+        "group": "5"
+    }, {
+        "phonetic": "しずか",
+        "word": "静か",
+        "id": "41810",
+        "mean": "yên tĩnh; yên lặng; điềm tĩnh",
+        "group": "5"
+    }, {
+        "phonetic": "みじかい みじけー",
+        "word": "短い",
+        "id": "173240",
+        "mean": "cụt; hụt; ngắn",
+        "group": "5"
+    }, {
+        "phonetic": "ギター",
+        "word": "ギター",
+        "id": "180211",
+        "mean": "đàn ghita; ghita; đàn guitar",
+        "group": "5"
+    }, {
+        "phonetic": "さあ",
+        "word": "さあ",
+        "id": "136579",
+        "mean": "nào; thôi nào; tiếp đi",
+        "group": "5"
+    }, {
+        "phonetic": "あげる",
+        "word": "上げる",
+        "id": "141857",
+        "mean": "di chuyển lên cao; leo lên; đi lên; giơ lên; vớt ra; lấy ra; cho vào; mời vào; gấp; dọn; nôn; oẹ; ói; bốc lên; phun lên; lên; tăng; tiến bộ; cải thiện; cho học lên; cho đi học; nâng đỡ ai; cho ai thăng chức",
+        "group": "5"
+    }, {
+        "phonetic": "はしる ばしる",
+        "word": "走る",
+        "id": "107519",
+        "mean": "chạy; tẩu",
+        "group": "5"
+    }, {
+        "phonetic": "いしゃ",
+        "word": "医者",
+        "id": "78639",
+        "mean": "bác sĩ; đại phu; thầy lang; thầy thuốc; y",
+        "group": "5"
+    }, {
+        "phonetic": "おねえさん",
+        "word": "お姉さん",
+        "id": "51078",
+        "mean": "chị; chị gái; thưa chị; chị ơi",
+        "group": "5"
+    }, {
+        "phonetic": "みせる",
+        "word": "見せる",
+        "id": "32566",
+        "mean": "cho xem; cho thấy; chứng tỏ; bày tỏ",
+        "group": "5"
+    }, {
+        "phonetic": "しもて したて へた したで",
+        "word": "下手",
+        "id": "141971",
+        "mean": "kém; dốt; phần phía dưới; vị trí thấp kém; thứ hạng thấp",
+        "group": "5"
+    }, {
+        "phonetic": "ときどき じじ",
+        "word": "時々",
+        "id": "185351",
+        "mean": "có lúc; thỉnh thoảng; đôi khi; lắm khi; từng thời kỳ; từng mùa",
+        "group": "5"
+    }, {
+        "phonetic": "ノート",
+        "word": "ノート",
+        "id": "182314",
+        "mean": "vở; máy vi tính xách tay; sổ; vở; quyển vở; ghi chú",
+        "group": "5"
+    }, {
+        "phonetic": "ポケット",
+        "word": "ポケット",
+        "id": "184006",
+        "mean": "túi; túi áo; túi quần; áo",
+        "group": "5"
+    }, {
+        "phonetic": "ペット",
+        "word": "ペット",
+        "id": "183830",
+        "mean": "động vật cảnh; người được cưng chiều",
+        "group": "5"
+    }, {
+        "phonetic": "すむ",
+        "word": "住む",
+        "id": "144233",
+        "mean": "có thể giải quyết; có thể đối phó được; cư trú; ở; trả nợ; trả xong; trú; trú ngụ",
+        "group": "5"
+    }, {
+        "phonetic": "ずしょかん としょかん",
+        "word": "図書館",
+        "id": "80861",
+        "mean": "thư quán; thư viện",
+        "group": "5"
+    }, {
+        "phonetic": "あぶない あっぶねー あぶねー アブナい",
+        "word": "危ない",
+        "id": "78984",
+        "mean": "nghi ngờ; không rõ; không đáng tin; nguy; nguy hiểm; nguy kịch",
+        "group": "5"
+    }, {
+        "phonetic": "おもい",
+        "word": "重い",
+        "id": "109377",
+        "mean": "nặng; nặng nề; trầm trọng",
+        "group": "5"
+    }, {
+        "phonetic": "くろい",
+        "word": "黒い",
+        "id": "43087",
+        "mean": "đen; u ám; đen tối",
+        "group": "5"
+    }, {
+        "phonetic": "レストラン レストラント",
+        "word": "レストラン",
+        "id": "141312",
+        "mean": "cao lâu; hiệu ăn; nhà hàng; nhà hàng; tiệm ăn; tiệm ăn",
+        "group": "5"
+    }, {
+        "word": "熱い",
+        "phonetic": "あつい あっつい",
+        "id": "170850",
+        "mean": "nóng; nóng bỏng; oi bức; thân thiện; nhiệt tình",
+        "group": "5"
+    }, {
+        "phonetic": "もういちど",
+        "word": "もう一度",
+        "id": "130294",
+        "mean": "lại; lần nữa; thêm một lần nữa",
+        "group": "5"
+    }, {
+        "phonetic": "さんぽ",
+        "word": "散歩",
+        "id": "101021",
+        "mean": "sự tản bộ; sự đi dạo; đi dạo",
+        "group": "5"
+    }, {
+        "phonetic": "ひらく あく",
+        "word": "開く",
+        "id": "110093",
+        "mean": "mở; mở cửa",
+        "group": "5"
+    }, {
+        "phonetic": "とおい",
+        "word": "遠い",
+        "id": "108993",
+        "mean": "hẻo; viễn; xa lắc; xa xăm; xa; xa xôi; xa xa; không rõ; nghễnh ngãng",
+        "group": "5"
+    }, {
+        "phonetic": "と もん かど",
+        "word": "門",
+        "id": "110062",
+        "mean": "cổng; một trong những giai đoạn phân loại sinh học",
+        "group": "5"
+    }, {
+        "phonetic": "ひこうき",
+        "word": "飛行機",
+        "id": "42354",
+        "mean": "máy bay; phi cơ; tàu bay",
+        "group": "5"
+    }, {
+        "phonetic": "たつ だつ",
+        "word": "立つ",
+        "id": "174159",
+        "mean": "đứng; đứng lên; đứng dậy",
+        "group": "5"
+    }, {
+        "phonetic": "まいしゅう",
+        "word": "毎週",
+        "id": "187474",
+        "mean": "hàng tuần; mỗi tuần",
+        "group": "5"
+    }, {
+        "word": "漢字",
+        "phonetic": "かんじ",
+        "id": "189102",
+        "mean": "chữ hán; hán tự",
+        "group": "5"
+    }, {
+        "phonetic": "ありく あるく",
+        "word": "歩く",
+        "id": "187258",
+        "mean": "đi bộ; đi; bước",
+        "group": "5"
+    }, {
+        "phonetic": "あづい あぢー あつい あっつい あぢぃ あぢい",
+        "word": "暑い",
+        "id": "185478",
+        "mean": "nóng; nóng nực; nực",
+        "group": "5"
+    }, {
+        "phonetic": "まつ",
+        "word": "待つ",
+        "id": "97857",
+        "mean": "chờ; chờ đợi; đợi; đợi chờ; mong chờ; mong đợi; mong mỏi; trông đợi",
+        "group": "5"
+    }, {
+        "phonetic": "ばん",
+        "word": "晩",
+        "id": "185407",
+        "mean": "buổi tối; đêm; muộn; tối",
+        "group": "5"
+    }, {
+        "phonetic": "せんたく せんだく",
+        "word": "洗濯",
+        "id": "188232",
+        "mean": "sự giặt giũ; quần áo được giặt giũ",
+        "group": "5"
+    }, {
+        "phonetic": "テーブル",
+        "word": "テーブル",
+        "id": "181845",
+        "mean": "bàn; bàn; cái bàn",
+        "group": "5"
+    }, {
+        "word": "立派",
+        "phonetic": "りっぱ",
+        "id": "174194",
+        "mean": "sự tuyệt vời; sự tuyệt hảo; tuyệt vời; tuyệt hảo",
+        "group": "5"
+    }, {
+        "phonetic": "いけ",
+        "word": "池",
+        "id": "187884",
+        "mean": "bàu; cái ao; ao; hồ; ao; cái ao",
+        "group": "5"
+    }, {
+        "phonetic": "タクシー",
+        "word": "タクシー",
+        "id": "181578",
+        "mean": "tắc xi; tắc-xi; xe tắc xi",
+        "group": "5"
+    }, {
+        "phonetic": "おべんとう",
+        "word": "お弁当",
+        "id": "51118",
+        "mean": "cơm hộp; cơm trưa",
+        "group": "5"
+    }, {
+        "phonetic": "せんしゅう",
+        "word": "先週",
+        "id": "145283",
+        "mean": "tuần lễ trước; tuần trước",
+        "group": "5"
+    }, {
+        "phonetic": "うまれる",
+        "word": "生まれる",
+        "id": "171762",
+        "mean": "đản sinh; được sinh ra; sinh ra; lọt lòng; ra đời; sanh",
+        "group": "5"
+    }, {
+        "phonetic": "コート",
+        "word": "コート",
+        "id": "180652",
+        "mean": "áo khoác; áo bành tô; áo choàng",
+        "group": "5"
+    }, {
+        "phonetic": "かるい かろい",
+        "word": "軽い",
+        "id": "107944",
+        "mean": "nhẹ",
+        "group": "5"
+    }, {
+        "phonetic": "おかし",
+        "word": "お菓子",
+        "id": "51241",
+        "mean": "bánh kẹo; kẹo; bánh ngọt",
+        "group": "5"
+    }, {
+        "phonetic": "せ そびら せい",
+        "word": "背",
+        "id": "30573",
+        "mean": "lưng",
+        "group": "5"
+    }, {
+        "phonetic": "きたない",
+        "word": "汚い",
+        "id": "187857",
+        "mean": "bẩn; ô uế; bẩn thỉu; bê bết; bệ rạc; cáu; cáu bẩn; dơ; dơ bẩn; dơ dáy; nhơ; nhơ bẩn; tắt mắt; táy máy; thấp hèn; hạ lưu; uế",
+        "group": "5"
+    }, {
+        "phonetic": "きる ぎる",
+        "word": "切る",
+        "id": "77796",
+        "mean": "cắt; bẻ; đốn; xé; băm; lật; ấn định; thái; cúp; cắt đứt; hạ; bấm; ngắt; chặt; chọc tiết; cưa; đi qua; đi ngang qua; hạ giá; bán thấp hơn giá thành sản xuất; li dị; li thân; rọc; tạm ngừng; chấm dứt; đoạn giao; xắn",
+        "group": "5"
+    }, {
+        "phonetic": "かいだん",
+        "word": "階段",
+        "id": "110476",
+        "mean": "cầu thang; thang gác; thang lầu",
+        "group": "5"
+    }, {
+        "phonetic": "いす いし",
+        "word": "椅子",
+        "id": "186661",
+        "mean": "ghế; cái ghế; ghế",
+        "group": "5"
+    }, {
+        "phonetic": "ひろい",
+        "word": "広い",
+        "id": "55742",
+        "mean": "rộng; rộng rãi; rộng lớn",
+        "group": "5"
+    }, {
+        "phonetic": "ペン",
+        "word": "ペン",
+        "id": "183846",
+        "mean": "bút; bút máy; bút; bút máy; cây bút; viết máy",
+        "group": "5"
+    }, {
+        "phonetic": "にちようび にちようひ にちようにち",
+        "word": "日曜日",
+        "id": "184998",
+        "mean": "chủ nhật; ngày chủ nhật; chúa nhật",
+        "group": "5"
+    }, {
+        "phonetic": "ひく",
+        "word": "引く",
+        "id": "56090",
+        "mean": "chăng; dẫn; kéo; rút; bị ; tra; trừ; uốn cong; trừ đi",
+        "group": "5"
+    }, {
+        "phonetic": "てい、にわ にわ",
+        "word": "庭",
+        "id": "55863",
+        "mean": "sân; sân vườn",
+        "group": "5"
+    }, {
+        "phonetic": "おとうさん おとっさん",
+        "word": "お父さん",
+        "id": "275384",
+        "mean": "bố",
+        "group": "5"
+    }, {
+        "phonetic": "テープ",
+        "word": "テープ",
+        "id": "181850",
+        "mean": "băng keo; băng cát sét; video; băng; dải dây; băng dính",
+        "group": "5"
+    }, {
+        "phonetic": "こんげつ",
+        "word": "今月",
+        "id": "143582",
+        "mean": "tháng này",
+        "group": "5"
+    }, {
+        "phonetic": "らいしゅう",
+        "word": "来週",
+        "id": "186189",
+        "mean": "tuần lễ sau; tuần sau",
+        "group": "5"
+    }, {
+        "phonetic": "うたう",
+        "word": "歌う",
+        "id": "187107",
+        "mean": "ca; ca hát; hát; xướng",
+        "group": "5"
+    }, {
+        "phonetic": "あおい",
+        "word": "青い",
+        "id": "41725",
+        "mean": "xanh da trời; xanh lục còn xanh; thiếu kinh nghiệm",
+        "group": "5"
+    }, {
+        "phonetic": "しょうす けす",
+        "word": "消す",
+        "id": "188549",
+        "mean": "bôi; dụi; tắt; tẩy; xóa; huỷ; dập; xoá",
+        "group": "5"
+    }, {
+        "phonetic": "がた ゆうがた ゆう",
+        "word": "夕方",
+        "id": "52479",
+        "mean": "ban hôm; hoàng hôn; chiều tối; xế chiều; xế tà",
+        "group": "5"
+    }, {
+        "phonetic": "おくさん",
+        "word": "奥さん",
+        "id": "53288",
+        "mean": "bà; vợ; bà nhà; chị nhà",
+        "group": "5"
+    }, {
+        "phonetic": "シャワー",
+        "word": "シャワー",
+        "id": "180954",
+        "mean": "buồng tắm vòi hoa sen; vòi hoa sen",
+        "group": "5"
+    }, {
+        "phonetic": "どようび どようひ どようにち",
+        "word": "土曜日",
+        "id": "81123",
+        "mean": "bảy; ngày thứ bẩy; thứ bảy",
+        "group": "5"
+    }, {
+        "phonetic": "まいつき まいげつ",
+        "word": "毎月",
+        "id": "187472",
+        "mean": "hàng tháng; mỗi tháng; mọi tháng",
+        "group": "5"
+    }, {
+        "phonetic": "かぜ ふうじゃ",
+        "word": "風邪",
+        "id": "42300",
+        "mean": "bị cảm",
+        "group": "5"
+    }, {
+        "phonetic": "アパート",
+        "word": "アパート",
+        "id": "133217",
+        "mean": "khu nhà tập thể; nhà chung cư; căn hộ; nhà khối",
+        "group": "5"
+    }, {
+        "phonetic": "おにいさん",
+        "word": "お兄さん",
+        "id": "51035",
+        "mean": "anh trai; thưa anh; anh ơi; anh trai",
+        "group": "5"
+    }, {
+        "word": "薄い",
+        "phonetic": "うすい",
+        "id": "31827",
+        "mean": "lạt; lỏng; lợt; mảnh dẻ; mỏng; mong manh; nhạt; nhợt",
+        "group": "5"
+    }, {
+        "phonetic": "きえる",
+        "word": "消える",
+        "id": "188544",
+        "mean": "biến mất; tan đi; tắt",
+        "group": "5"
+    }, {
+        "phonetic": "ぼうし",
+        "word": "帽子",
+        "id": "55400",
+        "mean": "mũ; nón",
+        "group": "5"
+    }, {
+        "phonetic": "あすぶ すさぶ あそぶ",
+        "word": "遊ぶ",
+        "id": "108849",
+        "mean": "nô đùa; vui đùa; chơi",
+        "group": "5"
+    }, {
+        "phonetic": "おしえる",
+        "word": "教える",
+        "id": "100953",
+        "mean": "chỉ dẫn; chỉ dạy; dạy dỗ; chỉ bảo; dạy; kể; chỉ cho biết",
+        "group": "5"
+    }, {
+        "word": "スカート",
+        "phonetic": "スカート",
+        "id": "181177",
+        "mean": "váy; váy; juýp; cáp scart; cổng scart",
+        "group": "5"
+    }, {
+        "phonetic": "わすれる",
+        "word": "忘れる",
+        "id": "98268",
+        "mean": "bỏ lại; đãng; quên bẵng; quên; lãng quên; vong",
+        "group": "5"
+    }, {
+        "phonetic": "たて ほしいまま よし",
+        "word": "縦",
+        "id": "29924",
+        "mean": "bề dọc; chiều dọc; độ dài; độ cao; dọc",
+        "group": "5"
+    }, {
+        "phonetic": "けさ いまあさ こんちょう",
+        "word": "今朝",
+        "id": "143586",
+        "mean": "sáng nay",
+        "group": "5"
+    }, {
+        "phonetic": "かえす",
+        "word": "返す",
+        "id": "108256",
+        "mean": "trả; trả lại; chuyển lại",
+        "group": "5"
+    }, {
+        "phonetic": "つき つくえ",
+        "word": "机",
+        "id": "186125",
+        "mean": "bàn; bàn viết; bàn",
+        "group": "5"
+    }, {
+        "phonetic": "パーティー パーティ",
+        "word": "パーティ",
+        "id": "182857",
+        "mean": "bữa tiệc; phe",
+        "group": "5"
+    }, {
+        "phonetic": "せまい",
+        "word": "狭い",
+        "id": "171387",
+        "mean": "bé; chật; chật chội; chật hẹp; eo hẹp; hẹp; nhỏ",
+        "group": "5"
+    }, {
+        "phonetic": "きんようび きんようにち きんようひ",
+        "word": "金曜日",
+        "id": "109520",
+        "mean": "ngày thứ sáu; thứ sáu",
+        "group": "5"
+    }, {
+        "phonetic": "とぶ",
+        "word": "飛ぶ",
+        "id": "42337",
+        "mean": "bay nhảy; bay tán loạn; bay lả tả; bay; cất cánh bay; bay liệng; cắt đứt; chạy; cưỡi gió; không liên tiếp; bỏ cách; nhảy; nhảy qua; nhót; truyền bá; truyền; vượt cấp",
+        "group": "5"
+    }, {
+        "phonetic": "ちかてつ",
+        "word": "地下鉄",
+        "id": "51974",
+        "mean": "tàu điện ngầm; xe điện ngầm",
+        "group": "5"
+    }, {
+        "phonetic": "おさら",
+        "word": "お皿",
+        "id": "51187",
+        "mean": "đĩa",
+        "group": "5"
+    }, {
+        "phonetic": "はれ ばれ",
+        "word": "晴れ",
+        "id": "185460",
+        "mean": "trời nắng",
+        "group": "5"
+    }, {
+        "phonetic": "あかるい",
+        "word": "明るい",
+        "id": "185216",
+        "mean": "tươi sáng; vui vẻ; sáng sủa; 法律に明るい:am hiểu pháp luật; xinh tươi",
+        "group": "5"
+    }, {
+        "phonetic": "くらい",
+        "word": "暗い",
+        "id": "185498",
+        "mean": "tối tăm; ảm đạm; âm u; tối; tối màu; u sầu; u ám; trầm; mờ ám; râm",
+        "group": "5"
+    }, {
+        "phonetic": "つべたい つめたい",
+        "word": "冷たい",
+        "id": "77373",
+        "mean": "lành lạnh; lạnh nhạt; lạnh lùng; lạnh; lạnh buốt; lạnh giá; lạnh lẽo; nguội lạnh",
+        "group": "5"
+    }, {
+        "phonetic": "おうしょく きいろ こうしょく",
+        "word": "黄色",
+        "id": "43078",
+        "mean": "màu vàng; vàng",
+        "group": "5"
+    }, {
+        "phonetic": "なつやすみ",
+        "word": "夏休み",
+        "id": "52467",
+        "mean": "nghỉ hè",
+        "group": "5"
+    }, {
+        "phonetic": "げつようひ げつようび げつようにち",
+        "word": "月曜日",
+        "id": "185740",
+        "mean": "ngày thứ hai; thứ hai",
+        "group": "5"
+    }, {
+        "phonetic": "フイルム フィルム",
+        "word": "フィルム",
+        "id": "183228",
+        "mean": "dải phim; cuộn phim; phim; cuộn phim",
+        "group": "5"
+    }, {
+        "phonetic": "ひるごはん",
+        "word": "昼ご飯",
+        "id": "3144",
+        "mean": "bữa ăn trưa",
+        "group": "5"
+    }, {
+        "phonetic": "こ -こ ど と",
+        "word": "戸",
+        "id": "99277",
+        "mean": "cánh cửa; cửa",
+        "group": "5"
+    }, {
+        "phonetic": "さとう",
+        "word": "砂糖",
+        "id": "173326",
+        "mean": "đường; đường ăn",
+        "group": "5"
+    }, {
+        "phonetic": "こたえる いらえる",
+        "word": "答える",
+        "id": "174374",
+        "mean": "trả lời; đáp lại",
+        "group": "5"
+    }, {
+        "word": "着る",
+        "phonetic": "きる",
+        "id": "173137",
+        "mean": "mặc; ướm",
+        "group": "5"
+    }, {
+        "phonetic": "しょうゆう",
+        "word": "醤油",
+        "id": "109358",
+        "mean": "xì dầu",
+        "group": "5"
+    }, {
+        "phonetic": "れいぞうこ",
+        "word": "冷蔵庫",
+        "id": "77413",
+        "mean": "kho ướp lạnh; tủ lạnh",
+        "group": "5"
+    }, {
+        "phonetic": "けいかん",
+        "word": "警官",
+        "id": "106821",
+        "mean": "cánh sát; cảnh sát; cánh sát viên",
+        "group": "5"
+    }, {
+        "word": "大勢",
+        "phonetic": "たいせい たいぜい おおぜい",
+        "id": "52711",
+        "mean": "đại chúng; phần lớn mọi người; đám đông; nhiều người",
+        "group": "5"
+    }, {
+        "phonetic": "のみもの",
+        "word": "飲み物",
+        "id": "42447",
+        "mean": "đồ uống; thức uống",
+        "group": "5"
+    }, {
+        "phonetic": "レコード",
+        "word": "レコード",
+        "id": "184855",
+        "mean": "đĩa nhựa; kỷ lục; sự ghi âm; sự thu thanh; ghi lại",
+        "group": "5"
+    }, {
+        "word": "郵便局",
+        "phonetic": "ゆうびんきょく",
+        "id": "109226",
+        "mean": "bưu điện",
+        "group": "5"
+    }, {
+        "phonetic": "とる",
+        "word": "撮る",
+        "id": "100646",
+        "mean": "chụp ; làm",
+        "group": "5"
+    }, {
+        "phonetic": "めがね がんきょう",
+        "word": "眼鏡",
+        "id": "173127",
+        "mean": "kính; kính mắt; mắt kính",
+        "group": "5"
+    }, {
+        "phonetic": "おす",
+        "word": "押す",
+        "id": "99868",
+        "mean": "ấn; nhấn; bấm; đẩy; đóng; mặc dù; bất kể; mặc kệ; áp đảo; bị muộn; bị trễ; bị lùi lịch; ép buộc",
+        "group": "5"
+    }, {
+        "phonetic": "ならぶ",
+        "word": "並ぶ",
+        "id": "142340",
+        "mean": "được xếp; được bài trí",
+        "group": "5"
+    }, {
+        "phonetic": "からかさ かさ",
+        "word": "傘",
+        "id": "145036",
+        "mean": "cái ô; dù; ô; cái ô; ô; dù",
+        "group": "5"
+    }, {
+        "phonetic": "いでぐち でぐち",
+        "word": "出口",
+        "id": "77549",
+        "mean": "cổng ra; cửa ra; lối ra",
+        "group": "5"
+    }, {
+        "phonetic": "ぎゅうにゅう",
+        "word": "牛乳",
+        "id": "171048",
+        "mean": "sữa; sữa bò",
+        "group": "5"
+    }, {
+        "word": "玄関",
+        "phonetic": "げんかん",
+        "id": "171489",
+        "mean": "phòng ngoài; lối đi vào; sảnh trong nhà",
+        "group": "5"
+    }, {
+        "phonetic": "エレベーター エレベータ",
+        "word": "エレベーター",
+        "id": "179679",
+        "mean": "thang máy",
+        "group": "5"
+    }, {
+        "phonetic": "ズボン",
+        "word": "ズボン",
+        "id": "181427",
+        "mean": "quần; quần; quần dài",
+        "group": "5"
+    }, {
+        "phonetic": "じきどう しょくどう",
+        "word": "食堂",
+        "id": "42413",
+        "mean": "buồng ăn; nhà ăn; bếp ăn; phòng ăn",
+        "group": "5"
+    }, {
+        "phonetic": "ナイフ",
+        "word": "ナイフ",
+        "id": "182159",
+        "mean": "dao; con dao; dao; dao nhíp",
+        "group": "5"
+    }, {
+        "phonetic": "バター",
+        "word": "バター",
+        "id": "182543",
+        "mean": "bơ",
+        "group": "5"
+    }, {
+        "phonetic": "おぼえる",
+        "word": "覚える",
+        "id": "32698",
+        "mean": "cảm thấy; học; học thuộc; nhớ",
+        "group": "5"
+    }, {
+        "phonetic": "あける ひらける はだける",
+        "word": "開ける",
+        "id": "110095",
+        "mean": "khai thông; ; mở mang; tiến bộ",
+        "group": "5"
+    }, {
+        "phonetic": "みつ さんつ みっつ",
+        "word": "三つ",
+        "id": "141819",
+        "mean": "ba cái",
+        "group": "5"
+    }, {
+        "phonetic": "せんげつ",
+        "word": "先月",
+        "id": "145260",
+        "mean": "tháng trước",
+        "group": "5"
+    }, {
+        "phonetic": "ようふく",
+        "word": "洋服",
+        "id": "188210",
+        "mean": "âu phục; quần áo; quần áo tây",
+        "group": "5"
+    }, {
+        "phonetic": "カレンダー カレンダ",
+        "word": "カレンダー",
+        "id": "179988",
+        "mean": "lịch; máy ca-len-da; máy định hình vải; niên lịch; quyển lịch",
+        "group": "5"
+    }, {
+        "phonetic": "あったけー あったかい あたたかい",
+        "word": "暖かい",
+        "id": "185489",
+        "mean": "đầm ấm; êm ấm; nóng; nồng hậu; ấm áp; ôn hoà",
+        "group": "5"
+    }, {
+        "phonetic": "こうちゃ",
+        "word": "紅茶",
+        "id": "29238",
+        "mean": "chè đen; trà đen; hồng trà",
+        "group": "5"
+    }, {
+        "phonetic": "たいしかん",
+        "word": "大使館",
+        "id": "52696",
+        "mean": "đại sứ quán; tòa đại sứ",
+        "group": "5"
+    }, {
+        "phonetic": "わたる",
+        "word": "渡る",
+        "id": "188815",
+        "mean": "băng qua; đi qua; độ",
+        "group": "5"
+    }, {
+        "phonetic": "わたす",
+        "word": "渡す",
+        "id": "188813",
+        "mean": "trao; đưa",
+        "group": "5"
+    }, {
+        "phonetic": "すいようび すいようひ すいようにち",
+        "word": "水曜日",
+        "id": "187722",
+        "mean": "ngày thứ tư; thứ tư",
+        "group": "5"
+    }, {
+        "phonetic": "かようにち かようび かようひ",
+        "word": "火曜日",
+        "id": "170407",
+        "mean": "thứ ba; ngày thứ ba",
+        "group": "5"
+    }, {
+        "phonetic": "やまる とどまる とまる",
+        "word": "止まる",
+        "id": "187141",
+        "mean": "che lấp; cố định; đậu ở; đình chỉ; đứng; dừng lại; đứng lại; lưu lại; ngừng; tắc nghẽn",
+        "group": "5"
+    }, {
+        "word": "宿題",
+        "phonetic": "しゅくだい",
+        "id": "54266",
+        "mean": "bài tập về nhà",
+        "group": "5"
+    }, {
+        "phonetic": "いりくち はいりくち はいりぐち いりぐち",
+        "word": "入口",
+        "id": "145420",
+        "mean": "cổng vào; cửa vào; lối vào; sự bắt đầu",
+        "group": "5"
+    }, {
+        "phonetic": "こまい ほそい",
+        "word": "細い",
+        "id": "29364",
+        "mean": "thon dài; mảnh mai; mỏng; cảm giác không đủ về số lượng",
+        "group": "5"
+    }, {
+        "phonetic": "やすむ",
+        "word": "休む",
+        "id": "143967",
+        "mean": "nghỉ; vắng mặt; ngủ",
+        "group": "5"
+    }, {
+        "word": "着く",
+        "phonetic": "つく はく",
+        "id": "173132",
+        "mean": "đến; tới; vào",
+        "group": "5"
+    }, {
+        "word": "降る",
+        "phonetic": "ふる くだる",
+        "id": "110300",
+        "mean": "rơi ; đổ",
+        "group": "5"
+    }, {
+        "phonetic": "じしょ",
+        "word": "辞書",
+        "id": "108122",
+        "mean": "tự điển; từ điển",
+        "group": "5"
+    }, {
+        "phonetic": "こうさてん",
+        "word": "交差点",
+        "id": "143245",
+        "mean": "bùng binh; ngã tư; điểm giao nhau; giao điểm",
+        "group": "5"
+    }, {
+        "phonetic": "くつした",
+        "word": "靴下",
+        "id": "41958",
+        "mean": "bít tất; tất; tất chân; vớ; tất; vớ",
+        "group": "5"
+    }, {
+        "phonetic": "すう",
+        "word": "吸う",
+        "id": "80160",
+        "mean": "bú; hấp; hít; hít vào; hút; hớp; mút",
+        "group": "5"
+    }, {
+        "phonetic": "らいげつ",
+        "word": "来月",
+        "id": "186184",
+        "mean": "tháng sau",
+        "group": "5"
+    }, {
+        "phonetic": "もくようひ もくようにち もくようび",
+        "word": "木曜日",
+        "id": "185955",
+        "mean": "ngày thứ năm; thứ năm",
+        "group": "5"
+    }, {
+        "phonetic": "でかける",
+        "word": "出かける",
+        "id": "77520",
+        "mean": "đăng trình; ra; rời khỏi",
+        "group": "5"
+    }, {
+        "phonetic": "あらう",
+        "word": "洗う",
+        "id": "188229",
+        "mean": "giặt; rửa; tắm gội; tẩy; tẩy rửa; vo; xả",
+        "group": "5"
+    }, {
+        "phonetic": "つかれる",
+        "word": "疲れる",
+        "id": "172207",
+        "mean": "cũ rồi; mệt; mệt mỏi; mỏi; mỏi mệt; nhọc; nhọc mệt; nhọc nhằn; oải; rã rời",
+        "group": "5"
+    }, {
+        "phonetic": "まいちょう まいあさ",
+        "word": "毎朝",
+        "id": "187473",
+        "mean": "hàng sáng; mỗi sáng",
+        "group": "5"
+    }, {
+        "phonetic": "すわる",
+        "word": "座る",
+        "id": "55838",
+        "mean": "ngồi; ngồi xuống",
+        "group": "5"
+    }, {
+        "phonetic": "まいばん",
+        "word": "毎晩",
+        "id": "187470",
+        "mean": "đêm đêm; hàng tối; tối tối",
+        "group": "5"
+    }, {
+        "phonetic": "きいろい",
+        "word": "黄色い",
+        "id": "43079",
+        "mean": "vàng",
+        "group": "5"
+    }, {
+        "phonetic": "ちゃいろ",
+        "word": "茶色",
+        "id": "31553",
+        "mean": "màu nâu nhạt",
+        "group": "5"
+    }, {
+        "phonetic": "ふとい",
+        "word": "太い",
+        "id": "53118",
+        "mean": "béo; dày; to; mập",
+        "group": "5"
+    }, {
+        "phonetic": "ホーク フォーク",
+        "word": "フォーク",
+        "id": "183300",
+        "mean": "cái nĩa; dân ca; dân gian; dĩa; nĩa; nĩa; xiên; phân nhánh; chia ngả",
+        "group": "5"
+    }, {
+        "phonetic": "ネクタイ",
+        "word": "ネクタイ",
+        "id": "182255",
+        "mean": "cà vạt; ca vát; cavát; caravát; cà vạt",
+        "group": "5"
+    }, {
+        "phonetic": "りゅうがくせい",
+        "word": "留学生",
+        "id": "172108",
+        "mean": "du học sinh; lưu học sinh; học sinh du học",
+        "group": "5"
+    }, {
+        "phonetic": "かりる",
+        "word": "借りる",
+        "id": "144841",
+        "mean": "mượn; vay; thuê; mướn; nhờ; mượn; nhân dịp",
+        "group": "5"
+    }, {
+        "phonetic": "きっさてん きっちゃてん",
+        "word": "喫茶店",
+        "id": "80655",
+        "mean": "quán cà phê; quán trà; quán nước; tiệm giải khát; quán giải khát",
+        "group": "5"
+    }, {
+        "phonetic": "さく",
+        "word": "咲く",
+        "id": "80326",
+        "mean": "nở",
+        "group": "5"
+    }, {
+        "phonetic": "くだもの かぶつ",
+        "word": "果物",
+        "id": "186314",
+        "mean": "hoa quả; trái cây; trái cây",
+        "group": "5"
+    }, {
+        "phonetic": "コップ",
+        "word": "コップ",
+        "id": "180498",
+        "mean": "cốc; cái cốc; cái cốc; cúp; cốc; ca; cái ly; ly",
+        "group": "5"
+    }, {
+        "phonetic": "ばし はし",
+        "word": "箸",
+        "id": "174425",
+        "mean": "đũa",
+        "group": "5"
+    }, {
+        "phonetic": "くもり ぐもり",
+        "word": "曇り",
+        "id": "185557",
+        "mean": "mờ; không rõ; nhiều mây; sự không chính trực; trời âm u; trời đầy mây; vết nhơ",
+        "group": "5"
+    }, {
+        "phonetic": "だいどこ だいどころ",
+        "word": "台所",
+        "id": "79743",
+        "mean": "bếp; bếp núc; bếp nước; nhà bếp",
+        "group": "5"
+    }, {
+        "phonetic": "おりる",
+        "word": "降りる",
+        "id": "110298",
+        "mean": "bước xuống; hạ; rủ; sập; xuống",
+        "group": "5"
+    }, {
+        "phonetic": "ろうか",
+        "word": "廊下",
+        "id": "55913",
+        "mean": "hành lang; khe núi; hẻm núi hẹp",
+        "group": "5"
+    }, {
+        "phonetic": "たがね あめ",
+        "word": "飴",
+        "id": "42462",
+        "mean": "kẹo; kẹo ngậm; kẹo",
+        "group": "5"
+    }, {
+        "phonetic": "すずしい",
+        "word": "涼しい",
+        "id": "188610",
+        "mean": "bình tĩnh; mát; mát mẻ",
+        "group": "5"
+    }, {
+        "phonetic": "ふく",
+        "word": "吹く",
+        "id": "80176",
+        "mean": "dậy mùi; hắt hiu; phát ra; bốc ra; tỏa ra; thổi",
+        "group": "5"
+    }, {
+        "phonetic": "ゆうはん ゆうめし",
+        "word": "夕飯",
+        "id": "52490",
+        "mean": "bữa ăn chiều",
+        "group": "5"
+    }, {
+        "word": "スプーン",
+        "phonetic": "スプーン スプン",
+        "id": "181348",
+        "mean": "cái thìa; cái muỗng; muỗng; thìa; thìa; muỗng",
+        "group": "5"
+    }, {
+        "phonetic": "きって きれて",
+        "word": "切手",
+        "id": "77809",
+        "mean": "tem; tem hàng",
+        "group": "5"
+    }, {
+        "phonetic": "こんばん",
+        "word": "今晩",
+        "id": "143578",
+        "mean": "đêm nay; tối nay",
+        "group": "5"
+    }, {
+        "phonetic": "ぎゅうにく",
+        "word": "牛肉",
+        "id": "171052",
+        "mean": "thịt bò",
+        "group": "5"
+    }, {
+        "phonetic": "ふうとう",
+        "word": "封筒",
+        "id": "54554",
+        "mean": "bao thư; phong bì; phong thơ; phong thư",
+        "group": "5"
+    }, {
+        "phonetic": "あびる",
+        "word": "浴びる",
+        "id": "188426",
+        "mean": "rơi vào; ngập chìm; tắm; thu hút",
+        "group": "5"
+    }, {
+        "phonetic": "きっぷ",
+        "word": "切符",
+        "id": "77820",
+        "mean": "vé",
+        "group": "5"
+    }, {
+        "phonetic": "えんぴつ",
+        "word": "鉛筆",
+        "id": "109712",
+        "mean": "bút chì; viết chì",
+        "group": "5"
+    }, {
+        "phonetic": "じょうい うわぎ",
+        "word": "上着",
+        "id": "141918",
+        "mean": "áo vét; áo khoác",
+        "group": "5"
+    }, {
+        "phonetic": "とんにく ぶたにく",
+        "word": "豚肉",
+        "id": "106904",
+        "mean": "thịt heo; thịt lợn",
+        "group": "5"
+    }, {
+        "phonetic": "あつい",
+        "word": "厚い",
+        "id": "79043",
+        "mean": "dày; dầy",
+        "group": "5"
+    }, {
+        "phonetic": "デパート",
+        "word": "デパート",
+        "id": "181920",
+        "mean": "trung tâm thương mại",
+        "group": "5"
+    }, {
+        "phonetic": "まろい まるい",
+        "word": "丸い",
+        "id": "142593",
+        "mean": "tròn",
+        "group": "5"
+    }, {
+        "phonetic": "はじく ひく",
+        "word": "弾く",
+        "id": "97683",
+        "mean": "chơi; đàn; gẫy; gảy",
+        "group": "5"
+    }, {
+        "phonetic": "せっけん",
+        "word": "石鹸",
+        "id": "174429",
+        "mean": "xà phòng",
+        "group": "5"
+    }, {
+        "phonetic": "とりにく けいにく",
+        "word": "鶏肉",
+        "id": "43007",
+        "mean": "thịt gà",
+        "group": "5"
+    }, {
+        "phonetic": "ぬぐ",
+        "word": "脱ぐ",
+        "id": "30702",
+        "mean": "cởi ; bỏ; lột",
+        "group": "5"
+    }, {
+        "phonetic": "さくぶん さくもん",
+        "word": "作文",
+        "id": "144372",
+        "mean": "sự đặt câu; sự viết văn; sự làm văn; đoạn văn",
+        "group": "5"
+    }, {
+        "phonetic": "ならべる",
+        "word": "並べる",
+        "id": "142342",
+        "mean": "bày; sắp hàng; sắp; bày; bày đặt; bài trí",
+        "group": "5"
+    }, {
+        "phonetic": "みょうごにち あさって",
+        "word": "明後日",
+        "id": "185225",
+        "mean": "ngày kia",
+        "group": "5"
+    }, {
+        "phonetic": "セエター セーター スエーター",
+        "word": "セーター",
+        "id": "181494",
+        "mean": "áo len chui đầu; áo len dài tay",
+        "group": "5"
+    }, {
+        "word": "貸す",
+        "phonetic": "かす",
+        "id": "107182",
+        "mean": "bán đợ; cho vay; cho mượn",
+        "group": "5"
+    }, {
+        "phonetic": "おとつい いちきのう いっさくび いっさくじつ いっさくひ いっさくにち おととい",
+        "word": "一昨日",
+        "id": "141639",
+        "mean": "bữa kia; ngày hôm kia",
+        "group": "5"
+    }, {
+        "phonetic": "じょうぶ ますらお たけお じょうふ",
+        "word": "丈夫",
+        "id": "141814",
+        "mean": "khỏe; khỏe mạnh; bền; chắc",
+        "group": "5"
+    }, {
+        "phonetic": "ばる はる",
+        "word": "張る",
+        "id": "97610",
+        "mean": "căng cứng; phình ra; trải dài; kéo dài; căng ra; trương ra; căng ra; chăng ra; chăng; mắc; vênh vang; khoe khoang; căng",
+        "group": "5"
+    }, {
+        "phonetic": "あがる のぼる",
+        "word": "上る",
+        "id": "141872",
+        "mean": "đưa ra; tăng lên; đi lên; lên tới; thăng cấp",
+        "group": "5"
+    }, {
+        "phonetic": "はく",
+        "word": "履く",
+        "id": "54906",
+        "mean": "đi; xỏ (giầy",
+        "group": "5"
+    }, {
+        "phonetic": "ほんだな",
+        "word": "本棚",
+        "id": "186091",
+        "mean": "giá sách; kệ sách; tủ sách; kệ sách",
+        "group": "5"
+    }, {
+        "phonetic": "ななつ",
+        "word": "七つ",
+        "id": "141761",
+        "mean": "bảy cái",
+        "group": "5"
+    }, {
+        "phonetic": "よんつ よつ よっつ",
+        "word": "四つ",
+        "id": "80734",
+        "mean": "bốn",
+        "group": "5"
+    }, {
+        "phonetic": "みがく 磨く 琢く 研く",
+        "word": "磨く",
+        "id": "173491",
+        "mean": "đánh bóng; làm sáng bóng; mài bóng; mài; đánh; chải; trau chuốt; cải thiện; gọt giũa; xát",
+        "group": "5"
+    }, {
+        "phonetic": "およぎます およぐ",
+        "word": "泳ぐ",
+        "id": "188205",
+        "mean": "bơi; bơi lội; lội",
+        "group": "5"
+    }, {
+        "phonetic": "ハンカチ",
+        "word": "ハンカチ",
+        "id": "182409",
+        "mean": "khăn tay; khăn mùi xoa; khăn tay; mùi xoa",
+        "group": "5"
+    }, {
+        "phonetic": "ボールペン",
+        "word": "ボールペン",
+        "id": "184001",
+        "mean": "bút bi",
+        "group": "5"
+    }, {
+        "phonetic": "にぎやか",
+        "word": "賑やか",
+        "id": "107303",
+        "mean": "sôi nổi; náo nhiệt; sống động; huyên náo",
+        "group": "5"
+    }, {
+        "phonetic": "こうばん",
+        "word": "交番",
+        "id": "143288",
+        "mean": "đồn cảnh sát",
+        "group": "5"
+    }, {
+        "phonetic": "ストーブ",
+        "word": "ストーブ",
+        "id": "181303",
+        "mean": "lò; lò sưởi",
+        "group": "5"
+    }, {
+        "phonetic": "おととし いっさくねん",
+        "word": "一昨年",
+        "id": "141637",
+        "mean": "năm kia; hai năm trước",
+        "group": "5"
+    }, {
+        "phonetic": "まがる",
+        "word": "曲がる",
+        "id": "185574",
+        "mean": "cong; rẽ; thay đổi hướng đi; lệch; vẹo; méo; lệch lạc; không ngay thẳng; suy giảm",
+        "group": "5"
+    }, {
+        "phonetic": "なく",
+        "word": "鳴く",
+        "id": "42983",
+        "mean": "kêu; hót; hú; rống",
+        "group": "5"
+    }, {
+        "phonetic": "おてあらい",
+        "word": "お手洗い",
+        "id": "51130",
+        "mean": "toa-lét; nhà vệ sinh",
+        "group": "5"
+    }, {
+        "phonetic": "やっつ ようつ やつ",
+        "word": "八つ",
+        "id": "145605",
+        "mean": "tám; thứ tám",
+        "group": "5"
+    }, {
+        "phonetic": "ちゃわん",
+        "word": "茶碗",
+        "id": "31552",
+        "mean": "bát; bát ăn; cái chén; chén chè; tách trà; chén trà",
+        "group": "5"
+    }, {
+        "phonetic": "はれる",
+        "word": "晴れる",
+        "id": "185461",
+        "mean": "nắng; tạnh",
+        "group": "5"
+    }, {
+        "phonetic": "いちげつ いちがつ ひとつき",
+        "word": "一月",
+        "id": "141648",
+        "mean": "một tháng",
+        "group": "5"
+    }, {
+        "phonetic": "はいざら",
+        "word": "灰皿",
+        "id": "170453",
+        "mean": "gạt tàn; dụng cụ đựng tro tàn",
+        "group": "5"
+    }, {
+        "phonetic": "スリッパ",
+        "word": "スリッパ",
+        "id": "181393",
+        "mean": "dép lê; dép đi trong nhà",
+        "group": "5"
+    }, {
+        "word": "勤める",
+        "phonetic": "つとめる",
+        "id": "78460",
+        "mean": "làm việc",
+        "group": "5"
+    }, {
+        "phonetic": "ならう",
+        "word": "習う",
+        "id": "30202",
+        "mean": "học tập; luyện tập; học",
+        "group": "5"
+    }, {
+        "phonetic": "ばんごはん",
+        "word": "晩御飯",
+        "id": "185411",
+        "mean": "bữa tối; cơm chiều; cơm tối",
+        "group": "5"
+    }, {
+        "phonetic": "いつつ",
+        "word": "五つ",
+        "id": "143150",
+        "mean": "năm cái; năm chiếc",
+        "group": "5"
+    }, {
+        "phonetic": "しめる",
+        "word": "閉める",
+        "id": "110080",
+        "mean": "đóng; gài",
+        "group": "5"
+    }, {
+        "phonetic": "しめる",
+        "word": "締める",
+        "id": "29849",
+        "mean": "buộc; buộc chặt; vặn chặt; kín; vặn; vắt",
+        "group": "5"
+    }, {
+        "phonetic": "さす",
+        "word": "差す",
+        "id": "55196",
+        "mean": "hửng nắng; chiếu sáng; giương ; mở dù; nhỏ",
+        "group": "5"
+    }, {
+        "phonetic": "まんねんぴつ まんねんふで まんねんひつ",
+        "word": "万年筆",
+        "id": "141795",
+        "mean": "bút máy; viết máy",
+        "group": "5"
+    }, {
+        "phonetic": "かへい かびん はながめ けびょう",
+        "word": "花瓶",
+        "id": "31407",
+        "mean": "bình hoa; lọ hoa; bình dùng để đựng hoa cúng; lọ hoa",
+        "group": "5"
+    }, {
+        "phonetic": "ゆうべ",
+        "word": "夕べ",
+        "id": "73135",
+        "mean": "buổi chiều tối; lúc chạng vạng; buổi tối; đêm; tối qua",
+        "group": "5"
+    }, {
+        "phonetic": "むつ むいつ むっつ",
+        "word": "六つ",
+        "id": "76939",
+        "mean": "sáu",
+        "group": "5"
+    }, {
+        "phonetic": "しまる",
+        "word": "閉まる",
+        "id": "110079",
+        "mean": "đóng; bị đóng chặt; buộc chặt",
+        "group": "5"
+    }, {
+        "phonetic": "やおや",
+        "word": "八百屋",
+        "id": "145614",
+        "mean": "hàng rau; người bán rau quả",
+        "group": "5"
+    }, {
+        "phonetic": "せびろ",
+        "word": "背広",
+        "id": "30589",
+        "mean": "bộ com lê",
+        "group": "5"
+    }, {
+        "phonetic": "ラジカセ",
+        "word": "ラジカセ",
+        "id": "184579",
+        "mean": "đài radio mở được cả đĩa cd; băng cát-xét; đài radio cassette",
+        "group": "5"
+    }, {
+        "phonetic": "さらいねん",
+        "word": "再来年",
+        "id": "77286",
+        "mean": "năm sau nữa; hai năm nữa",
+        "group": "5"
+    }, {
+        "phonetic": "きゅうつ ここのつ",
+        "word": "九つ",
+        "id": "142718",
+        "mean": "9 cái; 9 chiếc",
+        "group": "5"
+    }, {
+        "phonetic": "テープレコーダー",
+        "word": "テープレコーダー",
+        "id": "181851",
+        "mean": "máy ghi âm; máy hát; máy thu băng",
+        "group": "5"
+    }, {
+        "phonetic": "くぐもる くもる",
+        "word": "曇る",
+        "id": "185562",
+        "mean": "đầy..; nỗi lòng buồn chán; ủ ê; râm",
+        "group": "5"
+    }, {
+        "phonetic": "じびき",
+        "word": "字引",
+        "id": "53699",
+        "mean": "từ điển; tự điển",
+        "group": "5"
+    }]

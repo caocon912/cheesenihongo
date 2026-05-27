@@ -19,6 +19,11 @@
     <script src="https://unpkg.com/tippy.js@6"></script>
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.css">
+
     <script>
         tailwind.config = {
             theme: {
@@ -81,7 +86,7 @@
         .timer-bar.ok { background: linear-gradient(90deg, #4caf7d, #6de09a); }
         .timer-bar.warn { background: linear-gradient(90deg, #f0a020, #f7c860); }
         .timer-bar.danger { background: linear-gradient(90deg, #e03060, #f77bb4); }
-        .kanji-display { font-family: 'Noto Sans JP', sans-serif; font-size: 3rem; font-weight: 700; color: #1e2278; line-height: 1.2; }
+        .word-display { font-family: 'Noto Sans JP', sans-serif; font-size: 3rem; font-weight: 700; color: #1e2278; line-height: 1.2; }
         .furigana-display { font-family: 'Noto Sans JP', sans-serif; font-size: 1.1rem; color: #6478f0; font-weight: 500; }
         .toast { position: fixed; top: 20px; right: 20px; z-index: 9999; padding: 12px 20px; border-radius: 12px; font-weight: 600; font-size: 0.9rem; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s ease, fadeOut 0.4s ease 2.5s forwards; min-width: 260px; }
         .toast.success { background: linear-gradient(135deg, #2e9e5e, #4caf7d); }
@@ -140,6 +145,52 @@
         .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-shadow: 0 10px 30px rgba(68,85,224,0.12); }
         .flashcard-front { background-color: #ffffff; border: 2px solid #e0e9ff; }
         .flashcard-back { background: linear-gradient(135deg, #f0f4ff, #e0e9ff); transform: rotateY(180deg); border: 2px solid #c0d0ff; }
+
+        .paginationjs-pages ul,
+        .paginationjs-pages li {
+            border: none !important;
+            outline: none;
+        }
+
+        .paginationjs-pages li > a { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-width: 34px; 
+            height: 34px; 
+            padding: 0 10px; 
+            border-radius: 10px; 
+            font-size: 0.85rem; 
+            font-weight: 700; 
+            color: #6478f0; 
+            background: white; 
+            border: none;
+            text-decoration: none; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+        }
+
+        .paginationjs-pages li:not(.active):not(.disabled):hover > a { 
+            background: #f0f4ff; 
+            transform: translateY(-1px); 
+        }
+
+        .paginationjs-pages li.disabled > a { 
+            opacity: 0.5; 
+            background: transparent;
+            color: #a0aec0; 
+            cursor: not-allowed; 
+            box-shadow: none; 
+            transform: none; 
+        }
+
+        .paginationjs-pages li.paginationjs-ellipsis > a { 
+            background: transparent; 
+            cursor: default; 
+            color: #8fa4f8; 
+            padding: 0 4px; 
+            min-width: auto; 
+        }
     </style>
 </head>
 <body class="bg-grid min-h-screen">
@@ -231,11 +282,15 @@
                         <div class="flex flex-col gap-3">
                             <div>
                                 <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block"><i class="fa-solid fa-torii-gate mr-1"></i>Từ cần học</label>
-                                <input id="inp-kanji" type="text" class="field" placeholder="Ví dụ: 先生(* Bắt buộc)" />
+                                <input id="inp-word" type="text" class="field font-jp" placeholder="Ví dụ: 先生 (* Bắt buộc)" />
                             </div>
                             <div>
-                                <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block"><i class="fa-solid fa-language mr-1"></i>Furigana(nếu có)</label>
-                                <input id="inp-furigana" type="text" class="field font-jp" placeholder="Ví dụ: せんせい (Có thể để trống)" />
+                                <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block"><i class="fa-solid fa-language mr-1"></i>Furigana (nếu có)</label>
+                                <input id="inp-furigana" type="text" class="field font-jp" placeholder="Ví dụ: せんせい" />
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block"><i class="fa-solid fa-pen-nib mr-1"></i>Hán tự (nếu có)</label>
+                                <input id="inp-kanji" type="text" class="field font-jp" placeholder="Ví dụ: 先生" />
                             </div>
                             <div>
                                 <label class="text-xs font-bold text-ink-600 uppercase tracking-wide mb-1.5 block"><i class="fa-solid fa-flag mr-1"></i>Nghĩa tiếng Việt</label>
@@ -324,6 +379,13 @@
                                         <i class="fa-solid fa-trash-can opacity-70"></i> Xóa hết
                                     </button>
                                 </div>
+
+                                <div class="grid grid-cols-1 gap-2 mt-2">
+                                    <label data-tippy-content="Nhập từ file JSON (Mazii)" class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-purple-50 text-purple-700 hover:bg-purple-100 transition cursor-pointer text-xs font-semibold shadow-sm">
+                                        <i class="fa-solid fa-file-code opacity-70"></i> Nhập JSON
+                                        <input type="file" accept=".json" onchange="importJSON(event)" class="hidden" />
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -358,8 +420,7 @@
                                 </div>
                                 <div class="relative flex-1 max-w-xs min-w-[120px]">
                                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-300 text-sm"></i>
-                                    <input id="search-input" type="text" class="field pl-9 py-2 text-sm w-full" placeholder="Tìm kiếm..." oninput="renderTable()" />
-                                </div>
+                                    <input id="search-input" type="text" class="field pl-9 py-2 text-sm w-full" placeholder="Tìm kiếm..." oninput="handleSearchInput()" />                                </div>
                             </div>
                         </div>
                         <div class="overflow-x-auto" style="max-height:600px;overflow-y:auto;">
@@ -370,6 +431,7 @@
                                         <th class="text-left">#</th>
                                         <th class="text-left">Từ cần học</th>
                                         <th class="text-left">Furigana</th>
+                                        <th class="text-left">Hán tự</th>
                                         <th class="text-left">Nghĩa</th>
                                         <th class="text-center">Hành động</th>
                                     </tr>
@@ -377,6 +439,7 @@
                                 <tbody id="vocab-table-body"></tbody>
                             </table>
                         </div>
+                        <div id="pagination-container" class="flex justify-end p-2"></div>
                         <div id="empty-state" class="flex-center flex-col gap-3 py-16 text-ink-300 hidden">
                             <i class="fa-solid fa-inbox text-5xl"></i>
                             <p class="font-semibold text-base">Chưa có từ vựng nào</p>
@@ -461,7 +524,7 @@
                 <div class="card p-6 mb-4 pop-in" id="question-card">
                     <div class="text-xs font-bold uppercase tracking-widest text-ink-400 mb-3" id="q-type-label">Tìm nghĩa tiếng Việt</div>
                     <div id="q-jp-block" class="text-center py-4">
-                        <div class="kanji-display" id="q-kanji">先生</div>
+                        <div class="word-display" id="q-word">先生</div>
                         <div class="furigana-display mt-1" id="q-furigana">せんせい</div>
                     </div>
                     <div id="q-vi-block" class="hidden text-center py-4">
@@ -482,8 +545,9 @@
                         <span class="text-base">💡</span>
                         <span class="text-xs font-bold uppercase tracking-widest text-matcha-500">Giải nghĩa đáp án</span>
                     </div>
-                    <div class="font-jp font-bold text-ink-800 text-2xl" id="expl-kanji"></div>
+                    <div class="font-jp font-bold text-ink-800 text-2xl" id="expl-word"></div>
                     <div class="font-jp text-ink-500 text-sm mt-1 font-medium" id="expl-furigana"></div>
+                    <div class="font-jp text-ink-400 text-sm mt-1" id="expl-kanji"></div>
                     <div class="text-ink-700 font-semibold mt-2 text-base" id="expl-meaning"></div>
                     <div id="expl-auto-next" class="hidden mt-3 text-xs text-ink-400 flex items-center gap-1.5">
                         <i class="fa-solid fa-forward-step text-ink-300"></i>
@@ -595,11 +659,12 @@
                         <button onclick="event.stopPropagation(); playCurrentFlashcardAudio()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors text-lg outline-none" title="Nghe phát âm">
                             <i class="fa-solid fa-volume-high"></i>
                         </button>
-                        <div id="fc-kanji" class="font-jp font-bold text-ink-800 text-5xl mt-2"></div>
+                        <div id="fc-word" class="font-jp font-bold text-ink-800 text-5xl mt-2"></div>
                     </div>
                     <div class="flashcard-back">
-                        <div id="fc-furigana" class="font-jp text-ink-500 text-xl mb-3 font-medium"></div>
-                        <div id="fc-meaning" class="text-2xl font-black text-ink-800"></div>
+                        <div id="fc-furigana" class="font-jp text-ink-500 text-xl font-medium"></div>
+                        <div id="fc-meaning" class="text-2xl font-black text-ink-800 mt-2 mb-2"></div>
+                        <div id="fc-kanji" class="font-jp text-ink-400 text-lg"></div>
                     </div>
                 </div>
             </div>
@@ -632,6 +697,11 @@
     </div>
 
     <script>
+        // 1. Khai báo biến lưu trữ từ điển Kanji
+        let hanVietDictionary = {};
+
+
+
         // --- State Variables ---
         let vocabulary = [];
         let selectedWordIds = new Set();
@@ -641,7 +711,7 @@
             count: 10, timer: 30, tts: false, autoNext: false, 
             questions: [], current: 0, correct: 0, wrong: 0, 
             wrongList: [], timerInterval: null, timerLeft: 30, 
-            answered: false, currentWord: null, type: 'jp2vi' 
+            answered: false, currentWord: null, type: 'word2vi' 
         };
         let printState = { count: 10, mode: 'mix', generated: [] };
         let lastWrongWords = [];
@@ -650,11 +720,63 @@
         let isFlashcardQuiz = false;
         let fcState = { startIndex: 0, currentIndex: 0, pool: [], isFlipped: false };
         
+                // 2. Hàm tải từ điển (Chỉ tải 1 lần duy nhất để tối ưu hiệu năng)
+        async function loadHanVietDict() {
+            if (Object.keys(hanVietDictionary).length > 0) return; // Đã tải rồi thì bỏ qua
+            try {
+                const response = await fetch('hanviet_dict.json');
+                if (response.ok) {
+                    hanVietDictionary = await response.json();
+                    console.log("✅ Đã nạp thành công Từ điển Hán Việt!");
+                }
+            } catch (e) {
+                console.warn("⚠️ Chưa có file hanviet_dict.json. Tính năng Hán tự sẽ tạm để trống.");
+            }
+        }
+
+        // 3. Hàm "phép thuật" chuyển Word thành Hán Việt
+        function generateHanViet(word) {
+            if (!word) return '';
+            let result = [];
+            
+            // Regex này dùng để nhận diện ĐÚNG chữ Kanji (Bỏ qua Hiragana/Katakana/Ký tự đặc biệt)
+            const kanjiRegex = /[\u4e00-\u9faf]/; 
+
+            // Duyệt qua từng chữ cái trong từ
+            for (let char of word) {
+                if (kanjiRegex.test(char)) {
+                    // Nếu là Kanji, tra từ điển. Nếu không có trong từ điển thì hiển thị dấu (?)
+                    result.push(hanVietDictionary[char] || char); 
+                }
+            }
+            
+            // Ghép lại thành chuỗi, cách nhau bởi khoảng trắng
+            return result.join(' ').trim().toUpperCase();
+        }
+
         // --- Storage & Initialization ---
-        function loadFromStorage() {
+        async function loadFromStorage() {
             try { 
-                const raw = localStorage.getItem('nihongo_vocab'); 
-                if (raw) vocabulary = JSON.parse(raw); 
+                // Thay localStorage.getItem bằng localforage.getItem
+                const raw = await localforage.getItem('nihongo_vocab');
+
+                if (raw) {
+                    vocabulary = raw.map(v => {
+                        if (v.word === undefined) {
+                            return {
+                                id: v.id,
+                                word: v.kanji || '', // Kanji cũ giờ là Word
+                                furigana: v.furigana || '',
+                                kanji: '', // Hán tự để trống để người dùng tự cập nhật
+                                meaning: v.meaning || ''
+                            };
+                        }
+                        if (!v.kanji) {
+                            v.kanji = generateHanViet(v.word);
+                        }
+                        return v;
+                    });
+                }
             } catch(e) { 
                 vocabulary = []; 
             }
@@ -662,8 +784,8 @@
             updateHeaderCount();
         }
 
-        function saveToStorage() {
-            localStorage.setItem('nihongo_vocab', JSON.stringify(vocabulary));
+        async function saveToStorage() {
+            await localforage.setItem('nihongo_vocab', vocabulary);
             updateHeaderCount();
         }
 
@@ -671,7 +793,6 @@
         // KHU VỰC QUẢN LÝ DỮ LIỆU TỐI GIẢN (N1-N5)
         // ==========================================
         
-        // Khôi phục trạng thái Checkbox từ LocalStorage
         function initLevelsUI() {
             let saved = [];
             try { saved = JSON.parse(localStorage.getItem('selected_levels')); } catch(e) {}
@@ -682,68 +803,125 @@
             });
         }
 
-        // Lưu các cấp độ đang được chọn
         function saveLevelSelection() {
             const levels = $('.level-cb:checked').map(function() { return this.value; }).get();
             localStorage.setItem('selected_levels', JSON.stringify(levels));
         }
 
-        // Xử lý khi nhấn BẬT hoặc TẮT nút N1-N5
+// Xử lý khi nhấn BẬT hoặc TẮT nút N1-N5
         async function toggleLevel(checkbox) {
-            const level = checkbox.value;
+            const level = checkbox.value; // Ví dụ: 'n2', 'n3'
             const isChecked = checkbox.checked;
             
             saveLevelSelection(); // Lưu trạng thái
             
             if (isChecked) {
-                // --- NẾU BẬT (CHECK) -> TẢI DỮ LIỆU ---
-                showToast(`Đang tải dữ liệu ${level.toUpperCase()}...`, 'info');
+                showToast(`Đang tìm và tải dữ liệu ${level.toUpperCase()}...`, 'info');
                 try {
-                    const res = await fetch(`${level}.xlsx`, { cache: 'no-store' });
-                    if (!res.ok) throw new Error(`Không tìm thấy file ${level}.xlsx`);
-                    
-                    const buffer = await res.arrayBuffer();
-                    const workbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
-                    const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: '' });
-                    
                     let added = 0;
-                    rows.forEach((row, idx) => {
-                        const kanji = (row[0] || '').toString().trim();
-                        const furigana = (row[1] || '').toString().trim();
-                        const meaning = (row[2] || '').toString().trim();
-                        
-                        if ((!kanji && !furigana) || !meaning || (idx === 0 && (kanji.toLowerCase().includes('kanji') || kanji === 'A'))) return;
-                        
-                        // Lọc trùng & Thêm prefix 'sys_n5_...' vào ID để dễ dàng định danh khi gỡ bỏ
-                        if (!vocabulary.find(v => v.kanji === kanji && v.furigana === furigana && v.meaning === meaning)) {
-                            vocabulary.push({ id: `sys_${level}_${Date.now()}_${Math.random()}`, kanji, furigana, meaning });
-                            added++;
+                    let foundAnyFile = false; // Cờ kiểm tra xem có đọc được file nào không
+
+                    // Trước khi vòng lặp chạy, đảm bảo từ điển đã được load:
+                    await loadHanVietDict();
+
+                    // ==========================================
+                    // 1. Thử tải và đọc file Excel (.xlsx)
+                    // ==========================================
+                    try {
+                        const resXlsx = await fetch(`${level}.xlsx`, { cache: 'no-store' });
+                        if (resXlsx.ok) {
+                            foundAnyFile = true;
+                            const buffer = await resXlsx.arrayBuffer();
+                            const workbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
+                            const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: '' });
+
+
+                            // Bên trong phần try catch của resJson.ok
+                            rows.forEach((row, idx) => {
+                                const word = (row.word || '').toString().trim();
+                                const furigana = (row.phonetic || row.furigana || '').toString().trim();
+                                
+                                // Đổi const thành let và áp dụng logic tạo Hán Việt
+                                let kanji = (row.kanji || '').toString().trim();
+                                if (!kanji) { kanji = generateHanViet(word); }
+                                
+                                const meaning = (row.mean || row.meaning || '').toString().trim();
+                                
+                                if (!word || !meaning) return;
+                                
+                                const isDuplicate = vocabulary.find(v => v.word === word && v.meaning === meaning);
+                                if (!isDuplicate) {
+                                    vocabulary.push({ id: `sys_${level}_json_${Date.now()}_${Math.random()}`, word, furigana, kanji, meaning });
+                                    added++;
+                                }
+                            });
                         }
-                    });
-                    
+                    } catch (e) {
+                        console.log(`Không tìm thấy hoặc không thể đọc ${level}.xlsx`);
+                    }
+
+                    // ==========================================
+                    // 2. Thử tải và đọc file JSON (.json)
+                    // ==========================================
+                    try {
+                        const resJson = await fetch(`${level}.json`, { cache: 'no-store' });
+                        if (resJson.ok) {
+                            foundAnyFile = true;
+                            const data = await resJson.json();
+                            const rows = Array.isArray(data) ? data : [];
+                            
+                            rows.forEach((row, idx) => {
+                                // Tự động tương thích với chuẩn JSON của Mazii hoặc chuẩn hệ thống
+                                const word = (row.word || '').toString().trim();
+                                const furigana = (row.phonetic || row.furigana || '').toString().trim();
+                                const kanji = (row.kanji || '').toString().trim();
+                                const meaning = (row.mean || row.meaning || '').toString().trim();
+                                
+                                if (!word || !meaning) return;
+                                
+                                // Kiểm tra trùng lặp
+                                const isDuplicate = vocabulary.find(v => v.word === word && v.meaning === meaning);
+                                if (!isDuplicate) {
+                                    vocabulary.push({ id: `sys_${level}_json_${Date.now()}_${Math.random()}`, word, furigana, kanji, meaning });
+                                    added++;
+                                }
+                            });
+                        }
+                    } catch (e) {
+                        console.log(`Không tìm thấy hoặc không thể đọc ${level}.json`);
+                    }
+
+                    // ==========================================
+                    // Kiểm tra kết quả
+                    // ==========================================
+                    if (!foundAnyFile) {
+                        throw new Error(`Không tìm thấy cả 2 file ${level}.xlsx và ${level}.json trong thư mục`);
+                    }
+
                     if (added > 0) {
                         saveToStorage();
                         renderTable();
                         showToast(`Đã nạp thành công ${added} từ vựng ${level.toUpperCase()}!`, 'success');
                     } else {
-                        showToast(`Dữ liệu ${level.toUpperCase()} đã tồn tại!`, 'info');
+                        showToast(`Dữ liệu ${level.toUpperCase()} đã tồn tại trong bảng!`, 'info');
                     }
+
                 } catch (e) {
                     console.error(`Lỗi tải ${level}:`, e);
-                    checkbox.checked = false; // Gỡ check nếu tải lỗi
+                    checkbox.checked = false; // Gỡ check nếu lỗi
                     saveLevelSelection();
                     $('#cors-alert').removeClass('hidden');
                 }
             } else {
-                // --- NẾU TẮT (UNCHECK) -> GỠ BỎ DỮ LIỆU KHỎI BẢNG ---
+                // --- NẾU TẮT (UNCHECK) -> GỠ BỎ TOÀN BỘ DỮ LIỆU CỦA LEVEL ĐÓ KHỎI BẢNG ---
                 const initialLength = vocabulary.length;
                 
-                // Chỉ giữ lại những từ vựng KHÔNG BẮT ĐẦU bằng `sys_n5_` 
-                vocabulary = vocabulary.filter(v => !(v.id && String(v.id).startsWith(`sys_${level}_`)));
-                
+                // Chỉ giữ lại những từ vựng KHÔNG BẮT ĐẦU bằng `sys_level_`
+                vocabulary = vocabulary.filter(v => !(v.id && String(v.id).startsWith(`sys_${level}_`) && !v.isEdited));
+
                 const removedCount = initialLength - vocabulary.length;
                 
-                // Gỡ các từ vựng này khỏi danh sách đang chọn tạo Flashcard (nếu có)
+                // Gỡ các từ vựng này khỏi danh sách đang chọn tạo Flashcard/Trắc nghiệm (nếu có)
                 selectedWordIds.forEach(id => {
                     if (String(id).startsWith(`sys_${level}_`)) selectedWordIds.delete(id);
                 });
@@ -754,14 +932,82 @@
             }
         }
 
+        // --- Fetch API JLPT N1 ---
+        async function fetchN1Vocabulary() {
+            if (typeof showToast === 'function') {
+                showToast('Đang kết nối API để tải từ vựng N1...', 'info');
+            }
+        
+            const btnIcon = $('#btn-fetch-n1 i');
+            if (btnIcon.length) btnIcon.addClass('fa-spin');
+        
+            try {
+                const apiUrl = 'https://jlpt-vocab-api.vercel.app/api/words?level=1';
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) throw new Error('Lỗi mạng hoặc API không phản hồi');
+                
+                const data = await response.json();
+                const wordsArray = Array.isArray(data) ? data : (data.words || data.data || []);
+        
+                if (wordsArray.length === 0) throw new Error('Dữ liệu API trả về rỗng');
+        
+                let addedCount = 0;
+        
+                wordsArray.forEach((item, index) => {
+                    const apiWord = (item.word || item.kanji || '').trim();
+                    const apiFuri = (item.furigana || item.reading || item.hiragana || '').trim();
+                    const apiMeaning = (item.meaning || item.english || item.vn_meaning || '').trim();
+                    
+                    let apiKanji = item.kanji ? item.kanji.trim() : '';
+                    if (!apiKanji && apiWord !== apiFuri && apiFuri !== '') {
+                        apiKanji = apiWord;
+                    }
+        
+                    if (!apiWord || !apiMeaning) return;
+        
+                    const isDuplicate = vocabulary.some(v => 
+                        v.word.toLowerCase() === apiWord.toLowerCase() && 
+                        v.meaning.toLowerCase() === apiMeaning.toLowerCase()
+                    );
+        
+                    if (!isDuplicate) {
+                        vocabulary.push({
+                            id: `api_n1_${Date.now()}_${index}`,
+                            word: apiWord,
+                            furigana: apiFuri,
+                            kanji: apiKanji,
+                            meaning: apiMeaning
+                        });
+                        addedCount++;
+                    }
+                });
+        
+                if (addedCount > 0) {
+                    saveToStorage(); 
+                    renderTable();   
+                    showToast(`Tuyệt vời! Đã nạp thành công ${addedCount} từ vựng N1 từ Internet.`, 'success');
+                } else {
+                    showToast('Không có từ mới nào được thêm (Dữ liệu đã tồn tại).', 'info');
+                }
+        
+            } catch (error) {
+                console.error('Lỗi khi tải API N1:', error);
+                showToast('Tải dữ liệu thất bại. Vui lòng kiểm tra kết nối mạng!', 'error');
+            } finally {
+                if (btnIcon.length) btnIcon.removeClass('fa-spin');
+            }
+        }
+
         // --- CRUD Operations ---
         function editWord(id) {
-            const word = vocabulary.find(v => v.id === id);
-            if (!word) return;
+            const wordObj = vocabulary.find(v => v.id === id);
+            if (!wordObj) return;
             
-            $('#inp-kanji').val(word.kanji || '');
-            $('#inp-furigana').val(word.furigana || '');
-            $('#inp-meaning').val(word.meaning || '');
+            $('#inp-word').val(wordObj.word || '');
+            $('#inp-furigana').val(wordObj.furigana || '');
+            $('#inp-kanji').val(wordObj.kanji || '');
+            $('#inp-meaning').val(wordObj.meaning || '');
             editingId = id;
             
             $('#form-title').text('Sửa từ vựng');
@@ -783,30 +1029,32 @@
         }
 
         function saveWord() {
-            const kanji    = $('#inp-kanji').val().trim();
+            const word     = $('#inp-word').val().trim();
             const furigana = $('#inp-furigana').val().trim();
+            const kanji    = $('#inp-kanji').val().trim();
             const meaning  = $('#inp-meaning').val().trim();
 
-            if ((!kanji && !furigana) || !meaning) {
-                showToast('Vui lòng nhập Nghĩa và ít nhất Kanji hoặc Furigana!', 'error');
+            if (!word || !meaning) {
+                showToast('Vui lòng nhập Từ cần học và Nghĩa tiếng Việt!', 'error');
                 return;
             }
 
             if (editingId) {
                 const index = vocabulary.findIndex(v => v.id === editingId);
                 if (index > -1) {
-                    const dup = vocabulary.find(v => v.id !== editingId && v.kanji === kanji && v.furigana === furigana && v.meaning === meaning);
+                    const dup = vocabulary.find(v => v.id !== editingId && v.word === word && v.furigana === furigana && v.kanji === kanji && v.meaning === meaning);
                     if (dup) { showToast('Từ này đã tồn tại trong danh sách!', 'error'); return; }
 
-                    vocabulary[index] = { ...vocabulary[index], kanji, furigana, meaning };
+                    // SỬA DÒNG NÀY: Thêm isEdited: true
+                    vocabulary[index] = { ...vocabulary[index], word, furigana, kanji, meaning, isEdited: true };
                     showToast(`Đã cập nhật từ vựng!`, 'success');
                 }
                 cancelEdit(); 
             } else {
-                const dup = vocabulary.find(v => v.kanji === kanji && v.furigana === furigana && v.meaning === meaning);
+                const dup = vocabulary.find(v => v.word === word && v.furigana === furigana && v.kanji === kanji && v.meaning === meaning);
                 if (dup) { showToast('Từ này đã tồn tại trong danh sách!', 'error'); return; }
 
-                vocabulary.unshift({ id: Date.now().toString(), kanji, furigana, meaning }); 
+                vocabulary.unshift({ id: Date.now().toString(), word, furigana, kanji, meaning }); 
                 clearForm();
                 showToast(`Đã thêm từ thành công!`, 'success');
             }
@@ -824,16 +1072,14 @@
         }
         
         function clearForm() { 
-            $('#inp-kanji, #inp-furigana, #inp-meaning').val(''); 
+            $('#inp-word, #inp-furigana, #inp-kanji, #inp-meaning').val(''); 
         }
         
-        // Cập nhật hàm Xóa Toàn bộ (Đồng thời gỡ check các nút N1-N5)
         function confirmClearAll() { 
             openModal('Xóa toàn bộ dữ liệu?', 'Hành động này sẽ xóa hết tất cả từ vựng đang có trên màn hình.', () => { 
                 vocabulary = []; 
                 selectedWordIds.clear();
                 
-                // Bỏ chọn toàn bộ Checkbox N1-N5
                 $('.level-cb').prop('checked', false);
                 saveLevelSelection();
                 
@@ -850,9 +1096,9 @@
             const uniqueVocab = [];
             const seen = new Set();
             
-            $.each(vocabulary, (i, word) => {
-                const key = `${(word.kanji || '').trim()}_${(word.furigana || '').trim()}_${(word.meaning || '').trim()}`.toLowerCase();
-                if (!seen.has(key)) { seen.add(key); uniqueVocab.push(word); }
+            $.each(vocabulary, (i, v) => {
+                const key = `${(v.word || '').trim()}_${(v.furigana || '').trim()}_${(v.kanji || '').trim()}_${(v.meaning || '').trim()}`.toLowerCase();
+                if (!seen.has(key)) { seen.add(key); uniqueVocab.push(v); }
             });
             
             const removedCount = originalLength - uniqueVocab.length;
@@ -869,17 +1115,31 @@
         }
 
         // --- Table & Checkbox Management ---
-        function toggleSelectWord(id) {
+            function toggleSelectWord(id) {
             if (selectedWordIds.has(id)) selectedWordIds.delete(id);
             else selectedWordIds.add(id);
+            
+            // THÊM DÒNG NÀY: Đồng bộ giao diện checkbox khi click vào thẻ tr (dòng)
+            $(`input[type="checkbox"][data-id="${id}"]`).prop('checked', selectedWordIds.has(id));
+            
             updateSelectionActions();
             updateMasterCheckboxState();
+        }
+
+        // THÊM HÀM MỚI NÀY: Xử lý sự kiện click vào toàn bộ dòng
+        function handleRowClick(e, id) {
+            // Nếu click trúng các nút Hành động (Nghe/Sửa/Xóa) hoặc click thẳng vào checkbox
+            // thì bỏ qua, không kích hoạt toggleSelectWord thêm lần nữa
+            if ($(e.target).closest('button').length || $(e.target).is('input[type="checkbox"]')) {
+                return;
+            }
+            toggleSelectWord(id);
         }
 
         function toggleSelectAll(el) {
             const isChecked = $(el).prop('checked');
             const query = ($('#search-input').val() || '').toLowerCase();
-            const filtered = vocabulary.filter(v => (v.kanji || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
+            const filtered = vocabulary.filter(v => (v.word || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.kanji || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
             
             if (isChecked) {
                 filtered.forEach(v => selectedWordIds.add(v.id));
@@ -907,7 +1167,7 @@
 
         function updateMasterCheckboxState() {
             const query = ($('#search-input').val() || '').toLowerCase();
-            const filtered = vocabulary.filter(v => (v.kanji || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
+            const filtered = vocabulary.filter(v => (v.word || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.kanji || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
             
             if (filtered.length === 0) {
                 $('#chk-select-all').prop('checked', false);
@@ -919,8 +1179,9 @@
 
         function renderTable() {
             const query = ($('#search-input').val() || '').toLowerCase();
-            const filtered = vocabulary.filter(v => (v.kanji || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
-            
+            const filtered = vocabulary.filter(v => (v.word || '').toLowerCase().includes(query) || (v.furigana || '').toLowerCase().includes(query) || (v.kanji || '').toLowerCase().includes(query) || (v.meaning || '').toLowerCase().includes(query));
+    
+            const $pagination = $('#pagination-container');
             const $tbody = $('#vocab-table-body');
             const $empty = $('#empty-state');
             $('#list-count').text(`${vocabulary.length} từ`);
@@ -928,42 +1189,65 @@
             if (filtered.length === 0) { 
                 $tbody.empty(); 
                 $empty.removeClass('hidden'); 
+                $pagination.hide();
                 $('#chk-select-all').prop('checked', false); 
                 return; 
             }
+
             $empty.addClass('hidden');
+            $pagination.show(); // Hiện thanh phân trang
             
-            const rowsHTML = filtered.map((v, i) => {
-                const isChecked = selectedWordIds.has(v.id) ? 'checked' : '';
-                return `
-                    <tr>
-                        <td class="text-center w-12">
-                            <input type="checkbox" data-id="${v.id}" onclick="toggleSelectWord('${v.id}')" ${isChecked} class="w-4 h-4 rounded border-ink-300 text-ink-600 focus:ring-ink-500 cursor-pointer">
-                        </td>
-                        <td class="text-ink-300 text-xs font-mono w-10">${i+1}</td>
-                        <td><span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(v.kanji) || '-'}</span></td>
-                        <td><span class="font-jp text-ink-500 text-sm">${escapeHtml(v.furigana) || '-'}</span></td>
-                        <td class="text-ink-600 text-sm">${escapeHtml(v.meaning)}</td>
-                        <td class="text-center">
-                            <div class="flex items-center justify-center gap-1.5">
-                                <button onclick="playAudio('${v.id}')" class="w-7 h-7 rounded bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors" title="Nghe phát âm">
-                                    <i class="fa-solid fa-volume-high text-[11px]"></i>
-                                </button>
-                                <button onclick="editWord('${v.id}')" class="w-7 h-7 rounded bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition-colors" title="Sửa">
-                                    <i class="fa-solid fa-pen text-[11px]"></i>
-                                </button>
-                                <button onclick="deleteWord('${v.id}')" class="w-7 h-7 rounded bg-sakura-50 text-sakura-500 hover:bg-sakura-100 hover:text-sakura-700 flex-center transition-colors" title="Xóa">
-                                    <i class="fa-solid fa-trash text-[11px]"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-            
-            $tbody.html(rowsHTML);
-            updateMasterCheckboxState();
-            updateSelectionActions();
+            // 3. Khởi tạo PaginationJS
+            $pagination.pagination({
+                dataSource: filtered,
+                pageSize: 20, // Số từ vựng hiển thị trên 1 trang (có thể đổi thành 50 nếu muốn)
+                showPrevious: true,
+                showNext: true,
+                prevText: '<i class="fa-solid fa-chevron-left text-xs"></i>',
+                nextText: '<i class="fa-solid fa-chevron-right text-xs"></i>',
+                callback: function(data, pagination) {
+                    // "data" là mảng dữ liệu (đã được cắt) cho trang hiện tại
+                    // Tính số thứ tự bắt đầu để # hiển thị đúng (VD: Trang 2 bắt đầu từ 21)
+                    const startIndex = (pagination.pageNumber - 1) * pagination.pageSize;
+                    
+                    const rowsHTML = data.map((v, index) => {
+                        const isChecked = selectedWordIds.has(v.id) ? 'checked' : '';
+                        const absoluteIndex = startIndex + index + 1; // Số thứ tự liên tục
+                        
+                        return `
+                            <tr onclick="handleRowClick(event, '${v.id}')" class="cursor-pointer hover:bg-ink-50 transition-colors">
+                                <td class="text-center w-12">
+                                    <input type="checkbox" data-id="${v.id}" onclick="toggleSelectWord('${v.id}')" ${isChecked} class="w-4 h-4 rounded border-ink-300 text-ink-600 focus:ring-ink-500 cursor-pointer">
+                                </td>
+                                <td class="text-ink-300 text-xs font-mono w-10">${absoluteIndex}</td>
+                                <td><span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(v.word) || '-'}</span></td>
+                                <td><span class="font-jp text-ink-500 text-sm">${escapeHtml(v.furigana) || '-'}</span></td>
+                                <td><span class="font-jp text-ink-500 text-sm">${escapeHtml(v.kanji) || '-'}</span></td>
+                                <td class="text-ink-600 text-sm">${escapeHtml(v.meaning)}</td>
+                                <td class="text-center">
+                                    <div class="flex items-center justify-center gap-1.5">
+                                        <button onclick="playAudio('${v.id}')" class="w-7 h-7 rounded bg-matcha-50 text-matcha-500 hover:bg-matcha-100 hover:text-matcha-700 flex-center transition-colors" title="Nghe phát âm">
+                                            <i class="fa-solid fa-volume-high text-[11px]"></i>
+                                        </button>
+                                        <button onclick="editWord('${v.id}')" class="w-7 h-7 rounded bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 flex-center transition-colors" title="Sửa">
+                                            <i class="fa-solid fa-pen text-[11px]"></i>
+                                        </button>
+                                        <button onclick="deleteWord('${v.id}')" class="w-7 h-7 rounded bg-sakura-50 text-sakura-500 hover:bg-sakura-100 hover:text-sakura-700 flex-center transition-colors" title="Xóa">
+                                            <i class="fa-solid fa-trash text-[11px]"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                
+                    // Render HTML vào bảng
+                    $tbody.html(rowsHTML);
+                    
+                    updateMasterCheckboxState();
+                    updateSelectionActions();
+                }
+            });
         }
 
         function updateHeaderCount() { $('#header-count').text(vocabulary.length); }
@@ -972,8 +1256,8 @@
         function exportExcel() {
             if (vocabulary.length === 0) { showToast('Danh sách trống!', 'error'); return; }
             try {
-                const data = [['Kanji', 'Furigana', 'Nghĩa']];
-                $.each(vocabulary, (i, v) => data.push([v.kanji || '', v.furigana || '', v.meaning || '']));
+                const data = [['Từ cần học', 'Furigana', 'Hán tự', 'Nghĩa']];
+                $.each(vocabulary, (i, v) => data.push([v.word || '', v.furigana || '', v.kanji || '', v.meaning || '']));
                 
                 const ws = XLSX.utils.aoa_to_sheet(data);
                 const wb = XLSX.utils.book_new();
@@ -996,13 +1280,18 @@
                     const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1, defval: '' });
                     let added = 0;
                     $.each(rows, (idx, row) => {
-                        const kanji = (row[0] || '').toString().trim();
+                        const word = (row[0] || '').toString().trim();
                         const furigana = (row[1] || '').toString().trim();
-                        const meaning = (row[2] || '').toString().trim();
                         
-                        if ((!kanji && !furigana) || !meaning || (idx === 0 && (kanji.toLowerCase().includes('kanji') || kanji === 'A'))) return;
-                        if (!vocabulary.find(v => v.kanji === kanji && v.furigana === furigana && v.meaning === meaning)) { 
-                            vocabulary.push({ id: Date.now().toString() + idx, kanji, furigana, meaning }); 
+                        // Đổi const thành let và áp dụng logic tạo Hán Việt
+                        let kanji = (row[2] || '').toString().trim();
+                        if (!kanji) { kanji = generateHanViet(word); }
+                        
+                        const meaning = (row[3] || '').toString().trim();
+                        
+                        if (!word || !meaning || (idx === 0 && (word.toLowerCase().includes('từ') || word.toLowerCase().includes('word')))) return;
+                        if (!vocabulary.find(v => v.word === word && v.furigana === furigana && v.kanji === kanji && v.meaning === meaning)) { 
+                            vocabulary.push({ id: Date.now().toString() + idx, word, furigana, kanji, meaning }); 
                             added++; 
                         }
                     });
@@ -1112,13 +1401,13 @@
                 pool = shuffle(pool);
             }
             
-            quizState.questions = pool.map(word => {
-                let types = ['jp2vi', 'vi2jp'];
-                if (word.kanji && word.furigana && word.kanji !== word.furigana) {
-                    types.push('kanji2furi', 'furi2kanji');
+            quizState.questions = pool.map(wordObj => {
+                let types = ['word2vi', 'vi2word'];
+                if (wordObj.word && wordObj.furigana && wordObj.word !== wordObj.furigana) {
+                    types.push('word2furi', 'furi2word');
                 }
                 const type = types[Math.floor(Math.random() * types.length)];
-                return { word, type };
+                return { word: wordObj, type };
             });
             
             quizState.current = 0; quizState.correct = 0; quizState.wrong = 0; quizState.wrongList = [];
@@ -1151,39 +1440,39 @@
             const $jpBlock = $('#q-jp-block'), $viBlock = $('#q-vi-block'), $label = $('#q-type-label');
             $jpBlock.removeClass('hidden'); 
             $viBlock.addClass('hidden');
-            $('#q-kanji').text('');
+            $('#q-word').text('');
             $('#q-furigana').text('');
             
-            if (q.type === 'jp2vi') {
+            if (q.type === 'word2vi') {
                 $label.text('🇯🇵 → 🇻🇳 Tìm nghĩa tiếng Việt');
-                $('#q-kanji').text(q.word.kanji || q.word.furigana);
-                $('#q-furigana').text((q.word.kanji && q.word.furigana) ? q.word.furigana : '');
-            } else if (q.type === 'vi2jp') {
+                $('#q-word').text(q.word.word);
+                $('#q-furigana').text(q.word.furigana || '');
+            } else if (q.type === 'vi2word') {
                 $jpBlock.addClass('hidden'); 
                 $viBlock.removeClass('hidden'); 
                 $label.text('🇻🇳 → 🇯🇵 Tìm từ tiếng Nhật đúng');
                 $('#q-meaning-vi').text(q.word.meaning);
-            } else if (q.type === 'kanji2furi') {
+            } else if (q.type === 'word2furi') {
                 $label.text('🔤 Chọn Furigana tương ứng');
-                $('#q-kanji').text(q.word.kanji);
-            } else if (q.type === 'furi2kanji') {
+                $('#q-word').text(q.word.word);
+            } else if (q.type === 'furi2word') {
                 $label.text('🔤 Chọn Hán tự tương ứng');
-                $('#q-kanji').text(q.word.furigana);
+                $('#q-word').text(q.word.furigana);
             }
 
             const options = shuffle([q.word, ...shuffle(vocabulary.filter(v => v.id !== q.word.id)).slice(0, 3)]);
             
             const optionsHTML = options.map((opt, i) => {
                 let displayText = '';
-                if (q.type === 'jp2vi') {
+                if (q.type === 'word2vi') {
                     displayText = escapeHtml(opt.meaning);
-                } else if (q.type === 'vi2jp') {
-                    displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.kanji || opt.furigana)}</span>
-                    ${opt.kanji && opt.furigana ? `<span class="font-jp text-ink-400 text-xs ml-1">(${escapeHtml(opt.furigana)})</span>` : ''}`;
-                } else if (q.type === 'kanji2furi') {
-                    displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.furigana || opt.kanji)}</span>`;
-                } else if (q.type === 'furi2kanji') {
-                    displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.kanji || opt.furigana)}</span>`;
+                } else if (q.type === 'vi2word') {
+                    displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.word)}</span>
+                    ${opt.furigana ? `<span class="font-jp text-ink-400 text-xs ml-1">(${escapeHtml(opt.furigana)})</span>` : ''}`;
+                } else if (q.type === 'word2furi') {
+                    displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.furigana)}</span>`;
+                } else if (q.type === 'furi2word') {
+                    displayText = `<span class="font-jp font-bold text-ink-800 text-base">${escapeHtml(opt.word)}</span>`;
                 }
                 return `<button onclick="answerQuestion('${opt.id}','${q.word.id}','btn-opt-${i}')" id="btn-opt-${i}" class="quiz-option"><span class="opt-label">${['A','B','C','D'][i]}</span><span>${displayText}</span></button>`;
             }).join('');
@@ -1197,7 +1486,7 @@
             $card.addClass('pop-in');
             
             if (quizState.tts) {
-                speakWord(q.type === 'furi2kanji' ? q.word.furigana : (q.word.kanji || q.word.furigana));
+                speakWord(q.type === 'furi2word' ? q.word.furigana : q.word.word);
             }
             
             if (timer > 0) { 
@@ -1235,8 +1524,9 @@
             $('#q-wrong').text(quizState.wrong);
             
             const $explBox = $('#q-explanation');
-            $('#expl-kanji').text(quizState.currentWord.kanji || '');
+            $('#expl-word').text(quizState.currentWord.word || '');
             $('#expl-furigana').text(quizState.currentWord.furigana ? `(${quizState.currentWord.furigana})` : '');
+            $('#expl-kanji').text(quizState.currentWord.kanji ? `Hán tự: ${quizState.currentWord.kanji}` : '');
             $('#expl-meaning').text(quizState.currentWord.meaning || '');
             
             $explBox.css({
@@ -1277,37 +1567,20 @@
             }
         }
         
-        // Thoát về trang chủ (Từ vựng)
         function exitToVocab() {
             $('#quiz-play, #quiz-result, #quiz-setup').addClass('hidden');
-            $('#quiz-setup').removeClass('hidden'); // Reset view for next time
+            $('#quiz-setup').removeClass('hidden');
             switchTab('vocab');
         }
 
-        // Hàm hiệu ứng pháo hoa
         function triggerConfetti() {
             var duration = 3000;
             var end = Date.now() + duration;
 
             (function frame() {
-                confetti({
-                    particleCount: 6,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#4455e0', '#f050a0', '#2e9e5e', '#f7c860']
-                });
-                confetti({
-                    particleCount: 6,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#4455e0', '#f050a0', '#2e9e5e', '#f7c860']
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
+                confetti({ particleCount: 6, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#4455e0', '#f050a0', '#2e9e5e', '#f7c860'] });
+                confetti({ particleCount: 6, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#4455e0', '#f050a0', '#2e9e5e', '#f7c860'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
 
@@ -1338,23 +1611,14 @@
             
             const $ring = $('#result-pct-ring');
             if (pct === 100) { 
-                // Đúng 100%
-                $ring.css('border-color', '#4caf7d'); 
-                $('#result-pct').css('color', '#2e9e5e'); 
-                $('#result-emoji').text('🏆'); 
-                triggerConfetti(); // Bắn pháo hoa trong 3 giây
+                $ring.css('border-color', '#4caf7d'); $('#result-pct').css('color', '#2e9e5e'); $('#result-emoji').text('🏆'); 
+                triggerConfetti(); 
             } else if (pct >= 80) { 
-                $ring.css('border-color', '#4caf7d'); 
-                $('#result-pct').css('color', '#2e9e5e'); 
-                $('#result-emoji').text('🎉'); 
+                $ring.css('border-color', '#4caf7d'); $('#result-pct').css('color', '#2e9e5e'); $('#result-emoji').text('🎉'); 
             } else if (pct >= 50) { 
-                $ring.css('border-color', '#f0a020'); 
-                $('#result-pct').css('color', '#c07010'); 
-                $('#result-emoji').text('💪'); 
+                $ring.css('border-color', '#f0a020'); $('#result-pct').css('color', '#c07010'); $('#result-emoji').text('💪'); 
             } else { 
-                $ring.css('border-color', '#e03060'); 
-                $('#result-pct').css('color', '#c02040'); 
-                $('#result-emoji').text('📚'); 
+                $ring.css('border-color', '#e03060'); $('#result-pct').css('color', '#c02040'); $('#result-emoji').text('📚'); 
             }
 
             const $wrongSection = $('#wrong-answers-section');
@@ -1366,8 +1630,9 @@
                     <div class="flex items-start gap-3 p-3 bg-sakura-100 rounded-xl">
                         <i class="fa-solid fa-xmark text-sakura-400 mt-1 flex-shrink-0"></i>
                         <div>
-                            <span class="font-jp font-bold text-ink-800">${escapeHtml(item.word.kanji || item.word.furigana)}</span>
-                            ${item.word.kanji && item.word.furigana ? `<span class="font-jp text-ink-400 text-sm ml-1">(${escapeHtml(item.word.furigana)})</span>` : ''}
+                            <span class="font-jp font-bold text-ink-800">${escapeHtml(item.word.word)}</span>
+                            ${item.word.furigana ? `<span class="font-jp text-ink-400 text-sm ml-1">(${escapeHtml(item.word.furigana)})</span>` : ''}
+                            ${item.word.kanji ? `<span class="font-jp text-ink-400 text-sm ml-1">[${escapeHtml(item.word.kanji)}]</span>` : ''}
                             <span class="mx-2 text-ink-300">→</span><span class="text-ink-600">${escapeHtml(item.word.meaning)}</span>
                         </div>
                     </div>
@@ -1414,8 +1679,9 @@
                         });
                         
                         const $explBox = $('#q-explanation');
-                        $('#expl-kanji').text(quizState.currentWord.kanji || '');
+                        $('#expl-word').text(quizState.currentWord.word || '');
                         $('#expl-furigana').text(quizState.currentWord.furigana ? `(${quizState.currentWord.furigana})` : '');
+                        $('#expl-kanji').text(quizState.currentWord.kanji ? `Hán tự: ${quizState.currentWord.kanji}` : '');
                         $('#expl-meaning').text(quizState.currentWord.meaning || '');
                         
                         $explBox.css({
@@ -1462,7 +1728,7 @@
 
         // --- Speech Synthesis ---
         function speakCurrent() { 
-            if (quizState.currentWord) speakWord(quizState.currentWord.kanji || quizState.currentWord.furigana); 
+            if (quizState.currentWord) speakWord(quizState.type === 'furi2word' ? quizState.currentWord.furigana : quizState.currentWord.word); 
         }
         
         function speakWord(text) { 
@@ -1478,9 +1744,9 @@
         }
 
         function playAudio(id) {
-            const word = vocabulary.find(v => v.id === id);
-            if (word) {
-                speakWord(word.kanji || word.furigana); 
+            const wordObj = vocabulary.find(v => v.id === id);
+            if (wordObj) {
+                speakWord(wordObj.word); 
             }
         }
 
@@ -1512,7 +1778,6 @@
         function generateTest(customPool = null) {
             const { mode } = printState;
             const sourcePool = (customPool && Array.isArray(customPool)) ? customPool : vocabulary;
-            // Cho phép hiển thị tất cả nếu tạo từ checkbox, ngược lại giới hạn theo in mặc định
             const actualCount = (customPool && Array.isArray(customPool)) ? sourcePool.length : Math.min(printState.count, sourcePool.length);
             
             if (sourcePool.length === 0) { 
@@ -1523,9 +1788,10 @@
             const pool = shuffle([...sourcePool]).slice(0, actualCount);
             printState.generated = pool.map((w, i) => {
                 const isVi = mode === 'vi' || (mode === 'mix' && i % 2 === 0);
-                const jpQuestionStr = w.kanji || w.furigana; 
-                const jpAnswerStr = w.kanji && w.furigana ? `${w.kanji} (${w.furigana})` : (w.kanji || w.furigana);
-                const viAnswerStr = w.furigana ? `${w.meaning} (${w.furigana})` : w.meaning; 
+                const jpQuestionStr = w.word; 
+                // Cập nhật đáp án chi tiết hơn cho file Print
+                const jpAnswerStr = w.word + (w.furigana ? ` (${w.furigana})` : '') + (w.kanji ? ` [${w.kanji}]` : '');
+                const viAnswerStr = w.meaning; 
                 
                 return { num: i + 1, type: isVi ? 'vi' : 'jp', word: w, question: isVi ? jpQuestionStr : w.meaning, answer: isVi ? viAnswerStr : jpAnswerStr };
             });
@@ -1553,7 +1819,7 @@
                         <span class="${forPrint ? 'print-question-num' : 'w-7 h-7 rounded-full bg-ink-100 flex-center text-ink-600 font-bold text-sm flex-shrink-0'}">${q.num}.</span>
                         <span class="text-xs text-ink-400 ${forPrint ? '' : 'hidden sm:inline'}">[${q.type === 'vi' ? '🇯🇵→🇻🇳 Viết nghĩa tiếng Việt' : '🇻🇳→🇯🇵 Viết từ tiếng Nhật'}]</span>
                         ${q.type === 'vi' 
-                            ? `<span class="${forPrint ? 'print-jp' : 'font-jp font-bold text-ink-800 text-lg'}">${escapeHtml(q.word.kanji || q.word.furigana)}</span>`
+                            ? `<span class="${forPrint ? 'print-jp' : 'font-jp font-bold text-ink-800 text-lg'}">${escapeHtml(q.word.word)}</span>`
                             : `<span class="${forPrint ? '' : 'text-ink-700 font-medium'}">${escapeHtml(q.word.meaning)}</span>`}
                         <span class="${forPrint ? 'print-blank' : 'flex-1 border-b border-dotted border-ink-200 ml-2 min-w-0'}"></span>
                     </div>`).join('')}
@@ -1628,11 +1894,14 @@
 
         function renderSlogan(data) {
             const { tpl, w1, w2 } = data;
-            const chip = (w) => `<span class="slogan-word font-jp" title="${escapeHtml(w.meaning)}">${escapeHtml(w.kanji || w.furigana)}</span>`;
+            const chip = (w) => `<span class="slogan-word font-jp" title="${escapeHtml(w.meaning)}">${escapeHtml(w.word)}</span>`;
             const quoteHtml = tpl.replace('{w1}', chip(w1)).replace('{w2}', chip(w2));
             const furi = (w) => {
                 const meaning = `<span class="font-semibold not-italic text-ink-600">${escapeHtml(w.meaning)}</span>`;
-                const ruby = w.furigana ? `<span class="font-jp text-ink-400 not-italic">(${escapeHtml(w.furigana)})</span>` : '';
+                let extra = [];
+                if(w.furigana) extra.push(w.furigana);
+                if(w.kanji) extra.push(w.kanji);
+                const ruby = extra.length > 0 ? `<span class="font-jp text-ink-400 not-italic">(${escapeHtml(extra.join(' - '))})</span>` : '';
                 return meaning + (ruby ? '&thinsp;' + ruby : '');
             };
             const viSentence = tpl.replace('{w1}', furi(w1)).replace('{w2}', furi(w2));
@@ -1696,7 +1965,7 @@
 
         // --- Flashcard Features ---
         function openFlashcardModal() {
-            $('#action-dropdown-menu').addClass('hidden'); // Đóng menu
+            $('#action-dropdown-menu').addClass('hidden');
             if (selectedWordIds.size === 0) { 
                 showToast("Vui lòng tích chọn ít nhất 1 từ vựng ở bảng để tạo Flashcard!", "error"); 
                 return; 
@@ -1722,11 +1991,12 @@
 
         function renderFlashcard() {
             if (fcState.pool.length === 0) return;
-            const word = fcState.pool[fcState.currentIndex];
+            const wordObj = fcState.pool[fcState.currentIndex];
             
-            $('#fc-kanji').text(word.kanji || word.furigana);
-            $('#fc-furigana').text(word.furigana || '');
-            $('#fc-meaning').text(word.meaning || '');
+            $('#fc-word').text(wordObj.word);
+            $('#fc-furigana').text(wordObj.furigana || '');
+            $('#fc-meaning').text(wordObj.meaning || '');
+            $('#fc-kanji').text(wordObj.kanji ? `[ ${wordObj.kanji} ]` : '');
             
             fcState.isFlipped = false;
             $('#fc-inner').removeClass('is-flipped');
@@ -1763,8 +2033,8 @@
         }
 
         function playCurrentFlashcardAudio() {
-            const word = fcState.pool[fcState.currentIndex];
-            if (word) speakWord(word.kanji || word.furigana);
+            const wordObj = fcState.pool[fcState.currentIndex];
+            if (wordObj) speakWord(wordObj.word);
         }
 
         function startFlashcardQuiz() {
@@ -1782,13 +2052,12 @@
                 renderFlashcard();
             } else {
                 showToast('Bạn đã trả lời đúng tất cả, không có từ sai để học lại!', 'success');
-                backToFlashcard(); // Quá trình hoàn hảo, cho phép quay lại pool gốc
+                backToFlashcard(); 
             }
         }
 
         function backToFlashcard() {
             switchTab('vocab');
-            // Fix lỗi màn hình trắng: Đảm bảo pool luôn chứa dữ liệu từ các checkbox đã chọn
             fcState.pool = vocabulary.filter(v => selectedWordIds.has(v.id));
             if(fcState.pool.length === 0) {
                 showToast('Không có dữ liệu Flashcard để quay lại!', 'error');
@@ -1801,29 +2070,101 @@
             renderFlashcard();
         }
 
+        // --- Import JSON (từ Mazii) ---
+        function importJSON(event) {
+            const file = event.target.files[0]; 
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    // Parse nội dung file JSON
+                    const data = JSON.parse(e.target.result);
+                    
+                    // Đảm bảo dữ liệu là một mảng
+                    const rows = Array.isArray(data) ? data : [];
+                    let added = 0;
+
+                    rows.forEach((row, idx) => {
+                        const word = (row.word || '').toString().trim();
+                        const furigana = (row.phonetic || '').toString().trim();
+                        
+                        // Xóa hardcode rỗng, gọi hàm tự động
+                        let kanji = (row.kanji || '').toString().trim();
+                        if (!kanji) { kanji = generateHanViet(word); }
+                        
+                        const meaning = (row.mean || '').toString().trim();
+                        
+                        if (!word || !meaning) return;
+
+                        const isDuplicate = vocabulary.find(v => 
+                            v.word === word && 
+                            v.meaning === meaning
+                        );
+
+                        if (!isDuplicate) { 
+                            vocabulary.push({ 
+                                id: `json_${Date.now()}_${idx}_${Math.random()}`, 
+                                word, 
+                                furigana, 
+                                kanji, 
+                                meaning 
+                            }); 
+                            added++; 
+                        }
+                    });
+
+                    // Lưu dữ liệu và cập nhật giao diện
+                    saveToStorage(); 
+                    renderTable(); 
+                    
+                    if (added > 0) {
+                        showToast(`Đã nhập thành công ${added} từ mới từ file JSON!`, 'success');
+                    } else {
+                        showToast(`Không có từ mới nào (các từ đã tồn tại trong danh sách).`, 'info');
+                    }
+
+                } catch(err) { 
+                    console.error(err);
+                    showToast('Lỗi đọc file JSON! Hãy chắc chắn file đúng định dạng.', 'error'); 
+                }
+            };
+            
+            reader.readAsText(file); 
+            // Reset giá trị input để có thể import lại cùng 1 file nếu cần
+            $(event.target).val('');
+        }
+
+        let searchTimeout;
+        function handleSearchInput() {
+            clearTimeout(searchTimeout);
+            // Chờ 300ms sau khi user ngừng gõ phím mới gọi renderTable
+            searchTimeout = setTimeout(() => {
+                renderTable();
+            }, 300);
+        }
+
         // --- Document Ready / Init ---
         $(function() {
-            // Khởi tạo Tippy (Tooltip)
             if (typeof tippy !== 'undefined') {
                 tippy('[data-tippy-content]', { animation: 'scale', theme: 'light', placement: 'bottom' });
             }
 
-            // Init Data (Chỉ load 1 lần từ localStorage - Cực kỳ tối ưu)
-            loadFromStorage();
-            initLevelsUI();
-            loadOrRefreshSlogan();
+            // 2. TẢI TỪ ĐIỂN TRƯỚC, SAU ĐÓ MỚI LOAD DỮ LIỆU ĐỂ RENDER
+            loadHanVietDict().then(() => {
+                loadFromStorage();
+                initLevelsUI();
+                loadOrRefreshSlogan();
+            });
 
-            // Lắng nghe sự kiện Enter trong Form thêm từ
-            $('#inp-kanji, #inp-furigana, #inp-meaning').on('keydown', function(e) {
+            $('#inp-word, #inp-furigana, #inp-kanji, #inp-meaning').on('keydown', function(e) {
                 if (e.key === 'Enter') saveWord();
             });
 
-            // Đóng Modal khi bấm ra ngoài
             $('#modal-overlay').on('click', function(e) {
                 if (e.target === this) closeModal();
             });
 
-            // Đóng Dropdown Hành động khi click ra ngoài
             $(document).on('click', function(e) {
                 if (!$(e.target).closest('#action-dropdown-container').length) {
                     $('#action-dropdown-menu').addClass('hidden');
@@ -1831,7 +2172,6 @@
                 }
             });
 
-            // Phím tắt bàn phím cho Flashcard
             $(document).on('keydown', function(e) {
                 if (!$('#flashcard-modal').hasClass('hidden')) {
                     if (e.key === ' ' || e.key === 'Enter') {
@@ -1847,7 +2187,6 @@
                 }
             });
 
-            // Cấu hình âm thanh TTS
             if (window.speechSynthesis) {
                 window.speechSynthesis.getVoices();
                 window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
