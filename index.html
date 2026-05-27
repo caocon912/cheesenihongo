@@ -11,6 +11,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
@@ -56,7 +57,7 @@
         .btn-primary:active { transform: translateY(0); }
         .btn-secondary { background: white; color: #4455e0; border: 1.5px solid #c0d0ff; padding: 10px 22px; border-radius: 10px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
         .btn-secondary:hover { background: #f0f4ff; border-color: #4455e0; }
-        .btn-danger { background: #fff0f5; color: #e03060; border: 1.5px solid #ffc0d8; padding: 6px 12px; border-radius: 8px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.82rem; }
+        .btn-danger { background: #fff0f5; color: #e03060; border: 1.5px solid #ffc0d8; padding: 6px 12px; border-radius: 8px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 8px; justify-content: center;}
         .btn-danger:hover { background: #ffe4ef; border-color: #f050a0; }
         .btn-success { background: linear-gradient(135deg, #2e9e5e, #4caf7d); color: white; border: none; padding: 10px 22px; border-radius: 10px; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
         .btn-success:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(46,158,94,0.35); }
@@ -510,13 +511,15 @@
                         <div class="text-center"><div class="score-ring mb-2 mx-auto" id="result-pct-ring"><span class="text-3xl font-black" id="result-pct">0%</span><span class="text-xs text-ink-400 mt-0.5">Điểm</span></div></div>
                     </div>
 
-                    <div id="regular-post-actions" class="flex gap-3 justify-center">
+                    <div id="regular-post-actions" class="flex gap-3 justify-center flex-wrap">
                         <button onclick="restartQuiz()" class="btn-primary"><i class="fa-solid fa-rotate-right"></i> Làm lại</button>
                         <button onclick="showQuizSetup()" class="btn-secondary"><i class="fa-solid fa-gear"></i> Cài đặt mới</button>
+                        <button onclick="exitToVocab()" class="btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Thoát</button>
                     </div>
                     <div id="fc-post-actions" class="hidden flex flex-col gap-3 items-center">
-                        <button onclick="continueFlashcard()" class="btn-primary w-full max-w-xs justify-center shadow-lg"><i class="fa-solid fa-forward-step"></i> Tiếp tục học Flashcard</button>
-                        <button onclick="backToFlashcard()" class="btn-secondary w-full max-w-xs justify-center"><i class="fa-solid fa-rotate-left"></i> Quay lại Flashcard vừa chọn</button>
+                        <button onclick="continueFlashcard()" class="btn-primary w-full max-w-xs justify-center shadow-lg"><i class="fa-solid fa-forward-step"></i> Tiếp tục học Flashcard (Từ sai)</button>
+                        <button onclick="backToFlashcard()" class="btn-secondary w-full max-w-xs justify-center"><i class="fa-solid fa-rotate-left"></i> Quay lại Flashcard gốc</button>
+                        <button onclick="exitToVocab()" class="btn-danger w-full max-w-xs justify-center"><i class="fa-solid fa-right-from-bracket"></i> Thoát về trang chủ</button>
                     </div>
                 </div>
                 <div id="wrong-answers-section" class="card p-5 hidden">
@@ -1273,6 +1276,40 @@
                 showQuizSetup();
             }
         }
+        
+        // Thoát về trang chủ (Từ vựng)
+        function exitToVocab() {
+            $('#quiz-play, #quiz-result, #quiz-setup').addClass('hidden');
+            $('#quiz-setup').removeClass('hidden'); // Reset view for next time
+            switchTab('vocab');
+        }
+
+        // Hàm hiệu ứng pháo hoa
+        function triggerConfetti() {
+            var duration = 3000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 6,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#4455e0', '#f050a0', '#2e9e5e', '#f7c860']
+                });
+                confetti({
+                    particleCount: 6,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#4455e0', '#f050a0', '#2e9e5e', '#f7c860']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
 
         function endQuiz() {
             $('#quiz-play').addClass('hidden'); 
@@ -1300,7 +1337,13 @@
             $('#result-pct').text(pct + '%');
             
             const $ring = $('#result-pct-ring');
-            if (pct >= 80) { 
+            if (pct === 100) { 
+                // Đúng 100%
+                $ring.css('border-color', '#4caf7d'); 
+                $('#result-pct').css('color', '#2e9e5e'); 
+                $('#result-emoji').text('🏆'); 
+                triggerConfetti(); // Bắn pháo hoa trong 3 giây
+            } else if (pct >= 80) { 
                 $ring.css('border-color', '#4caf7d'); 
                 $('#result-pct').css('color', '#2e9e5e'); 
                 $('#result-emoji').text('🎉'); 
@@ -1469,7 +1512,8 @@
         function generateTest(customPool = null) {
             const { mode } = printState;
             const sourcePool = (customPool && Array.isArray(customPool)) ? customPool : vocabulary;
-            const actualCount = Math.min(printState.count, sourcePool.length);
+            // Cho phép hiển thị tất cả nếu tạo từ checkbox, ngược lại giới hạn theo in mặc định
+            const actualCount = (customPool && Array.isArray(customPool)) ? sourcePool.length : Math.min(printState.count, sourcePool.length);
             
             if (sourcePool.length === 0) { 
                 showToast(`Danh sách từ vựng trống!`, 'error'); 
@@ -1730,14 +1774,30 @@
         }
 
         function continueFlashcard() {
-            switchTab('vocab');
-            openFlashcardModal();
+            if (lastWrongWords && lastWrongWords.length > 0) {
+                fcState.pool = [...lastWrongWords];
+                fcState.currentIndex = 0;
+                switchTab('vocab');
+                $('#flashcard-modal').removeClass('hidden');
+                renderFlashcard();
+            } else {
+                showToast('Bạn đã trả lời đúng tất cả, không có từ sai để học lại!', 'success');
+                backToFlashcard(); // Quá trình hoàn hảo, cho phép quay lại pool gốc
+            }
         }
 
         function backToFlashcard() {
             switchTab('vocab');
-            $('#flashcard-modal').removeClass('hidden');
+            // Fix lỗi màn hình trắng: Đảm bảo pool luôn chứa dữ liệu từ các checkbox đã chọn
+            fcState.pool = vocabulary.filter(v => selectedWordIds.has(v.id));
+            if(fcState.pool.length === 0) {
+                showToast('Không có dữ liệu Flashcard để quay lại!', 'error');
+                return;
+            }
             fcState.currentIndex = 0;
+            fcState.isFlipped = false;
+            $('#flashcard-modal').removeClass('hidden');
+            $('#fc-inner').removeClass('is-flipped');
             renderFlashcard();
         }
 
