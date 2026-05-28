@@ -692,9 +692,17 @@
                         <div id="fc-kanji" class="font-jp text-ink-400 text-lg"></div>
                     </div>
                 </div>
+                
+                <div class="flex items-center justify-center gap-2 text-[0.6rem] text-ink-400 mt-2.5 px-2 rounded-lg select-none py-2">
+                    <span><kbd class="bg-white px-1.5 py-0.5 border border-ink-200 rounded shadow-sm font-sans font-semibold text-ink-600">Space</kbd> Lật từ</span>
+                    <span class="text-ink-200">|</span>
+                    <span><kbd class="bg-white px-1.5 py-0.5 border border-ink-200 rounded shadow-sm font-sans font-semibold text-ink-600">→</kbd> Tiếp theo</span>
+                    <span class="text-ink-200">|</span>
+                    <span><kbd class="bg-white px-1.5 py-0.5 border border-ink-200 rounded shadow-sm font-sans font-semibold text-ink-600">←</kbd> Lùi lại</span>
+                </div>
             </div>
 
-            <div class="flex items-center justify-between gap-3 mt-4">
+            <div class="flex items-center justify-between gap-3 mt-10">
                 <button id="btn-fc-prev" onclick="prevFlashcard()" class="btn-secondary flex-1 justify-center py-2.5 outline-none">
                     <i class="fa-solid fa-arrow-left"></i> Trước
                 </button>
@@ -787,7 +795,7 @@
             for (let char of word) {
                 if (kanjiRegex.test(char)) {
                     // Nếu là Kanji, tra từ điển. Nếu không có trong từ điển thì hiển thị dấu (?)
-                    result.push(hanVietDictionary[char] || char); 
+                    result.push(hanVietDictionary[char] || "[ ? ]"); 
                 }
             }
             
@@ -849,7 +857,7 @@
             localStorage.setItem('selected_levels', JSON.stringify(levels));
         }
 
-// Xử lý khi nhấn BẬT hoặc TẮT nút N1-N5
+        // Xử lý khi nhấn BẬT hoặc TẮT nút N1-N5
         async function toggleLevel(checkbox) {
             const level = checkbox.value; // Ví dụ: 'n2', 'n3'
             const isChecked = checkbox.checked;
@@ -879,21 +887,25 @@
 
                             // Bên trong phần try catch của resJson.ok
                             rows.forEach((row, idx) => {
-                                const word = (row.word || '').toString().trim();
-                                const furigana = (row.phonetic || row.furigana || '').toString().trim();
+                                // Bỏ qua dòng tiêu đề của Excel (nếu dòng đầu tiên chứa các chữ 'word' hoặc 'từ')
+                                if (idx === 0 && (row[0] || '').toString().toLowerCase().match(/word|từ/)) return;
+
+                                // Lấy dữ liệu: Ưu tiên index (Excel) trước, nếu không có thì tìm key (JSON)
+                                const word = (row[0] || row.word || '').toString().trim();
+                                const furigana = (row[1] || row.phonetic || row.furigana || '').toString().trim();
                                 
-                                let kanji = (row.kanji || '').toString().trim();
+                                let kanji = (row[2] || row.kanji || '').toString().trim();
                                 if (!kanji) { 
                                     kanji = generateHanViet(word); 
                                 }
                                 
-                                const meaning = (row.mean || row.meaning || '').toString().trim();
+                                const meaning = (row[3] || row.mean || row.meaning || '').toString().trim();
                                 
                                 if (!word || !meaning) return;
                                 
                                 const isDuplicate = vocabulary.find(v => v.word === word && v.meaning === meaning);
                                 if (!isDuplicate) {
-                                    vocabulary.push({ id: `sys_${level}_json_${Date.now()}_${Math.random()}`, word, furigana, kanji, meaning });
+                                    vocabulary.push({ id: `sys_${level}_data_${Date.now()}_${Math.random()}`, word, furigana, kanji, meaning });
                                     added++;
                                 }
                             });
