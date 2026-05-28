@@ -88,7 +88,21 @@
         .timer-bar.danger { background: linear-gradient(90deg, #e03060, #f77bb4); }
         .word-display { font-family: 'Noto Sans JP', sans-serif; font-size: 3rem; font-weight: 700; color: #1e2278; line-height: 1.2; }
         .furigana-display { font-family: 'Noto Sans JP', sans-serif; font-size: 1.1rem; color: #6478f0; font-weight: 500; }
-        .toast { position: fixed; top: 20px; right: 20px; z-index: 9999; padding: 12px 20px; border-radius: 12px; font-weight: 600; font-size: 0.9rem; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s ease, fadeOut 0.4s ease 2.5s forwards; min-width: 260px; }
+        .toast {
+            pointer-events: auto; /* Cho phép click vào bản thân thông báo */
+            padding: 12px 20px; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            font-size: 0.9rem; 
+            color: white; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15); 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            animation: slideIn 0.3s ease, fadeOut 0.4s ease 2.5s forwards; 
+            min-width: 260px; 
+            flex-shrink: 0; /* Đảm bảo thông báo không bị bóp méo khi có quá nhiều */
+        }        
         .toast.success { background: linear-gradient(135deg, #2e9e5e, #4caf7d); }
         .toast.error { background: linear-gradient(135deg, #c0392b, #e03060); }
         .toast.info { background: linear-gradient(135deg, #4455e0, #6478f0); }
@@ -190,6 +204,17 @@
             color: #8fa4f8; 
             padding: 0 4px; 
             min-width: auto; 
+        }
+
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column; /* Xếp các thông báo theo chiều dọc */
+            gap: 12px; /* Khoảng cách giữa các thông báo */
+            pointer-events: none; /* Ngăn container chặn click chuột của các thành phần bên dưới */
         }
     </style>
 </head>
@@ -361,7 +386,7 @@
                                 Công cụ dữ liệu
                             </label>
                             <div class="flex flex-col gap-2">
-                                <div class="grid grid-cols-2 gap-2">
+                                <div class="grid grid-cols-2 gap-2" style="display: none;">
                                     <label data-tippy-content="Nhập từ file Excel cá nhân" class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-ink-50 text-ink-700 hover:bg-ink-100 transition cursor-pointer text-xs font-semibold shadow-sm">
                                         <i class="fa-solid fa-file-import opacity-70"></i> Nhập file
                                         <input type="file" accept=".xlsx,.xls" onchange="importExcel(event)" class="hidden" />
@@ -380,7 +405,7 @@
                                     </button>
                                 </div>
 
-                                <div class="grid grid-cols-1 gap-2 mt-2">
+                                <div class="grid grid-cols-1 gap-2 mt-2" style="display: none;">
                                     <label data-tippy-content="Nhập từ file JSON (Mazii)" class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-purple-50 text-purple-700 hover:bg-purple-100 transition cursor-pointer text-xs font-semibold shadow-sm">
                                         <i class="fa-solid fa-file-code opacity-70"></i> Nhập JSON
                                         <input type="file" accept=".json" onchange="importJSON(event)" class="hidden" />
@@ -720,18 +745,34 @@
         let isFlashcardQuiz = false;
         let fcState = { startIndex: 0, currentIndex: 0, pool: [], isFlipped: false };
         
-                // 2. Hàm tải từ điển (Chỉ tải 1 lần duy nhất để tối ưu hiệu năng)
+        // Thêm biến lưu trạng thái Promise ở bên ngoài hàm
+        let hanVietDictPromise = null;
+
         async function loadHanVietDict() {
-            if (Object.keys(hanVietDictionary).length > 0) return; // Đã tải rồi thì bỏ qua
-            try {
-                const response = await fetch('hanviet_dict.json');
-                if (response.ok) {
-                    hanVietDictionary = await response.json();
-                    console.log("✅ Đã nạp thành công Từ điển Hán Việt!");
-                }
-            } catch (e) {
-                console.warn("⚠️ Chưa có file hanviet_dict.json. Tính năng Hán tự sẽ tạm để trống.");
+            // 1. Đã tải rồi thì bỏ qua
+            if (Object.keys(hanVietDictionary).length > 0) return; 
+            
+            // 2. Nếu đang trong quá trình tải, yêu cầu các tiến trình sau chờ tiến trình đầu tiên xong
+            if (hanVietDictPromise) {
+                await hanVietDictPromise;
+                return;
             }
+
+            // 3. Khởi tạo tiến trình tải từ điển
+            hanVietDictPromise = (async () => {
+                try {
+                    const response = await fetch('hanviet_dict.json');
+                    if (response.ok) {
+                        hanVietDictionary = await response.json();
+                        console.log("✅ Đã nạp thành công Từ điển Hán Việt!");
+                    }
+                } catch (e) {
+                    console.warn("⚠️ Chưa có file hanviet_dict.json. Tính năng Hán tự sẽ tạm để trống.");
+                }
+            })();
+            
+            // Đợi tiến trình hoàn tất
+            await hanVietDictPromise;
         }
 
         // 3. Hàm "phép thuật" chuyển Word thành Hán Việt
@@ -841,9 +882,10 @@
                                 const word = (row.word || '').toString().trim();
                                 const furigana = (row.phonetic || row.furigana || '').toString().trim();
                                 
-                                // Đổi const thành let và áp dụng logic tạo Hán Việt
                                 let kanji = (row.kanji || '').toString().trim();
-                                if (!kanji) { kanji = generateHanViet(word); }
+                                if (!kanji) { 
+                                    kanji = generateHanViet(word); 
+                                }
                                 
                                 const meaning = (row.mean || row.meaning || '').toString().trim();
                                 
@@ -874,7 +916,10 @@
                                 // Tự động tương thích với chuẩn JSON của Mazii hoặc chuẩn hệ thống
                                 const word = (row.word || '').toString().trim();
                                 const furigana = (row.phonetic || row.furigana || '').toString().trim();
-                                const kanji = (row.kanji || '').toString().trim();
+                                let kanji = (row.kanji || '').toString().trim();
+                                if (!kanji) { 
+                                    kanji = generateHanViet(word); 
+                                }
                                 const meaning = (row.mean || row.meaning || '').toString().trim();
                                 
                                 if (!word || !meaning) return;
@@ -1270,7 +1315,8 @@
             }
         }
 
-        function importExcel(event) {
+        async function importExcel(event) {
+            await loadHanVietDict();
             const file = event.target.files[0]; 
             if (!file) return;
             const reader = new FileReader();
@@ -1842,7 +1888,7 @@
         function showToast(msg, type = 'info') { 
             const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' }; 
             const $toast = $('<div>').addClass(`toast ${type}`).html(`<i class="fa-solid ${icons[type]}"></i> ${msg}`); 
-            $('#toast-container').append($toast); 
+            $('#toast-container').prepend($toast); 
             setTimeout(() => $toast.remove(), 3000); 
         }
         
@@ -2071,7 +2117,8 @@
         }
 
         // --- Import JSON (từ Mazii) ---
-        function importJSON(event) {
+        async function importJSON(event) {
+            await loadHanVietDict();
             const file = event.target.files[0]; 
             if (!file) return;
 
